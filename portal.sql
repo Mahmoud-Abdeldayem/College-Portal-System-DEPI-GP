@@ -3,38 +3,38 @@ USE college_portal_system;
 
 CREATE TABLE Department (
     DepartmentID INT PRIMARY KEY IDENTITY(1,1),
-    Name NVARCHAR(50) NOT NULL,
+    Name NVARCHAR(50) UNIQUE NOT NULL,
     Code NVARCHAR(10) UNIQUE NOT NULL,
     HeadID NVARCHAR(20) NULL
 );
 
-CREATE TABLE Person (
-    NationalID NVARCHAR(20) PRIMARY KEY,
-    RecoveryEmail NVARCHAR(255) NOT NULL,
-    Address NVARCHAR(255) NOT NULL,
-    Gender NVARCHAR(10) NOT NULL,
-    Password NVARCHAR(255) NOT NULL,
-    Role NVARCHAR(50) NOT NULL,
+CREATE TABLE ApplicationUser (
+    NationalID char(14) PRIMARY KEY,
+    RecoveryEmail NVARCHAR(50) NOT NULL,
+    [Address] NVARCHAR(50),
+    Gender bit,
+    [Password] NVARCHAR(50) NOT NULL,
+    -- [Role] NVARCHAR(50) NOT NULL,
     Picture VARBINARY(MAX) NULL,
-    FirstName NVARCHAR(50),
-    SecondName NVARCHAR(50),
-    ThirdName NVARCHAR(50),
-    LastName NVARCHAR(50)
+    FirstName NVARCHAR(30) not null,
+    MiddleName NVARCHAR(30), -- First Bla bla bla Last 
+    LastName NVARCHAR(30) not null
 );
 
 CREATE TABLE Student (
-    StudentID NVARCHAR(20) PRIMARY KEY FOREIGN KEY REFERENCES Person(NationalID),
-    EnterYear INT NOT NULL,
-    GradYear INT NULL,
-    State NVARCHAR(10) CHECK (State IN ('Passed', 'Failed')),
-    CurrentYear INT CHECK (CurrentYear IN (1, 2, 3, 4)),
-    TotalGPA DECIMAL(3, 2) NULL,
-    HoursTaken INT NOT NULL,
+    NationalID char(14) PRIMARY KEY FOREIGN KEY REFERENCES ApplicationUser(NationalID),
+	-- StudentId
+    EntryYear Date NOT NULL,
+    GradYear Date NULL,
+    [State] bit, -- Pass 0 / Fail 1 NY
+    CurrentYear smallint CHECK (CurrentYear IN (1, 2, 3, 4)),
+    TotalGPA DECIMAL NULL,
+    HoursTaken int NOT NULL,
     DepartmentID INT FOREIGN KEY REFERENCES Department(DepartmentID)
 );
 
 CREATE TABLE TeachingAssistant (
-    TAID NVARCHAR(20) PRIMARY KEY FOREIGN KEY REFERENCES Person(NationalID),
+    TAID char(14) PRIMARY KEY FOREIGN KEY REFERENCES ApplicationUser(NationalID),
     AcademicDegree NVARCHAR(50) NOT NULL,
     University NVARCHAR(100) NOT NULL,
     Faculty NVARCHAR(100) NOT NULL,
