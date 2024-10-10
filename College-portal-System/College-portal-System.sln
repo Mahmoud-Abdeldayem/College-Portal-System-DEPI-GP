@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35303.130
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "College-portal-System", "College-portal-System.csproj", "{6F07CE9E-BB85-41FE-9D23-1CF32F5C30AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "College-portal-System", "College-portal-System.csproj", "{6F07CE9E-BB85-41FE-9D23-1CF32F5C30AB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLogicLayer", "..\BusinessLogicLayer\BusinessLogicLayer.csproj", "{A0E448CE-02CB-46AB-9743-78AE9D84FFD5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessLayer", "..\DataAccessLayer\DataAccessLayer.csproj", "{0963CA25-9E26-496E-9A5D-C578291C85E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{6F07CE9E-BB85-41FE-9D23-1CF32F5C30AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F07CE9E-BB85-41FE-9D23-1CF32F5C30AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F07CE9E-BB85-41FE-9D23-1CF32F5C30AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0E448CE-02CB-46AB-9743-78AE9D84FFD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0E448CE-02CB-46AB-9743-78AE9D84FFD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0E448CE-02CB-46AB-9743-78AE9D84FFD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0E448CE-02CB-46AB-9743-78AE9D84FFD5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0963CA25-9E26-496E-9A5D-C578291C85E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0963CA25-9E26-496E-9A5D-C578291C85E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0963CA25-9E26-496E-9A5D-C578291C85E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0963CA25-9E26-496E-9A5D-C578291C85E7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
