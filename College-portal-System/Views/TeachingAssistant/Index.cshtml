@@ -57,30 +57,32 @@
     </div>
 </section>
 
-<script>
-    function getRandomSpecificColor() {
-        const colors = [
-            '#f43f5e', // Vibrant red-pink
-            '#3b82f6', // Bright blue
-            '#22c55e', // Bright green
-            '#f97316', // Vibrant orange
-            '#eab308', // Bright yellow
-            '#10b981', // Teal-green
-            '#8b5cf6', // Purple
-            '#ec4899', // Pink
-            '#14b8a6', // Cyan
-            '#facc15', // Yellow gold
-            '#ef4444', // Bright red
-            '#6366f1', // Indigo
-            '#4ade80', // Light green
-            '#f87171', // Light red
-            '#60a5fa'  // Light blue
-        ];
-        return colors[Math.floor(Math.random() * colors.length)];
-    }
-    const courseCards = document.querySelectorAll(".course-card");
+@section Scripts{
+    <script>
+        function getRandomSpecificColor() {
+            const colors = [
+                '#f43f5e', // Vibrant red-pink
+                '#3b82f6', // Bright blue
+                '#22c55e', // Bright green
+                '#f97316', // Vibrant orange
+                '#eab308', // Bright yellow
+                '#10b981', // Teal-green
+                '#8b5cf6', // Purple
+                '#ec4899', // Pink
+                '#14b8a6', // Cyan
+                '#facc15', // Yellow gold
+                '#ef4444', // Bright red
+                '#6366f1', // Indigo
+                '#4ade80', // Light green
+                '#f87171', // Light red
+                '#60a5fa'  // Light blue
+            ];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+        const courseCards = document.querySelectorAll(".course-card");
 
-    courseCards.forEach(card => {
-        card.style.backgroundColor = getRandomSpecificColor();
-    });
-</script>
+        courseCards.forEach(card => {
+            card.style.backgroundColor = getRandomSpecificColor();
+        });
+    </script>
+}
