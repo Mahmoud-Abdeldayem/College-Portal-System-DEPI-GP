@@ -1,0 +1,80 @@
+﻿
+@{
+    ViewData["Title"] = "Edit Task";
+    Layout = "~/Views/Shared/_LayoutTeachingAssistant.cshtml";
+}
+
+<div class="pagetitle">
+    <h1>Assignment</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">Home</li>
+            <li class="breadcrumb-item active">Assignments</li>
+        </ol>
+    </nav>
+</div>
+<section class="section">
+    <div class="row">
+        <div class="col-12">
+            <h4 class="text-left">Your Assignments</h4>
+            <br>
+            <br>
+        </div>
+        <div class="assignments">
+            <div class="row">
+                <!-- Repeat this div  -->
+                <div class="col-lg-4 col-12 mb-3">
+                    <div class="assignment-card text-left">
+                        <h3>
+                            Course Name
+                        </h3>
+                        <p>
+                            Some of content of the task
+                        </p>
+
+                        <button class="assignment-btn btn" style="width: 100%;margin: 0px 4px; background-color: #f1b341;">Edit</button>
+                        <button class="assignment-btn btn btn-success" style="width: 100%;margin: 5px 4px;">Show Results</button>
+                    </div>
+                </div>
+                <div class="">
+                    <br>
+                    <h1>Add new Assignment</h1>
+                    <br>
+                    <form>
+                        <div class="form-group">
+                            <label for="course">Course:</label>
+                            <select id="course" class="input-field" required>
+                                <option value="" disabled selected>Select a course</option>
+                                <option value="course1">Course 1</option>
+                                <option value="course2">Course 2</option>
+                                <option value="course3">Course 3</option>
+                                <option value="course4">Course 4</option>
+                            </select>
+                        </div>
+                        <div class="input-container col-12">
+                            <input placeholder="Grade" class="input-field" type="text" id="grade" required>
+                            <label for="grade" class="input-label">Grade</label>
+                            <span class="input-highlight"></span>
+                        </div>
+
+                        <div class="input-container">
+                            <input placeholder=" " class="input-field" type="date" id="deadline" required>
+                            <label for="deadline" class="input-label">Deadline</label>
+                            <span class="input-highlight"></span>
+                        </div>
+
+                        <div class="input-container">
+                            <textarea placeholder="Content" class="input-field" id="content" cols="1" rows="1" required></textarea>
+                            <label for="content" class="input-label">Content</label>
+                            <span class="input-highlight"></span>
+                        </div>
+                        <br>
+                        <br>
+                        <button type="submit" class="submit-btn btn btn-success">Add Assignment</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</section>

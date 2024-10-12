@@ -1,0 +1,63 @@
+﻿@{
+    ViewData["Title"] = "Assignments";
+    Layout = "~/Views/Shared/_LayoutTeachingAssistant.cshtml";
+}
+<div class="pagetitle">
+    <h1>Edit Assignment</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">Home</li>
+            <li class="breadcrumb-item active">Edit Assignment</li>
+        </ol>
+    </nav>
+</div>
+
+<section class="section">
+    <div class="row">
+        <div class="col-12">
+            <h4 class="text-left">Edit Assignment Details</h4>
+            <br>
+            <br>
+        </div>
+        <div class="assignments">
+            <div class="row">
+                <div class="col-12">
+                    <form>
+                        <div class="form-group">
+                            <label for="course">Course:</label>
+                            <select id="course" class="input-field" required>
+                                <option value="" disabled>Select a course</option>
+                                <option value="course1" selected>Course 1</option>
+                                <option value="course2">Course 2</option>
+                                <option value="course3">Course 3</option>
+                                <option value="course4">Course 4</option>
+                            </select>
+                        </div>
+                        <div class="input-container">
+                            <input placeholder="Grade" class="input-field" type="text" id="grade" value="85" required>
+                            <label for="grade" class="input-label">Grade</label>
+                            <span class="input-highlight"></span>
+                        </div>
+
+                        <div class="input-container">
+                            <input placeholder=" " class="input-field" type="date" id="deadline" value="2024-10-20" required>
+                            <label for="deadline" class="input-label">Deadline</label>
+                            <span class="input-highlight"></span>
+                        </div>
+
+                        <div class="input-container">
+                            <textarea placeholder="Content" class="input-field" id="content" cols="1" rows="1" required></textarea>
+                            <label for="content" class="input-label">Content</label>
+                            <span class="input-highlight"></span>
+                        </div>
+                        <br>
+                        <br>
+                        <button type="submit" class="submit-btn btn btn-success">Update Assignment</button>
+                        <button type="submit" class="submit-btn btn btn-danger">Delete</button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
