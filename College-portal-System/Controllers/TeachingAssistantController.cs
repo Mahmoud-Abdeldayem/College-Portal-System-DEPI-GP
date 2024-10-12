@@ -8,7 +8,7 @@ namespace College_portal_System.Controllers
         // GET: TeachingAssistantController
         public ActionResult Index()
         {
-            return View("CreateQuiz");
+            return View("Results");
         }
 
         // GET: TeachingAssistantController/Details/5
