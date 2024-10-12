@@ -79,37 +79,39 @@
 </section>
 
 
-<script>
-    function generateInputs() {
-        const questionCount = parseInt(document.getElementById("questionCount").value);
-        const inputContainer = document.getElementById("inputContainer");
-        inputContainer.innerHTML = ""; // Clear previous inputs
+@section Scripts{
+    <script>
+        function generateInputs() {
+            const questionCount = parseInt(document.getElementById("questionCount").value);
+            const inputContainer = document.getElementById("inputContainer");
+            inputContainer.innerHTML = ""; // Clear previous inputs
 
-        // Show the question form
-        document.getElementById("questionForm").style.display = 'block';
+            // Show the question form
+            document.getElementById("questionForm").style.display = 'block';
 
-        // Generate input fields for questions
-        for (let i = 1; i <= questionCount; i++) {
-            const questionDiv = document.createElement("div");
-            questionDiv.className = "mb-3 col-12";
+            // Generate input fields for questions
+            for (let i = 1; i <= questionCount; i++) {
+                const questionDiv = document.createElement("div");
+                questionDiv.className = "mb-3 col-12";
 
-            const label = document.createElement("label");
-            label.setAttribute("for", `question${i}`);
-            label.className = "form-label";
-            label.textContent = `Question ${i}`;
+                const label = document.createElement("label");
+                label.setAttribute("for", `question${i}`);
+                label.className = "form-label";
+                label.textContent = `Question ${i}`;
 
-            const input = document.createElement("input");
-            input.type = "text";
-            input.id = `question${i}`;
-            input.className = "form-control";
-            input.placeholder = `Enter text for Question ${i}`;
-            input.required = true;
+                const input = document.createElement("input");
+                input.type = "text";
+                input.id = `question${i}`;
+                input.className = "form-control";
+                input.placeholder = `Enter text for Question ${i}`;
+                input.required = true;
 
-            questionDiv.appendChild(label);
-            questionDiv.appendChild(input);
-            inputContainer.appendChild(questionDiv);
+                questionDiv.appendChild(label);
+                questionDiv.appendChild(input);
+                inputContainer.appendChild(questionDiv);
+            }
         }
-    }
 
 
-</script>
+    </script>
+}
