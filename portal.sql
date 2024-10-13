@@ -1,11 +1,19 @@
-Use master
-Drop database college_portal_system;
+drop table ApplicationUsers
+drop table courses
+drop table departments
+drop table professors
+drop table students
+drop table tasks
+drop table teachingassistants
 
-CREATE DATABASE college_portal_system;
-USE college_portal_system;
+CREATE TABLE Departments (
+    DepartmentID INT PRIMARY KEY IDENTITY(1,1),
+    [Name] NVARCHAR(50) UNIQUE NOT NULL,
+    Code NVARCHAR(10) UNIQUE NOT NULL,
+    HeadID char(14) NULL 
+);
 
-
-CREATE TABLE ApplicationUser (
+CREATE TABLE ApplicationUsers (
     NationalID char(14) PRIMARY KEY,
     RecoveryEmail NVARCHAR(50) NOT NULL,
     [Address] NVARCHAR(50),
@@ -17,8 +25,19 @@ CREATE TABLE ApplicationUser (
     LastName NVARCHAR(30) not null -- 2nd + 3rd + 4th
 );
 
-CREATE TABLE Student (
-    NationalID char(14) PRIMARY KEY FOREIGN KEY REFERENCES ApplicationUser(NationalID) on delete cascade on update cascade,
+CREATE TABLE Professors (
+    ProfessorID char(14) PRIMARY KEY FOREIGN KEY REFERENCES ApplicationUsers(NationalID) on delete cascade on update cascade ,
+    PhDAt NVARCHAR(50) NOT NULL,
+    EnterYear INT NOT NULL,
+    OfficeLocation NVARCHAR(50),
+    DocUni NVARCHAR(50) NOT NULL,
+    Title NVARCHAR(50) NOT NULL,
+    DepartmentID INT Default 1 FOREIGN KEY REFERENCES Departments(DepartmentID) on delete set default on update cascade
+); 
+
+
+CREATE TABLE Students (
+    NationalID char(14) PRIMARY KEY FOREIGN KEY REFERENCES ApplicationUsers(NationalID) on delete cascade on update cascade,
 	StudentId nvarchar(15) NOT NULL , -- By Default contains the NationalID , after the student registrain will be ended => the admin chages it to a new one.
     EntryYear Date NOT NULL,
     GradYear Date NULL,
@@ -27,133 +46,119 @@ CREATE TABLE Student (
     CurrentYear smallint CHECK (CurrentYear IN (1, 2, 3, 4)),
     TotalGPA DECIMAL NULL,
     HoursTaken int NOT NULL,
-    DepartmentID INT FOREIGN KEY REFERENCES Department(DepartmentID) on delete set null on update cascade
+    DepartmentID INT FOREIGN KEY REFERENCES Departments(DepartmentID) on delete set null on update cascade
 );
 
-CREATE TABLE TeachingAssistant (
-    TAID char(14) PRIMARY KEY FOREIGN KEY REFERENCES ApplicationUser(NationalID) on delete cascade on update cascade ,
+
+
+CREATE TABLE TeachingAssistants (
+    TAID char(14) PRIMARY KEY FOREIGN KEY REFERENCES ApplicationUsers(NationalID) on delete cascade on update cascade ,
     AcademicDegree NVARCHAR(50) NOT NULL,
     University NVARCHAR(50) NOT NULL,
     Faculty NVARCHAR(50) NOT NULL,
-    DepartmentID INT Default 1 FOREIGN KEY REFERENCES Department(DepartmentID) on delete set default on update cascade ,
-    AssistingProfessorID char(14) FOREIGN KEY REFERENCES ApplicationUser(NationalID) 
+    DepartmentID INT Default 1 FOREIGN KEY REFERENCES Departments(DepartmentID) on delete set default on update cascade ,
+    AssistingProfessorID char(14) FOREIGN KEY REFERENCES ApplicationUsers(NationalID) 
 );
 
-CREATE TABLE Professor (
-    ProfessorID char(14) PRIMARY KEY FOREIGN KEY REFERENCES ApplicationUser(NationalID) on delete cascade on update cascade ,
-    PhDAt NVARCHAR(50) NOT NULL,
-    EnterYear INT NOT NULL,
-    OfficeLocation NVARCHAR(50),
-    DocUni NVARCHAR(50) NOT NULL,
-    Title NVARCHAR(50) NOT NULL,
-    DepartmentID INT Default 1 FOREIGN KEY REFERENCES Department(DepartmentID) on delete set default on update cascade
-); 
 
-CREATE TABLE Department (
-    DepartmentID INT PRIMARY KEY IDENTITY(1,1),
-    [Name] NVARCHAR(50) UNIQUE NOT NULL,
-    Code NVARCHAR(10) UNIQUE NOT NULL,
-    HeadID char(14) NULL FOREIGN KEY REFERENCES Professor(ProfessorID)
-);
-
-CREATE TABLE Course (
+CREATE TABLE Courses (
     CourseID INT PRIMARY KEY IDENTITY(1,1),
     [Name] NVARCHAR(50) NOT NULL,
     Code nVARCHAR(10) UNIQUE NOT NULL,
     [Hours] INT NOT NULL,
-	PrerequisiteCourseId INT FOREIGN KEY REFERENCES Course(CourseID),  
+	PrerequisiteCourseId INT FOREIGN KEY REFERENCES Courses(CourseID),  
 	Semseter bit Not Null , -- The course Semester => 0 = 1st , 1 = 2nd
     CourseLevel INT NOT NULL , ---
-    DepartmentID INT Default 1 FOREIGN KEY REFERENCES Department(DepartmentID) on delete set default on update cascade
+    DepartmentID INT Default 1 FOREIGN KEY REFERENCES Departments(DepartmentID) on delete set default on update cascade
 );
 
-CREATE TABLE Task (
+CREATE TABLE Tasks (
     TaskID INT PRIMARY KEY IDENTITY(1,1),
-    CourseID INT FOREIGN KEY REFERENCES Course(CourseID) on delete cascade on update cascade,
+    CourseID INT FOREIGN KEY REFERENCES Courses(CourseID) on delete cascade on update cascade,
     Grade DECIMAL(4 , 2) NOT NULL,
     Deadline DATETIME NOT NULL,
     Content NVARCHAR(50) NOT NULL, -- The Task Link (Like PDF document in Google Drive) --
     [Type] NVARCHAR(50) CHECK ([Type] IN ('Project', 'Assignment')) NOT NULL,
-    AssignedByTAID char(14) FOREIGN KEY REFERENCES TeachingAssistant(TAID) 
+    AssignedByTAID char(14) FOREIGN KEY REFERENCES TeachingAssistants(TAID) 
 );
 
-CREATE TABLE Submission (
+CREATE TABLE Submissions (
     SubmissionID INT PRIMARY KEY IDENTITY(1,1),
-    TaskID INT FOREIGN KEY REFERENCES Task(TaskID) on delete cascade on update cascade ,
-    StudentID char(14) FOREIGN KEY REFERENCES Student(StudentId) ,
+    TaskID INT FOREIGN KEY REFERENCES Tasks(TaskID) on delete cascade on update cascade ,
+    StudentID char(14) FOREIGN KEY REFERENCES Students(NationalID) ,
     SubmissionLink NVARCHAR(50) NOT NULL,
     SubmissionDate DATETIME NOT NULL
 );
 
-CREATE TABLE Test (
+CREATE TABLE Tests (
     TestID INT PRIMARY KEY IDENTITY(1,1),
     TotalGrade DECIMAL(5, 2) NOT NULL,
-    MadeBy char(14) FOREIGN KEY REFERENCES ApplicationUser(NationalID) ,
-    CourseID INT FOREIGN KEY REFERENCES Course(CourseID) on delete cascade on update cascade,
+    MadeBy char(14) FOREIGN KEY REFERENCES ApplicationUsers(NationalID) ,
+    CourseID INT FOREIGN KEY REFERENCES Courses(CourseID) on delete cascade on update cascade,
     [Date] DATETIME NOT NULL,
     [Time] TIME NOT NULL,
     [Type] NVARCHAR(50) CHECK ([Type] IN ('Quiz', 'Midterm', 'Final')) NOT NULL,
     Duration INT NOT NULL -- The Test Duration in minutes --                                               
 );
 
-CREATE TABLE Question (
+CREATE TABLE Questions (
     QuestionID INT PRIMARY KEY IDENTITY(1,1),
-    TestID INT FOREIGN KEY REFERENCES Test(TestID) on delete cascade on update cascade,
+    TestID INT FOREIGN KEY REFERENCES Tests(TestID) on delete cascade on update cascade,
     QuestionNumber INT NOT NULL,
     QuestionText NVARCHAR(MAX) NOT NULL,
     Grade DECIMAL(4, 2) NOT NULL
 );
 
-CREATE TABLE TestSubmission (
+CREATE TABLE TestSubmissions (
     TestSubmissionID INT PRIMARY KEY IDENTITY(1,1),
-    TestID INT FOREIGN KEY REFERENCES Test(TestID) on delete cascade on update cascade,
-    StudentID char(14) FOREIGN KEY REFERENCES Student(NationalID) ,
+    TestID INT FOREIGN KEY REFERENCES Tests(TestID) on delete cascade on update cascade,
+    StudentID char(14) FOREIGN KEY REFERENCES Students(NationalID) ,
     SubmissionDate DATETIME NOT NULL
 );
 
-CREATE TABLE Timetable (
+CREATE TABLE Timetables (
     TimetableID INT PRIMARY KEY IDENTITY(1,1),
-    CourseID INT FOREIGN KEY REFERENCES Course(CourseID) on delete cascade on update cascade,
-    ProfessorID char(14) FOREIGN KEY REFERENCES Professor(ProfessorID) ,
+    CourseID INT FOREIGN KEY REFERENCES Courses(CourseID) on delete cascade on update cascade,
+    ProfessorID char(14) FOREIGN KEY REFERENCES Professors(ProfessorID) ,
     [Day] NVARCHAR(20) NOT NULL,
     [Time] TIME NOT NULL,
     Duration TIME NOT NULL -- INT OR TIME --
 );
 
-CREATE TABLE Notification (
+CREATE TABLE Notifications (
     NotificationID INT PRIMARY KEY IDENTITY(1,1),
     [Message] NVARCHAR(50) NOT NULL,
-    SentBy char(14) FOREIGN KEY REFERENCES ApplicationUser(NationalID) ,
-    SentTo char(14) FOREIGN KEY REFERENCES ApplicationUser(NationalID) ,
+    SentBy char(14) FOREIGN KEY REFERENCES ApplicationUsers(NationalID) ,
+    SentTo char(14) FOREIGN KEY REFERENCES ApplicationUsers(NationalID) ,
     /*New Column*/[State] bit NOT NULL -- 0 : Unread | 1 : Read --
 );
 
-CREATE TABLE Feedback (
+CREATE TABLE Feedbacks (
     FeedbackID INT PRIMARY KEY IDENTITY(1,1),
     Question NVARCHAR(50) NOT NULL,
     -- SubmittedByStudentID char(14) FOREIGN KEY REFERENCES Student(NationalID) 
 );
 
-CREATE TABLE FeedbackResponse (
+CREATE TABLE FeedbackResponses (
     ResponseID INT PRIMARY KEY IDENTITY(1,1),
-    FeedbackID INT FOREIGN KEY REFERENCES Feedback(FeedbackID) on delete cascade on update cascade,
+    FeedbackID INT FOREIGN KEY REFERENCES Feedbacks(FeedbackID) on delete cascade on update cascade,
     ResponseText NVARCHAR(50) NOT NULL,
-    SubmittedByStudentID char(14) FOREIGN KEY REFERENCES Student(NationalID) 
+    SubmittedByStudentID char(14) FOREIGN KEY REFERENCES Students(NationalID) 
 );
 
-CREATE TABLE PasswordResetTicket (
+CREATE TABLE PasswordResetTickets (
     TicketID INT PRIMARY KEY IDENTITY(1,1),
-    StudentID char(14) FOREIGN KEY REFERENCES Student(NationalID) ,
+    StudentID char(14) FOREIGN KEY REFERENCES Students(NationalID) ,
     RequestDate DATETIME NOT NULL,
     ResetDate DATETIME NULL,
     [State] bit NOT NULL , -- Checks if the response was made by any admin or not 
-    AdminID char(14) FOREIGN KEY REFERENCES ApplicationUser(NationalID) on update cascade
+    AdminID char(14) FOREIGN KEY REFERENCES ApplicationUsers(NationalID) on update cascade
 );
 
-CREATE TABLE CourseEnrollment (
+CREATE TABLE CourseEnrollments (
     EnrollmentID INT PRIMARY KEY IDENTITY(1,1),
-    StudentID char(14) FOREIGN KEY REFERENCES Student(NationalID) ,
-    CourseID INT FOREIGN KEY REFERENCES Course(CourseID) on delete cascade on update cascade,
+    StudentID char(14) FOREIGN KEY REFERENCES Students(NationalID) ,
+    CourseID INT FOREIGN KEY REFERENCES Courses(CourseID) on delete cascade on update cascade,
     EnrollmentDate DATETIME NOT NULL ,
 	ClassWork decimal(4 , 2) NOT NULL ,
 	FinalGrade decimal(4 , 2) NOT NULL ,
@@ -162,7 +167,10 @@ CREATE TABLE CourseEnrollment (
 
 CREATE TABLE CourseTeaching (
     TeachingID INT PRIMARY KEY IDENTITY(1,1),
-    CourseID INT FOREIGN KEY REFERENCES Course(CourseID) on delete cascade on update cascade,
-    ProfessorID char(14) NULL FOREIGN KEY REFERENCES Professor(ProfessorID)  ,
-    TAID char(14) NULL FOREIGN KEY REFERENCES TeachingAssistant(TAID) 
+    CourseID INT FOREIGN KEY REFERENCES Courses(CourseID) on delete cascade on update cascade,
+    ProfessorID char(14) NULL FOREIGN KEY REFERENCES Professors(ProfessorID)  ,
+    TAID char(14) NULL FOREIGN KEY REFERENCES TeachingAssistants(TAID) 
 );
+
+alter table Departments 
+add constraint FK_Dept_Head_Prof FOREIGN KEY (HeadID)  REFERENCES Professors(ProfessorID)
