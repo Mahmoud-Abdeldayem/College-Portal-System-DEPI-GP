@@ -1,3 +1,6 @@
+using DataAccessLayer.Entities;
+using Microsoft.EntityFrameworkCore;
+
 namespace College_portal_System
 {
     public class Program
@@ -8,7 +11,9 @@ namespace College_portal_System
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-            //builder.Services.AddDbContext<>
+            builder.Services.AddDbContext<AppDbContext>(option =>
+                option.UseSqlServer(builder.Configuration.GetConnectionString("default"))
+            );
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
