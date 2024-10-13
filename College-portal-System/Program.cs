@@ -8,7 +8,7 @@ namespace College_portal_System
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-
+            //builder.Services.AddDbContext<>
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

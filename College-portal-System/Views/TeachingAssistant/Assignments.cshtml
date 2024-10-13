@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewData["Title"] = "Edit Task";
+    ViewData["Title"] = "My Tasks";
     Layout = "~/Views/Shared/_LayoutTeachingAssistant.cshtml";
 }
 
@@ -9,14 +9,14 @@
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item">Home</li>
-            <li class="breadcrumb-item active">Assignments</li>
+            <li class="breadcrumb-item active">My Tasks</li>
         </ol>
     </nav>
 </div>
 <section class="section">
     <div class="row">
         <div class="col-12">
-            <h4 class="text-left">Your Assignments</h4>
+            <h4 class="text-left">My Tasks</h4>
             <br>
             <br>
         </div>
@@ -38,7 +38,7 @@
                 </div>
                 <div class="">
                     <br>
-                    <h1>Add new Assignment</h1>
+                    <h1>Add new Task</h1>
                     <br>
                     <form>
                         <div class="form-group">
@@ -51,6 +51,16 @@
                                 <option value="course4">Course 4</option>
                             </select>
                         </div>
+                        <br />
+                        <div class="form-group">
+                            <label for="TaskType">Task Type:</label>
+                            <select id="course" class="input-field" required>
+                                <option value="" disabled selected>Select a type</option>
+                                <option value="Assignment">Assignment</option>
+                                <option value="Project">Project</option>
+                            </select>
+                        </div>
+
                         <div class="input-container col-12">
                             <input placeholder="Grade" class="input-field" type="text" id="grade" required>
                             <label for="grade" class="input-label">Grade</label>

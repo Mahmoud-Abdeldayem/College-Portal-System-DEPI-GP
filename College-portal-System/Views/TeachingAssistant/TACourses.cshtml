@@ -1,14 +1,14 @@
 ﻿@{
-    ViewData["Title"] = "Home";
+    ViewData["Title"] = "My Courses";
     Layout = "~/Views/Shared/_LayoutTeachingAssistant.cshtml";
 }
 
 <div class="pagetitle">
-    <h1>Welcome Mahmoud</h1>
+    <h1>Courses Page</h1>
     <nav>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item">Dashboard</li>
-            @* <li class="breadcrumb-item active"></li> *@
+            <li class="breadcrumb-item">Home</li>
+            <li class="breadcrumb-item active">Courses</li>
         </ol>
     </nav>
 </div>
@@ -16,61 +16,40 @@
     <div class="row">
 
         <div class="col-lg-4 col-12">
-            <a asp-controller="TeachingAssistant" asp-action="MyCourses" >
+            <a asp-controller="Courses" asp-action="Details" asp-route-id="1">
                 <!-- Update route parameters as needed -->
                 <div class="course-card">
                     <div class="text-center">
                         <h3>
-                            My Courses
+                            Parrel & Processing
                         </h3>
+                        <p class="m-0">Prof : Ahmed </p>
                     </div>
                 </div>
             </a>
         </div>
         <div class="col-lg-4 col-12">
-            <a asp-controller="TeachingAssistant" asp-action="CreateQuiz">
+            <a asp-controller="Courses" asp-action="Details" asp-route-id="2">
                 <!-- Update route parameters as needed -->
                 <div class="course-card">
                     <div class="text-center">
                         <h3>
-                            Create Quiz
+                            Parrel & Processing
                         </h3>
+                        <p class="m-0">Prof : Ahmed </p>
                     </div>
                 </div>
             </a>
         </div>
         <div class="col-lg-4 col-12">
-            <a asp-controller="TeachingAssistant" asp-action="CreateTask" >
+            <a asp-controller="Courses" asp-action="Details" asp-route-id="3">
                 <!-- Update route parameters as needed -->
                 <div class="course-card">
                     <div class="text-center">
                         <h3>
-                            Create Task
+                            Parrel & Processing
                         </h3>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-lg-4 col-12">
-            <a asp-controller="TeachingAssistant" asp-action="EditAssignment">
-                <!-- Update route parameters as needed -->
-                <div class="course-card">
-                    <div class="text-center">
-                        <h3>
-                            Edit Task
-                        </h3>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-lg-4 col-12">
-            <a asp-controller="TeachingAssistant" asp-action="Results">
-                <!-- Update route parameters as needed -->
-                <div class="course-card">
-                    <div class="text-center">
-                        <h3>
-                            Results
-                        </h3>
+                        <p class="m-0">Prof : Ahmed </p>
                     </div>
                 </div>
             </a>
@@ -78,7 +57,7 @@
     </div>
 </section>
 
-@section Scripts{
+@section Scripts {
     <script>
         function getRandomSpecificColor() {
             const colors = [
@@ -106,10 +85,4 @@
             card.style.backgroundColor = getRandomSpecificColor();
         });
     </script>
-
-   <style>
-        .col-lg-4{
-            margin-top: 15px;
-        }
-   </style>
 }

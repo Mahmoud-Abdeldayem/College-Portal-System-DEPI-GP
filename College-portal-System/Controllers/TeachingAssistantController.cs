@@ -11,6 +11,25 @@ namespace College_portal_System.Controllers
             return View();
         }
 
+        public ActionResult Assignments()
+        {
+            return View();
+        }
+
+        public ActionResult EditAssignments()
+        {
+            return View();
+        }
+        public ActionResult CreateQuiz()
+        {
+            return View();
+        }
+
+        public ActionResult Results()
+        {
+            return View();
+        }
+
         // GET: TeachingAssistantController/Details/5
         public ActionResult Details(int id)
         {
