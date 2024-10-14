@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 
 namespace DataAccessLayer.Entities;
 
-public partial class ApplicationUser
+public partial class ApplicationUser : IdentityUser
 {
     public string NationalId { get; set; } = null!;
 
