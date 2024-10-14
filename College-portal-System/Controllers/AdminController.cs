@@ -6,7 +6,7 @@ namespace College_portal_System.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            return View("AddStudent");
         }
     }
 }
