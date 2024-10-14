@@ -19,6 +19,8 @@ public partial class Task
 
     public string? AssignedByTaid { get; set; }
 
+    public string TaskLink { get; set; } = null!;
+
     public virtual TeachingAssistant? AssignedByTa { get; set; }
 
     public virtual Course? Course { get; set; }

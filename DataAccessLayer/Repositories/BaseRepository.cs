@@ -1,4 +1,5 @@
-﻿using DataAccessLayer.Interfaces;
+﻿using DataAccessLayer.Entities;
+using DataAccessLayer.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,49 +11,53 @@ namespace DataAccessLayer.Repositories
 {
     public class BaseRepository<T> : IBaseRepository<T> where T : class
     {
-        //DB Context reference
-        //protected ApplicationDbContext _context;
-        //Inject the Context object using constructor injection
-        //Implement the methods using this context
+        protected AppDbContext _context;
 
-        //public BaseRepository(ApplicationDbContext context) => from the UnitOfWork
-        //{
-        //    _context = context;
-        //}
+        public BaseRepository(AppDbContext context) //=> from the UnitOfWork
+        {
+            _context = context;
+        }
 
         public T Delete(T Entity)
         {
-            throw new NotImplementedException();
+            _context.Remove(Entity);
+            return Entity;
         }
 
         public T DeleteById(int id)
         {
-            throw new NotImplementedException();
+            var entitiy = _context.Set<T>().Find(id);
+            _context.Remove(entitiy);
+            return entitiy;
         }
 
-        public T Get(Expression<Func<T, bool>> criteria)
+        public IEnumerable<T> Get(Expression<Func<T, bool>> criteria)
         {
-            throw new NotImplementedException();
+            var entity = _context.Set<T>().Where(criteria);
+            return entity;
         }
 
         public IEnumerable<T> GetAll()
         {
-            throw new NotImplementedException();
+            return _context.Set<T>().ToList();
         }
 
         public T GetById(int id)
         {
-            throw new NotImplementedException();
+            return _context.Set<T>().Find(id);
         }
 
         public T Insert(T entity)
         {
-            throw new NotImplementedException();
+            _context.Add(entity);
+            return entity;
         }
 
         public T Update(T entity)
         {
-            throw new NotImplementedException();
+            _context.Update(entity);
+            return entity;
         }
+
     }
 }

@@ -363,6 +363,7 @@ public partial class AppDbContext : DbContext
             entity.Property(e => e.CourseId).HasColumnName("CourseID");
             entity.Property(e => e.Deadline).HasColumnType("datetime");
             entity.Property(e => e.Grade).HasColumnType("decimal(4, 2)");
+            entity.Property(e => e.TaskLink).HasMaxLength(150);
             entity.Property(e => e.Type).HasMaxLength(50);
 
             entity.HasOne(d => d.AssignedByTa).WithMany(p => p.Tasks)
