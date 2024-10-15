@@ -11,7 +11,7 @@ namespace DataAccessLayer.Interfaces
     {
         IEnumerable<T> GetAll();
         T GetById(int id);
-        T Get(Expression<Func<T , bool>> criteria);
+        IEnumerable<T> Get(Expression<Func<T , bool>> criteria);
         T DeleteById(int id);
         T Delete(T Entity);
         T Update(T entity);

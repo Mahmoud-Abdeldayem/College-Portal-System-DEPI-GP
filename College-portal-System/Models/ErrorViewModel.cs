@@ -1,4 +1,4 @@
-namespace College_portal_System.Models
+﻿namespace College_portal_System.Models
 {
     public class ErrorViewModel
     {
