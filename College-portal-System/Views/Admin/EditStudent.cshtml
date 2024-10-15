@@ -2,4 +2,99 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    ViewData["hello"] = "Hello";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
+<div class="pagetitle">
+    <h1>Students Page</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item">Pages</li>
+            <li class="breadcrumb-item active">Students</li>
+        </ol>
+    </nav>
+</div><!-- End Page Title -->
+
+<section class="section">
+    <div class="row">
+        <div class="col-lg-12">
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Edit Information</h5>
+
+                    <form class="row g-3 needs-validation" novalidate>
+                        <!-- Non-editable National ID -->
+                        <div class="col-md-4 position-relative">
+                            <label for="nationalId" class="form-label">National ID (Non-editable)</label>
+                            <input type="text" class="form-control" id="nationalId" value="12345678901234" readonly>
+                        </div>
+
+                        <!-- Editable First Name -->
+                        <div class="col-md-4 position-relative">
+                            <label for="firstName" class="form-label">First Name</label>
+                            <input type="text" class="form-control" id="firstName" value="John" required>
+                            <div class="valid-tooltip">Looks good!</div>
+                            <div class="invalid-tooltip">Please provide a first name.</div>
+                        </div>
+
+                        <!-- Editable Middle Name -->
+                        <div class="col-md-4 position-relative">
+                            <label for="middleName" class="form-label">Middle Name</label>
+                            <input type="text" class="form-control" id="middleName" value="Michael" required>
+                            <div class="valid-tooltip">Looks good!</div>
+                            <div class="invalid-tooltip">Please provide a middle name.</div>
+                        </div>
+
+                        <!-- Editable Last Name -->
+                        <div class="col-md-4 position-relative">
+                            <label for="lastName" class="form-label">Last Name</label>
+                            <input type="text" class="form-control" id="lastName" value="Doe" required>
+                            <div class="valid-tooltip">Looks good!</div>
+                            <div class="invalid-tooltip">Please provide a last name.</div>
+                        </div>
+
+                        <!-- Editable Gender (Radio buttons) -->
+                        <div class="col-md-4 position-relative">
+                            <label class="form-label">Gender</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="gender" id="male" value="male" checked required>
+                                <label class="form-check-label" for="male">Male</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="gender" id="female" value="female" required>
+                                <label class="form-check-label" for="female">Female</label>
+                            </div>
+                            <div class="invalid-tooltip">Please select your gender.</div>
+                        </div>
+
+                        <!-- Editable State (Dropdown) -->
+                        <div class="col-md-4 position-relative">
+                            <label for="state" class="form-label">State</label>
+                            <select class="form-select" id="state" required>
+                                <option selected disabled value="">Choose...</option>
+                                <option value="California">California</option>
+                                <option value="Texas">Texas</option>
+                            </select>
+                            <div class="invalid-tooltip">Please select a valid state.</div>
+                        </div>
+
+                        <!-- Editable Zip Code -->
+                        <div class="col-md-4 position-relative">
+                            <label for="zip" class="form-label">Zip Code</label>
+                            <input type="text" class="form-control" id="zip" value="90210" required>
+                            <div class="invalid-tooltip">Please provide a valid zip code.</div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="col-12">
+                            <button class="btn btn-primary" type="submit">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
