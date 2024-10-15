@@ -5,14 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusinessLogicLayer.AdminService
+namespace BusinessLogicLayer.AdminService.Services
 {
     public class AdminService
     {
         private readonly IUnitOfWork _unitOfWork;
-        public AdminService(IUnitOfWork unitOfWork) 
+        public AdminService(IUnitOfWork unitOfWork)
         {
-            _unitOfWork = unitOfWork; 
+            _unitOfWork = unitOfWork;
         }
 
         public string AddStudents()

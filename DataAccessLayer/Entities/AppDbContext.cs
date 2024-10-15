@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,7 +16,7 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser>
     {
     }
 
-    public virtual DbSet<ApplicationUser> ApplicationUsers { get; set; }
+    //public virtual DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
     public virtual DbSet<Course> Courses { get; set; }
 
@@ -363,7 +364,7 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser>
             entity.Property(e => e.CourseId).HasColumnName("CourseID");
             entity.Property(e => e.Deadline).HasColumnType("datetime");
             entity.Property(e => e.Grade).HasColumnType("decimal(4, 2)");
-            entity.Property(e => e.TaskLink).HasMaxLength(150);
+            //entity.Property(e => e.TaskLink).HasMaxLength(150);
             entity.Property(e => e.Type).HasMaxLength(50);
 
             entity.HasOne(d => d.AssignedByTa).WithMany(p => p.Tasks)
@@ -480,8 +481,11 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser>
                 .HasConstraintName("FK__Timetable__Profe__4E53A1AA");
         });
 
-        OnModelCreatingPartial(modelBuilder);
+        modelBuilder.Entity<IdentityUserLogin<string>>().HasKey(x => new { x.LoginProvider, x.ProviderKey });
+
+
+        OnModelCreating(modelBuilder);
     }
 
-    partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+    //partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }
