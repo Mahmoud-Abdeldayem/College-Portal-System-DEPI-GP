@@ -13,6 +13,7 @@ namespace DataAccessLayer.UnitOfWork
         //Add your Repo here
         //It will cause a compiler error because there is no entity calles (Student)
         IBaseRepository<Student>Students { get; }
+        ITARepository TAs { get; }
         void Commit();
     }
 }

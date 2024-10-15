@@ -2,6 +2,7 @@
     ViewData["Title"] = "My Courses";
     Layout = "~/Views/Shared/_LayoutTeachingAssistant.cshtml";
 }
+@model List<TACoursesViewModel>;
 
 <div class="pagetitle">
     <h1>Courses Page</h1>
@@ -14,46 +15,23 @@
 </div>
 <section class="section">
     <div class="row">
+        @foreach (var course in Model)
+        {
+            <div class="col-lg-4 col-12">
+                <a asp-controller="Courses" asp-action="Details" asp-route-id=@course.CourseID>
+                    <!-- Update route parameters as needed -->
+                    <div class="course-card">
+                        <div class="text-center">
+                            <h3>
+                                @course.CourseName
+                            </h3>
+                            <p class="m-0">Prof : @course.ProfessorName </p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        }
 
-        <div class="col-lg-4 col-12">
-            <a asp-controller="Courses" asp-action="Details" asp-route-id="1">
-                <!-- Update route parameters as needed -->
-                <div class="course-card">
-                    <div class="text-center">
-                        <h3>
-                            Parrel & Processing
-                        </h3>
-                        <p class="m-0">Prof : Ahmed </p>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-lg-4 col-12">
-            <a asp-controller="Courses" asp-action="Details" asp-route-id="2">
-                <!-- Update route parameters as needed -->
-                <div class="course-card">
-                    <div class="text-center">
-                        <h3>
-                            Parrel & Processing
-                        </h3>
-                        <p class="m-0">Prof : Ahmed </p>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-lg-4 col-12">
-            <a asp-controller="Courses" asp-action="Details" asp-route-id="3">
-                <!-- Update route parameters as needed -->
-                <div class="course-card">
-                    <div class="text-center">
-                        <h3>
-                            Parrel & Processing
-                        </h3>
-                        <p class="m-0">Prof : Ahmed </p>
-                    </div>
-                </div>
-            </a>
-        </div>
     </div>
 </section>
 

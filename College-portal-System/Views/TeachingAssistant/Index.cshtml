@@ -16,12 +16,36 @@
     <div class="row">
 
         <div class="col-lg-4 col-12">
-            <a asp-controller="TeachingAssistant" asp-action="MyCourses" >
+            <a asp-controller="TeachingAssistant" asp-action="MyCourses" asp-route-id ="@ViewBag.ID">
                 <!-- Update route parameters as needed -->
                 <div class="course-card">
                     <div class="text-center">
                         <h3>
                             My Courses
+                        </h3>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-lg-4 col-12">
+            <a asp-controller="TeachingAssistant" asp-action="EditProfile">
+                <!-- Update route parameters as needed -->
+                <div class="course-card">
+                    <div class="text-center">
+                        <h3>
+                            Edit Profile
+                        </h3>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-lg-4 col-12">
+            <a asp-controller="TeachingAssistant" asp-action="ShowNotifications">
+                <!-- Update route parameters as needed -->
+                <div class="course-card">
+                    <div class="text-center">
+                        <h3>
+                            Show Notifications
                         </h3>
                     </div>
                 </div>

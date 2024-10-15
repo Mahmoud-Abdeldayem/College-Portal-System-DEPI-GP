@@ -1,4 +1,6 @@
+using BusinessLogicLayer.TAService;
 using DataAccessLayer.Entities;
+using DataAccessLayer.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 
 namespace College_portal_System
@@ -13,7 +15,9 @@ namespace College_portal_System
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<AppDbContext>(option =>
                 option.UseSqlServer(builder.Configuration.GetConnectionString("default"))
-            );
+            ); 
+            builder.Services.AddScoped<IUnitOfWork , UnitOfWork>();
+            builder.Services.AddScoped<TAService>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

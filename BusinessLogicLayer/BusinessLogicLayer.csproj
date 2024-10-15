@@ -7,12 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-	  
-    <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="AdminService\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj" />
+  </ItemGroup>
 </Project>
