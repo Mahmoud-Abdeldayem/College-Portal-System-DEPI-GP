@@ -40,10 +40,7 @@
   </ItemGroup>
 
   <ItemGroup>
-<<<<<<< HEAD
     <ProjectReference Include="..\BusinessLogicLayer\BusinessLogicLayer.csproj" />
-=======
->>>>>>> d6417c3a3b5580ef2f739281e31af2b3ad626827
     <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj" />
   </ItemGroup>
 

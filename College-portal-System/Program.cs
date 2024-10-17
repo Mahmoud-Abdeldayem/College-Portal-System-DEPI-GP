@@ -18,12 +18,11 @@ namespace College_portal_System
             
             builder.Services.AddDbContext<AppDbContext>(option =>
                 option.UseSqlServer(builder.Configuration.GetConnectionString("default"))
-<<<<<<< HEAD
             ); 
             builder.Services.AddScoped<IUnitOfWork , UnitOfWork>();
+
             builder.Services.AddScoped<TAService>();
-=======
-            );
+           
 
             // Identity Configuration
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
@@ -31,7 +30,7 @@ namespace College_portal_System
             .AddDefaultTokenProviders();
 
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<AppDbContext>();
->>>>>>> d6417c3a3b5580ef2f739281e31af2b3ad626827
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
