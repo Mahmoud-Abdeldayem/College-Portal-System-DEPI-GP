@@ -1,6 +1,7 @@
 ﻿using BusinessLogicLayer.DTOs.TADTOs;
 using DataAccessLayer.Entities;
 using DataAccessLayer.UnitOfWork;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,63 @@ namespace BusinessLogicLayer.TAService
                           (ct.Professor.ProfessorNavigation.FirstName + " " + ct.Professor.ProfessorNavigation.LastName)
                           });
             return courses.ToList();
+        }
+
+        public TADataDTO GetTAGeneralInfo(string teachingAssistantId)
+        {
+            var taData = _unitOfWork.TAs.GetTAGeneralData(teachingAssistantId);
+            if (taData != null)
+            {
+                return new TADataDTO()
+                {
+                    NationalID = taData.NationalId,
+                    FName = taData.FirstName,
+                    LName = taData.LastName,
+                    Email = taData.RecoveryEmail,
+                    Image = taData.Picture,
+                    Address = taData.Address,
+                    Password = taData.Password
+                };
+            }
+            return null;
+        }
+
+        public void UpdateTAProfile(TADataDTO taData)
+        {
+            var dataToUpdate = new ApplicationUser()
+            {
+                NationalId = taData.NationalID ,
+                Address = taData.Address ,
+                RecoveryEmail = taData.Email ,
+                Password = taData.Password ,
+                Picture = taData.Image ,
+            };
+            var ta = _unitOfWork.TAs.UpdateProfileInfo(dataToUpdate);
+            _unitOfWork.Commit();
+        }
+
+        public List<EditTaskDTO> GetTATasks(string taId)
+        {
+            var tasks = _unitOfWork.TAs.GetAllTATasks(taId).Select(
+                    t => new EditTaskDTO()
+                    {
+                        TaskId = t.TaskId,
+                        CourseId = t.CourseId,
+                        Deadline = t.Deadline,
+                        Type = t.Type,
+                        AssignedByTaid = t.AssignedByTaid,
+                        Grade = t.Grade,
+                        TaskLink = t.TaskLink,
+                        Content = t.Content,
+                        CourseName = t.Course.Name
+                    }
+                ).ToList();
+            return tasks;
+        }
+
+        public void CreateTask(CreateTaskDTO task)
+        {
+            //_unitOfWork.
         }
     }
 }

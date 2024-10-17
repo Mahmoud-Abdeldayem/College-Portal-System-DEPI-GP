@@ -1,9 +1,12 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 
 namespace DataAccessLayer.Entities;
-
-public partial class ApplicationUser
+[Index(nameof(Email), IsUnique = true)]
+[Index(nameof(UserName), IsUnique = true)]
+public class ApplicationUser : IdentityUser
 {
     public string NationalId { get; set; } = null!;
 

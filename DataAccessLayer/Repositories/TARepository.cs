@@ -37,6 +37,12 @@ namespace DataAccessLayer.Repositories
             throw new NotImplementedException();
         }
 
+        public List<Entities.Task> GetAllTATasks(string taId)
+        {
+            var tasks = _context.Tasks.Include(t => t.Course).Where(t => t.AssignedByTaid == taId);
+            return tasks.ToList();  
+        }
+
         public TeachingAssistant GetById(int id)
         {
             throw new NotImplementedException();
@@ -51,14 +57,36 @@ namespace DataAccessLayer.Repositories
             return teachingAssistantCourses;
         }
 
+        public ApplicationUser GetTAGeneralData(string id)
+        {
+            var taGenData = _context.ApplicationUsers.FirstOrDefault(a => a.NationalId == id);
+            return taGenData;
+        }
+
         public TeachingAssistant Insert(TeachingAssistant entity)
         {
-            throw new NotImplementedException();
+            _context.TeachingAssistants.Add(entity);
+            return entity;
         }
 
         public TeachingAssistant Update(TeachingAssistant entity)
         {
-            throw new NotImplementedException();
+            _context.Update(entity);
+            var ta = _context.TeachingAssistants.FirstOrDefault(a => a.Taid == entity.Taid);
+            return ta;
+        }
+
+        public ApplicationUser UpdateProfileInfo(ApplicationUser TA)
+        {
+            // These Data musn't be updated from the BLL
+            var oldTAData = _context.ApplicationUsers.Find(TA.NationalId);
+            TA.FirstName = oldTAData.FirstName;
+            TA.LastName = oldTAData.LastName;
+            TA.Gender = oldTAData.Gender;
+            TA.Role = oldTAData.Role;
+            
+            _context.ApplicationUsers.Update(TA);
+            return oldTAData;
         }
     }
 }

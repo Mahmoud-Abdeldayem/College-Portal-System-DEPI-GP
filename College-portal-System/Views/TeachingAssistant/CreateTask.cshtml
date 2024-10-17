@@ -3,6 +3,7 @@
     ViewData["Title"] = "My Tasks";
     Layout = "~/Views/Shared/_LayoutTeachingAssistant.cshtml";
 }
+@model CreateTaskViewModel;
 
 <div class="pagetitle">
     <h1>Assignment</h1>
@@ -23,64 +24,76 @@
         <div class="assignments">
             <div class="row">
                 <!-- Repeat this div  -->
-                <div class="col-lg-4 col-12 mb-3">
-                    <div class="assignment-card text-left">
-                        <h3>
-                            Course Name
-                        </h3>
-                        <p>
-                            Some of content of the task
-                        </p>
+                @{
+                    if(Model.Tasks.Count == 0)
+                    {
+                        <p>There is no previous tasks</p>
 
-                        <button class="assignment-btn btn" style="width: 100%;margin: 0px 4px; background-color: #f1b341;">Edit</button>
-                        <button class="assignment-btn btn btn-success" style="width: 100%;margin: 5px 4px;">Show Results</button>
-                    </div>
-                </div>
+                    }
+                
+                else{
+                    foreach(var task in Model.Tasks){
+                    <div class="col-lg-4 col-12 mb-3">
+                        <div class="assignment-card text-left">
+                            <h3>
+                                @task.CourseName
+                            </h3>
+                            <p>
+                                @task.Content
+                            </p>
+
+                            <button class="assignment-btn btn" style="width: 100%;margin: 0px 4px; background-color: #f1b341;">Edit</button>
+                            <button class="assignment-btn btn btn-success" style="width: 100%;margin: 5px 4px;">Show Results</button>
+                        </div>
+                     </div>
+                    }
+                }
+                }
                 <div class="">
                     <br>
                     <h1>Add new Task</h1>
                     <br>
-                    <form>
+                    <form method="post" asp-action="AddTask">
                         <div class="form-group">
-                            <label for="course">Course:</label>
-                            <select id="course" class="input-field" required>
-                                <option value="" disabled selected>Select a course</option>
-                                <option value="course1">Course 1</option>
-                                <option value="course2">Course 2</option>
-                                <option value="course3">Course 3</option>
-                                <option value="course4">Course 4</option>
-                            </select>
+                            <label for="Courses">Course:</label>
+                            <select asp-for="CourseId" class="form-control" asp-items="Model.Courses"></select>
+                            <span asp-validation-for="CourseId" class="text-danger"></span>
                         </div>
                         <br />
                         <div class="form-group">
                             <label for="TaskType">Task Type:</label>
                             <select id="course" class="input-field" required>
-                                <option value="" disabled selected>Select a type</option>
-                                <option value="Assignment">Assignment</option>
-                                <option value="Project">Project</option>
+                                <option name="Type" value="Assignment">Assignment</option>
+                                <option name="Type" value="Project">Project</option>
                             </select>
                         </div>
 
                         <div class="input-container col-12">
-                            <input placeholder="Grade" class="input-field" type="text" id="grade" required>
-                            <label for="grade" class="input-label">Grade</label>
+                            <input placeholder="Grade" asp-for="Grade" class="input-field" type="text" required>
+                            <label asp-for="Grade" class="input-label">Grade</label>
                             <span class="input-highlight"></span>
                         </div>
 
                         <div class="input-container">
-                            <input placeholder=" " class="input-field" type="date" id="deadline" required>
-                            <label for="deadline" class="input-label">Deadline</label>
+                            <label asp-for="Deadline" class="input-label">Deadline</label>
+                            <input placeholder="" class="input-field" asp-for="Deadline" required>
+                            <input placeholder="Deadline" class="input-field" asp-for="Deadline" required>
                             <span class="input-highlight"></span>
                         </div>
 
                         <div class="input-container">
-                            <textarea placeholder="Content" class="input-field" id="content" cols="1" rows="1" required></textarea>
-                            <label for="content" class="input-label">Content</label>
+                            <textarea placeholder="Content" asp-for="Content" class="input-field" cols="1" rows="1" required></textarea>
+                            <label asp-for="Content" class="input-label">Content</label>
+                            <span class="input-highlight"></span>
+                        </div>
+                        <div class="input-container">
+                            <textarea placeholder="Task Link" asp-for="TaskLink" class="input-field" cols="1" rows="1" required></textarea>
+                            <label asp-for="TaskLink" class="input-label">Task Link</label>
                             <span class="input-highlight"></span>
                         </div>
                         <br>
                         <br>
-                        <button type="submit" class="submit-btn btn btn-success">Add Assignment</button>
+                        <button type="submit" class="submit-btn btn btn-success">Add Task</button>
                     </form>
                 </div>
             </div>
