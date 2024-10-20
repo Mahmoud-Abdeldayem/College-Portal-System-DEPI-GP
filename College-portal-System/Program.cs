@@ -27,9 +27,7 @@ namespace College_portal_System
             // Identity Configuration
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
             .AddEntityFrameworkStores<AppDbContext>()
-            .AddDefaultTokenProviders();
-
-            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<AppDbContext>();
+            .AddDefaultTokenProviders();            
 
             var app = builder.Build();
 
@@ -46,6 +44,7 @@ namespace College_portal_System
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             using var scope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope();
