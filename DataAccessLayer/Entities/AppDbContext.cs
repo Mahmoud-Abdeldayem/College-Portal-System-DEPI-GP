@@ -8,16 +8,13 @@ namespace DataAccessLayer.Entities;
 
 public partial class AppDbContext : IdentityDbContext<ApplicationUser>
 {
-    public AppDbContext()
-    {
-    }
+    public AppDbContext(){}
 
-    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
-    {
-    }
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options){}
 
     //public virtual DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
+    #region Tables Set
     public virtual DbSet<Course> Courses { get; set; }
 
     public virtual DbSet<CourseEnrollment> CourseEnrollments { get; set; }
@@ -51,13 +48,12 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser>
     public virtual DbSet<TestSubmission> TestSubmissions { get; set; }
 
     public virtual DbSet<Timetable> Timetables { get; set; }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=tcp:portal-system.database.windows.net,1433;Initial Catalog=portal;User Id=portal-admin;Password=Depi@047;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+    #endregion
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+
         modelBuilder.Entity<ApplicationUser>(entity =>
         {
             entity.HasKey(e => e.NationalId).HasName("PK__Applicat__E9AA321B20B301FC");
@@ -69,10 +65,7 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser>
                 .HasColumnName("NationalID");
             entity.Property(e => e.Address).HasMaxLength(50);
             entity.Property(e => e.FirstName).HasMaxLength(30);
-            entity.Property(e => e.LastName).HasMaxLength(30);
-            entity.Property(e => e.Password).HasMaxLength(50);
-            entity.Property(e => e.RecoveryEmail).HasMaxLength(50);
-            entity.Property(e => e.Role).HasMaxLength(50);
+            entity.Property(e => e.LastName).HasMaxLength(30);                        
         });
 
         modelBuilder.Entity<Course>(entity =>
@@ -480,12 +473,11 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser>
                 .HasForeignKey(d => d.ProfessorId)
                 .HasConstraintName("FK__Timetable__Profe__4E53A1AA");
         });
-
-        modelBuilder.Entity<IdentityUserLogin<string>>().HasKey(x => new { x.LoginProvider, x.ProviderKey });
-
-
-        OnModelCreating(modelBuilder);
+        
     }
 
-    //partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        base.OnConfiguring(optionsBuilder);
+    }
 }
