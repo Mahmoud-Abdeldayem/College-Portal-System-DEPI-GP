@@ -37,10 +37,10 @@ namespace BusinessLogicLayer.TAService
                     NationalID = taData.NationalId,
                     FName = taData.FirstName,
                     LName = taData.LastName,
-                    Email = taData.RecoveryEmail,
-                    Image = taData.Picture,
                     Address = taData.Address,
-                    Password = taData.Password
+                    //Email = taData.RecoveryEmail,
+                    //Image = taData.Picture,
+                    //Password = taData.Password
                 };
             }
             return null;
@@ -52,9 +52,9 @@ namespace BusinessLogicLayer.TAService
             {
                 NationalId = taData.NationalID ,
                 Address = taData.Address ,
-                RecoveryEmail = taData.Email ,
-                Password = taData.Password ,
-                Picture = taData.Image ,
+                //RecoveryEmail = taData.Email ,
+                //Password = taData.Password ,
+                //Picture = taData.Image ,
             };
             var ta = _unitOfWork.TAs.UpdateProfileInfo(dataToUpdate);
             _unitOfWork.Commit();

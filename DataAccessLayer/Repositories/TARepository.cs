@@ -115,7 +115,7 @@ namespace DataAccessLayer.Repositories
                 TA.AssistingProfessor.FirstName = oldTAData.AssistingProfessor.FirstName;
                 TA.AssistingProfessor.LastName = oldTAData.AssistingProfessor.LastName;
                 TA.AssistingProfessor.Gender = oldTAData.AssistingProfessor.Gender;
-                TA.AssistingProfessor.Role = oldTAData.AssistingProfessor.Role;
+                //TA.AssistingProfessor.Role = oldTAData.AssistingProfessor.Role;
 
                 // Update the rest of the data
                 _context.Entry(oldTAData).CurrentValues.SetValues(TA);
