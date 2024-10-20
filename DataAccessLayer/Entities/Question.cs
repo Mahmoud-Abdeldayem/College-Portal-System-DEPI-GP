@@ -14,6 +14,7 @@ public partial class Question
     public string QuestionText { get; set; } = null!;
 
     public decimal Grade { get; set; }
+    public string Diffcuilty { get; set; } = string.Empty;
 
     public virtual Test? Test { get; set; }
 }
