@@ -1,22 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccessLayer.Entities;
 
-public partial class AppDbContext : IdentityDbContext<ApplicationUser>
+public partial class AppDbContext : DbContext
 {
     public AppDbContext()
     {
     }
 
-    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+    public AppDbContext(DbContextOptions<AppDbContext> options)
+        : base(options)
     {
     }
 
-    //public virtual DbSet<ApplicationUser> ApplicationUsers { get; set; }
+    public virtual DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
     public virtual DbSet<Course> Courses { get; set; }
 
@@ -60,7 +59,7 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser>
     {
         modelBuilder.Entity<ApplicationUser>(entity =>
         {
-            entity.HasKey(e => e.NationalId).HasName("PK__Applicat__E9AA321B20B301FC");
+            entity.HasKey(e => e.NationalId).HasName("PK_Applicat_E9AA321B20B301FC");
 
             entity.Property(e => e.NationalId)
                 .HasMaxLength(14)
@@ -77,9 +76,9 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser>
 
         modelBuilder.Entity<Course>(entity =>
         {
-            entity.HasKey(e => e.CourseId).HasName("PK__Courses__C92D7187B969954B");
+            entity.HasKey(e => e.CourseId).HasName("PK_Courses_C92D7187B969954B");
 
-            entity.HasIndex(e => e.Code, "UQ__Courses__A25C5AA766F2798B").IsUnique();
+            entity.HasIndex(e => e.Code, "UQ_Courses_A25C5AA766F2798B").IsUnique();
 
             entity.Property(e => e.CourseId).HasColumnName("CourseID");
             entity.Property(e => e.Code).HasMaxLength(10);
@@ -90,16 +89,16 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser>
 
             entity.HasOne(d => d.Department).WithMany(p => p.Courses)
                 .HasForeignKey(d => d.DepartmentId)
-                .HasConstraintName("FK__Courses__Departm__367C1819");
+                .HasConstraintName("FK_CoursesDepartm_367C1819");
 
             entity.HasOne(d => d.PrerequisiteCourse).WithMany(p => p.InversePrerequisiteCourse)
                 .HasForeignKey(d => d.PrerequisiteCourseId)
-                .HasConstraintName("FK__Courses__Prerequ__3493CFA7");
+                .HasConstraintName("FK_CoursesPrerequ_3493CFA7");
         });
 
         modelBuilder.Entity<CourseEnrollment>(entity =>
         {
-            entity.HasKey(e => e.EnrollmentId).HasName("PK__CourseEn__7F6877FB4D772154");
+            entity.HasKey(e => e.EnrollmentId).HasName("PK_CourseEn_7F6877FB4D772154");
 
             entity.Property(e => e.EnrollmentId).HasColumnName("EnrollmentID");
             entity.Property(e => e.ClassWork).HasColumnType("decimal(4, 2)");
@@ -115,16 +114,16 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser>
             entity.HasOne(d => d.Course).WithMany(p => p.CourseEnrollments)
                 .HasForeignKey(d => d.CourseId)
                 .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("FK__CourseEnr__Cours__5F7E2DAC");
+                .HasConstraintName("FK_CourseEnrCours_5F7E2DAC");
 
             entity.HasOne(d => d.Student).WithMany(p => p.CourseEnrollments)
                 .HasForeignKey(d => d.StudentId)
-                .HasConstraintName("FK__CourseEnr__Stude__5E8A0973");
+                .HasConstraintName("FK_CourseEnrStude_5E8A0973");
         });
 
         modelBuilder.Entity<CourseTeaching>(entity =>
         {
-            entity.HasKey(e => e.TeachingId).HasName("PK__CourseTe__69B6BA5EECE67C25");
+            entity.HasKey(e => e.TeachingId).HasName("PK_CourseTe_69B6BA5EECE67C25");
 
             entity.ToTable("CourseTeaching");
 
@@ -144,24 +143,24 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser>
             entity.HasOne(d => d.Course).WithMany(p => p.CourseTeachings)
                 .HasForeignKey(d => d.CourseId)
                 .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("FK__CourseTea__Cours__625A9A57");
+                .HasConstraintName("FK_CourseTeaCours_625A9A57");
 
             entity.HasOne(d => d.Professor).WithMany(p => p.CourseTeachings)
                 .HasForeignKey(d => d.ProfessorId)
-                .HasConstraintName("FK__CourseTea__Profe__634EBE90");
+                .HasConstraintName("FK_CourseTeaProfe_634EBE90");
 
             entity.HasOne(d => d.Ta).WithMany(p => p.CourseTeachings)
                 .HasForeignKey(d => d.Taid)
-                .HasConstraintName("FK__CourseTeac__TAID__6442E2C9");
+                .HasConstraintName("FK_CourseTeacTAID_6442E2C9");
         });
 
         modelBuilder.Entity<Department>(entity =>
         {
-            entity.HasKey(e => e.DepartmentId).HasName("PK__Departme__B2079BCDD8AB6AAA");
+            entity.HasKey(e => e.DepartmentId).HasName("PK_Departme_B2079BCDD8AB6AAA");
 
-            entity.HasIndex(e => e.Name, "UQ__Departme__737584F674071129").IsUnique();
+            entity.HasIndex(e => e.Name, "UQ_Departme_737584F674071129").IsUnique();
 
-            entity.HasIndex(e => e.Code, "UQ__Departme__A25C5AA7E8C24511").IsUnique();
+            entity.HasIndex(e => e.Code, "UQ_Departme_A25C5AA7E8C24511").IsUnique();
 
             entity.Property(e => e.DepartmentId).HasColumnName("DepartmentID");
             entity.Property(e => e.Code).HasMaxLength(10);
@@ -179,7 +178,7 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser>
 
         modelBuilder.Entity<Feedback>(entity =>
         {
-            entity.HasKey(e => e.FeedbackId).HasName("PK__Feedback__6A4BEDF6151BB7B9");
+            entity.HasKey(e => e.FeedbackId).HasName("PK_Feedback_6A4BEDF6151BB7B9");
 
             entity.Property(e => e.FeedbackId).HasColumnName("FeedbackID");
             entity.Property(e => e.Question).HasMaxLength(50);
@@ -187,7 +186,7 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser>
 
         modelBuilder.Entity<FeedbackResponse>(entity =>
         {
-            entity.HasKey(e => e.ResponseId).HasName("PK__Feedback__1AAA640C0178008C");
+            entity.HasKey(e => e.ResponseId).HasName("PK_Feedback_1AAA640C0178008C");
 
             entity.Property(e => e.ResponseId).HasColumnName("ResponseID");
             entity.Property(e => e.FeedbackId).HasColumnName("FeedbackID");
@@ -201,16 +200,16 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser>
             entity.HasOne(d => d.Feedback).WithMany(p => p.FeedbackResponses)
                 .HasForeignKey(d => d.FeedbackId)
                 .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("FK__FeedbackR__Feedb__56E8E7AB");
+                .HasConstraintName("FK_FeedbackRFeedb_56E8E7AB");
 
             entity.HasOne(d => d.SubmittedByStudent).WithMany(p => p.FeedbackResponses)
                 .HasForeignKey(d => d.SubmittedByStudentId)
-                .HasConstraintName("FK__FeedbackR__Submi__57DD0BE4");
+                .HasConstraintName("FK_FeedbackRSubmi_57DD0BE4");
         });
 
         modelBuilder.Entity<Notification>(entity =>
         {
-            entity.HasKey(e => e.NotificationId).HasName("PK__Notifica__20CF2E32989922FE");
+            entity.HasKey(e => e.NotificationId).HasName("PK_Notifica_20CF2E32989922FE");
 
             entity.Property(e => e.NotificationId).HasColumnName("NotificationID");
             entity.Property(e => e.Message).HasMaxLength(50);
@@ -225,16 +224,16 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser>
 
             entity.HasOne(d => d.SentByNavigation).WithMany(p => p.NotificationSentByNavigations)
                 .HasForeignKey(d => d.SentBy)
-                .HasConstraintName("FK__Notificat__SentB__51300E55");
+                .HasConstraintName("FK_NotificatSentB_51300E55");
 
             entity.HasOne(d => d.SentToNavigation).WithMany(p => p.NotificationSentToNavigations)
                 .HasForeignKey(d => d.SentTo)
-                .HasConstraintName("FK__Notificat__SentT__5224328E");
+                .HasConstraintName("FK_NotificatSentT_5224328E");
         });
 
         modelBuilder.Entity<PasswordResetTicket>(entity =>
         {
-            entity.HasKey(e => e.TicketId).HasName("PK__Password__712CC627AFF1D053");
+            entity.HasKey(e => e.TicketId).HasName("PK_Password_712CC627AFF1D053");
 
             entity.Property(e => e.TicketId).HasColumnName("TicketID");
             entity.Property(e => e.AdminId)
@@ -252,16 +251,16 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser>
 
             entity.HasOne(d => d.Admin).WithMany(p => p.PasswordResetTickets)
                 .HasForeignKey(d => d.AdminId)
-                .HasConstraintName("FK__PasswordR__Admin__5BAD9CC8");
+                .HasConstraintName("FK_PasswordRAdmin_5BAD9CC8");
 
             entity.HasOne(d => d.Student).WithMany(p => p.PasswordResetTickets)
                 .HasForeignKey(d => d.StudentId)
-                .HasConstraintName("FK__PasswordR__Stude__5AB9788F");
+                .HasConstraintName("FK_PasswordRStude_5AB9788F");
         });
 
         modelBuilder.Entity<Professor>(entity =>
         {
-            entity.HasKey(e => e.ProfessorId).HasName("PK__Professo__9003596931DA9444");
+            entity.HasKey(e => e.ProfessorId).HasName("PK_Professo_9003596931DA9444");
 
             entity.Property(e => e.ProfessorId)
                 .HasMaxLength(14)
@@ -280,16 +279,16 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser>
 
             entity.HasOne(d => d.Department).WithMany(p => p.Professors)
                 .HasForeignKey(d => d.DepartmentId)
-                .HasConstraintName("FK__Professor__Depar__2645B050");
+                .HasConstraintName("FK_ProfessorDepar_2645B050");
 
             entity.HasOne(d => d.ProfessorNavigation).WithOne(p => p.Professor)
                 .HasForeignKey<Professor>(d => d.ProfessorId)
-                .HasConstraintName("FK__Professor__Profe__245D67DE");
+                .HasConstraintName("FK_ProfessorProfe_245D67DE");
         });
 
         modelBuilder.Entity<Question>(entity =>
         {
-            entity.HasKey(e => e.QuestionId).HasName("PK__Question__0DC06F8CB985952F");
+            entity.HasKey(e => e.QuestionId).HasName("PK_Question_0DC06F8CB985952F");
 
             entity.Property(e => e.QuestionId).HasColumnName("QuestionID");
             entity.Property(e => e.Grade).HasColumnType("decimal(4, 2)");
@@ -298,12 +297,12 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser>
             entity.HasOne(d => d.Test).WithMany(p => p.Questions)
                 .HasForeignKey(d => d.TestId)
                 .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("FK__Questions__TestI__46B27FE2");
+                .HasConstraintName("FK_QuestionsTestI_46B27FE2");
         });
 
         modelBuilder.Entity<Student>(entity =>
         {
-            entity.HasKey(e => e.NationalId).HasName("PK__Students__E9AA321BAB929904");
+            entity.HasKey(e => e.NationalId).HasName("PK_Students_E9AA321BAB929904");
 
             entity.Property(e => e.NationalId)
                 .HasMaxLength(14)
@@ -319,16 +318,16 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser>
             entity.HasOne(d => d.Department).WithMany(p => p.Students)
                 .HasForeignKey(d => d.DepartmentId)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK__Students__Depart__2B0A656D");
+                .HasConstraintName("FK_StudentsDepart_2B0A656D");
 
             entity.HasOne(d => d.National).WithOne(p => p.Student)
                 .HasForeignKey<Student>(d => d.NationalId)
-                .HasConstraintName("FK__Students__Nation__29221CFB");
+                .HasConstraintName("FK_StudentsNation_29221CFB");
         });
 
         modelBuilder.Entity<Submission>(entity =>
         {
-            entity.HasKey(e => e.SubmissionId).HasName("PK__Submissi__449EE1052A1041B0");
+            entity.HasKey(e => e.SubmissionId).HasName("PK_Submissi_449EE1052A1041B0");
 
             entity.Property(e => e.SubmissionId).HasColumnName("SubmissionID");
             entity.Property(e => e.StudentId)
@@ -342,17 +341,17 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser>
 
             entity.HasOne(d => d.Student).WithMany(p => p.Submissions)
                 .HasForeignKey(d => d.StudentId)
-                .HasConstraintName("FK__Submissio__Stude__3F115E1A");
+                .HasConstraintName("FK_SubmissioStude_3F115E1A");
 
             entity.HasOne(d => d.Task).WithMany(p => p.Submissions)
                 .HasForeignKey(d => d.TaskId)
                 .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("FK__Submissio__TaskI__3E1D39E1");
+                .HasConstraintName("FK_SubmissioTaskI_3E1D39E1");
         });
 
         modelBuilder.Entity<Task>(entity =>
         {
-            entity.HasKey(e => e.TaskId).HasName("PK__Tasks__7C6949D17FEFD15C");
+            entity.HasKey(e => e.TaskId).HasName("PK_Tasks_7C6949D17FEFD15C");
 
             entity.Property(e => e.TaskId).HasColumnName("TaskID");
             entity.Property(e => e.AssignedByTaid)
@@ -364,22 +363,22 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser>
             entity.Property(e => e.CourseId).HasColumnName("CourseID");
             entity.Property(e => e.Deadline).HasColumnType("datetime");
             entity.Property(e => e.Grade).HasColumnType("decimal(4, 2)");
-            //entity.Property(e => e.TaskLink).HasMaxLength(150);
+            entity.Property(e => e.TaskLink).HasMaxLength(150);
             entity.Property(e => e.Type).HasMaxLength(50);
 
             entity.HasOne(d => d.AssignedByTa).WithMany(p => p.Tasks)
                 .HasForeignKey(d => d.AssignedByTaid)
-                .HasConstraintName("FK__Tasks__AssignedB__3B40CD36");
+                .HasConstraintName("FK_TasksAssignedB_3B40CD36");
 
             entity.HasOne(d => d.Course).WithMany(p => p.Tasks)
                 .HasForeignKey(d => d.CourseId)
                 .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("FK__Tasks__CourseID__395884C4");
+                .HasConstraintName("FK_TasksCourseID_395884C4");
         });
 
         modelBuilder.Entity<TeachingAssistant>(entity =>
         {
-            entity.HasKey(e => e.Taid).HasName("PK__Teaching__B43FE34A3EE17177");
+            entity.HasKey(e => e.Taid).HasName("PK_Teaching_B43FE34A3EE17177");
 
             entity.Property(e => e.Taid)
                 .HasMaxLength(14)
@@ -400,20 +399,20 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser>
 
             entity.HasOne(d => d.AssistingProfessor).WithMany(p => p.TeachingAssistantAssistingProfessors)
                 .HasForeignKey(d => d.AssistingProfessorId)
-                .HasConstraintName("FK__TeachingA__Assis__30C33EC3");
+                .HasConstraintName("FK_TeachingAAssis_30C33EC3");
 
             entity.HasOne(d => d.Department).WithMany(p => p.TeachingAssistants)
                 .HasForeignKey(d => d.DepartmentId)
-                .HasConstraintName("FK__TeachingA__Depar__2FCF1A8A");
+                .HasConstraintName("FK_TeachingADepar_2FCF1A8A");
 
             entity.HasOne(d => d.Ta).WithOne(p => p.TeachingAssistantTa)
                 .HasForeignKey<TeachingAssistant>(d => d.Taid)
-                .HasConstraintName("FK__TeachingAs__TAID__2DE6D218");
+                .HasConstraintName("FK_TeachingAsTAID_2DE6D218");
         });
 
         modelBuilder.Entity<Test>(entity =>
         {
-            entity.HasKey(e => e.TestId).HasName("PK__Tests__8CC33100E061DD7A");
+            entity.HasKey(e => e.TestId).HasName("PK_Tests_8CC33100E061DD7A");
 
             entity.Property(e => e.TestId).HasColumnName("TestID");
             entity.Property(e => e.CourseId).HasColumnName("CourseID");
@@ -428,16 +427,16 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser>
             entity.HasOne(d => d.Course).WithMany(p => p.Tests)
                 .HasForeignKey(d => d.CourseId)
                 .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("FK__Tests__CourseID__42E1EEFE");
+                .HasConstraintName("FK_TestsCourseID_42E1EEFE");
 
             entity.HasOne(d => d.MadeByNavigation).WithMany(p => p.Tests)
                 .HasForeignKey(d => d.MadeBy)
-                .HasConstraintName("FK__Tests__MadeBy__41EDCAC5");
+                .HasConstraintName("FK_TestsMadeBy_41EDCAC5");
         });
 
         modelBuilder.Entity<TestSubmission>(entity =>
         {
-            entity.HasKey(e => e.TestSubmissionId).HasName("PK__TestSubm__BB934B8F6CF7B93B");
+            entity.HasKey(e => e.TestSubmissionId).HasName("PK_TestSubm_BB934B8F6CF7B93B");
 
             entity.Property(e => e.TestSubmissionId).HasColumnName("TestSubmissionID");
             entity.Property(e => e.StudentId)
@@ -450,17 +449,17 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser>
 
             entity.HasOne(d => d.Student).WithMany(p => p.TestSubmissions)
                 .HasForeignKey(d => d.StudentId)
-                .HasConstraintName("FK__TestSubmi__Stude__4A8310C6");
+                .HasConstraintName("FK_TestSubmiStude_4A8310C6");
 
             entity.HasOne(d => d.Test).WithMany(p => p.TestSubmissions)
                 .HasForeignKey(d => d.TestId)
                 .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("FK__TestSubmi__TestI__498EEC8D");
+                .HasConstraintName("FK_TestSubmiTestI_498EEC8D");
         });
 
         modelBuilder.Entity<Timetable>(entity =>
         {
-            entity.HasKey(e => e.TimetableId).HasName("PK__Timetabl__68413F4011C547EC");
+            entity.HasKey(e => e.TimetableId).HasName("PK_Timetabl_68413F4011C547EC");
 
             entity.Property(e => e.TimetableId).HasColumnName("TimetableID");
             entity.Property(e => e.CourseId).HasColumnName("CourseID");
@@ -474,18 +473,15 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser>
             entity.HasOne(d => d.Course).WithMany(p => p.Timetables)
                 .HasForeignKey(d => d.CourseId)
                 .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("FK__Timetable__Cours__4D5F7D71");
+                .HasConstraintName("FK_TimetableCours_4D5F7D71");
 
             entity.HasOne(d => d.Professor).WithMany(p => p.Timetables)
                 .HasForeignKey(d => d.ProfessorId)
-                .HasConstraintName("FK__Timetable__Profe__4E53A1AA");
+                .HasConstraintName("FK_TimetableProfe_4E53A1AA");
         });
 
-        modelBuilder.Entity<IdentityUserLogin<string>>().HasKey(x => new { x.LoginProvider, x.ProviderKey });
-
-
-        OnModelCreating(modelBuilder);
+        OnModelCreatingPartial(modelBuilder);
     }
 
-    //partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+    partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }

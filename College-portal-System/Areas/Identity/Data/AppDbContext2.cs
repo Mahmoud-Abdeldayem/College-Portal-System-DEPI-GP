@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataAccessLayer.Entities;
 
-public class AppDbContext : IdentityDbContext<IdentityUser>
+public class AppDbContext2 : IdentityDbContext<IdentityUser>
 {
-    public AppDbContext(DbContextOptions<AppDbContext> options)
+    public AppDbContext2(DbContextOptions<AppDbContext2> options)
         : base(options)
     {
     }

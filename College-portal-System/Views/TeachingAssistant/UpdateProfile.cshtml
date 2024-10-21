@@ -71,9 +71,10 @@
                         </div>
                         <div>
                             <label>Current Image:</label>
+                            <br />
                             @if (!string.IsNullOrEmpty(Model.ImageBase64))
                             {
-                                <img src = @ImageHandler.GetImageSouce(Model.ImageBase64) alt="TA Image" style="max-width: 50px;" />
+                                <img src = @ImageHandler.GetImageSouce(Model.ImageBase64) alt="TA Image" style="max-width: 100px;" />
                             }
                             else
                             {

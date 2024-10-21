@@ -1,6 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Home";
-    Layout = "~/Views/Shared/_LayoutTeachingAssistant.cshtml";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 <div class="pagetitle">
@@ -16,24 +16,36 @@
     <div class="row">
 
         <div class="col-lg-4 col-12">
-            <a asp-controller="TeachingAssistant" asp-action="MyCourses">
+            <a asp-controller="Admin" asp-action="AddStudent">
                 <!-- Update route parameters as needed -->
                 <div class="course-card">
                     <div class="text-center">
                         <h3>
-                            My Courses
+                              Students
                         </h3>
                     </div>
                 </div>
             </a>
         </div>
         <div class="col-lg-4 col-12">
-            <a asp-controller="TeachingAssistant" asp-action="UpdateProfile">
+            <a asp-controller="Admin" asp-action="Courses">
                 <!-- Update route parameters as needed -->
                 <div class="course-card">
                     <div class="text-center">
                         <h3>
-                            Update Profile
+                            Courses
+                        </h3>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-lg-4 col-12">
+            <a asp-controller="Admin" asp-action="EditStudent">
+                <!-- Update route parameters as needed -->
+                <div class="course-card">
+                    <div class="text-center">
+                        <h3>
+                            Departments
                         </h3>
                     </div>
                 </div>
@@ -45,7 +57,7 @@
                 <div class="course-card">
                     <div class="text-center">
                         <h3>
-                            Show Notifications
+                            Professors
                         </h3>
                     </div>
                 </div>
@@ -57,31 +69,7 @@
                 <div class="course-card">
                     <div class="text-center">
                         <h3>
-                            Create Quiz
-                        </h3>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-lg-4 col-12">
-            <a asp-controller="TeachingAssistant" asp-action="CreateTask" >
-                <!-- Update route parameters as needed -->
-                <div class="course-card">
-                    <div class="text-center">
-                        <h3>
-                            My Tasks
-                        </h3>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-lg-4 col-12">
-            <a asp-controller="TeachingAssistant" asp-action="Results">
-                <!-- Update route parameters as needed -->
-                <div class="course-card">
-                    <div class="text-center">
-                        <h3>
-                            Results
+                            Teaching Assistants
                         </h3>
                     </div>
                 </div>
@@ -90,7 +78,7 @@
     </div>
 </section>
 
-@section Scripts{
+@section Scripts {
     <script>
         function getRandomSpecificColor() {
             const colors = [
@@ -119,9 +107,9 @@
         });
     </script>
 
-   <style>
+    <style>
         .col-lg-4{
             margin-top: 15px;
         }
-   </style>
-}
+    </style>
+} 

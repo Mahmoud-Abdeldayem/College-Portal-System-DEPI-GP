@@ -6,7 +6,7 @@
 @model CreateTaskViewModel;
 
 <div class="pagetitle">
-    <h1>Assignment</h1>
+    <h1>Add Tasks</h1>
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item">Home</li>
@@ -53,7 +53,7 @@
                     <br>
                     <h1>Add new Task</h1>
                     <br>
-                    <form method="post" asp-action="AddTask">
+                    <form method="post" asp-action="CreateTask">
                         <div class="form-group">
                             <label for="Courses">Course:</label>
                             <select asp-for="CourseId" class="form-control" asp-items="Model.Courses"></select>
@@ -62,34 +62,38 @@
                         <br />
                         <div class="form-group">
                             <label for="TaskType">Task Type:</label>
-                            <select id="course" class="input-field" required>
-                                <option name="Type" value="Assignment">Assignment</option>
-                                <option name="Type" value="Project">Project</option>
+                            <select name="Type" id="course" class="input-field" required>
+                                <option  value="Assignment">Assignment</option>
+                                <option  value="Project">Project</option>
                             </select>
+                            <span asp-validation-for="Type" class="text-danger"></span>
                         </div>
 
                         <div class="input-container col-12">
                             <input placeholder="Grade" asp-for="Grade" class="input-field" type="text" required>
                             <label asp-for="Grade" class="input-label">Grade</label>
                             <span class="input-highlight"></span>
+                            <span asp-validation-for="Grade" class="text-danger"></span>
                         </div>
 
                         <div class="input-container">
                             <label asp-for="Deadline" class="input-label">Deadline</label>
-                            <input placeholder="" class="input-field" asp-for="Deadline" required>
                             <input placeholder="Deadline" class="input-field" asp-for="Deadline" required>
                             <span class="input-highlight"></span>
+                            <span asp-validation-for="Deadline" class="text-danger"></span>
                         </div>
 
                         <div class="input-container">
                             <textarea placeholder="Content" asp-for="Content" class="input-field" cols="1" rows="1" required></textarea>
                             <label asp-for="Content" class="input-label">Content</label>
                             <span class="input-highlight"></span>
+                            <span asp-validation-for="Content" class="text-danger"></span>
                         </div>
                         <div class="input-container">
                             <textarea placeholder="Task Link" asp-for="TaskLink" class="input-field" cols="1" rows="1" required></textarea>
                             <label asp-for="TaskLink" class="input-label">Task Link</label>
                             <span class="input-highlight"></span>
+                            <span asp-validation-for="TaskLink" class="text-danger"></span>
                         </div>
                         <br>
                         <br>

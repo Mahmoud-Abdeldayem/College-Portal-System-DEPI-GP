@@ -9,7 +9,6 @@ namespace College_portal_System.Models.TAViewModels
         public List<SelectListItem> Courses { get; set; }
         public List<EditTaskDTO> Tasks { get; set; }
 
-        [Required]
         public int? CourseId { get; set; }
 
         [Required]

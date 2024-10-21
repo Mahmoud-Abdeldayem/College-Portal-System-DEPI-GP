@@ -1,29 +1,26 @@
 ﻿@{
     ViewData["Title"] = "Create Quiz";
-    Layout = "~/Views/Shared/_LayoutTeachingAssistant.cshtml";
+    Layout = "~/Views/Shared/_Admin.cshtml";
 }
 <div class="pagetitle">
-    <h1>Add Quiz</h1>
+    <h1>Add Course</h1>
     <nav>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item">Home</li>
-            <li class="breadcrumb-item active">Add Quiz</li>
+            <li class="breadcrumb-item active">Add Course</li>
         </ol>
     </nav>
 </div>
 <section class="section">
     <div class="row">
-        <h1>Create Exam</h1>
+        <h1>Create Course</h1>
 
         <!-- Exam Form -->
-        <form id="examForm">
-            <!-- Total Grade Input -->
+        <form id="examForm" asp-action="AddCourse" method="post">
+
             <div class="mb-3">
-                <label for="totalGrade" class="form-label">Total Grade</label>
-                <input type="number" id="totalGrade" class="form-control" placeholder="Enter total grade" required>
+                <label class="form-label">Course Name</label>
+                <input type="text" class="form-control" required/>
             </div>
-
-
             <!-- Course Name (Select) -->
             <div class="mb-3">
                 <label for="courseName" class="form-label">Course Name</label>
@@ -67,51 +64,5 @@
 
         </form>
 
-        <!-- Question Form -->
-        <form id="questionForm" style="display: none;">
-            <h3>Questions</h3>
-            <div id="questionsContainer"></div>
-
-            <!-- Submit Button for Questions Form -->
-            <button type="submit" class="btn btn-success mt-4">Submit Questions</button>
-        </form>
     </div>
 </section>
-
-
-@section Scripts{
-    <script>
-        function generateInputs() {
-            const questionCount = parseInt(document.getElementById("questionCount").value);
-            const inputContainer = document.getElementById("inputContainer");
-            inputContainer.innerHTML = ""; // Clear previous inputs
-
-            // Show the question form
-            document.getElementById("questionForm").style.display = 'block';
-
-            // Generate input fields for questions
-            for (let i = 1; i <= questionCount; i++) {
-                const questionDiv = document.createElement("div");
-                questionDiv.className = "mb-3 col-12";
-
-                const label = document.createElement("label");
-                label.setAttribute("for", `question${i}`);
-                label.className = "form-label";
-                label.textContent = `Question ${i}`;
-
-                const input = document.createElement("input");
-                input.type = "text";
-                input.id = `question${i}`;
-                input.className = "form-control";
-                input.placeholder = `Enter text for Question ${i}`;
-                input.required = true;
-
-                questionDiv.appendChild(label);
-                questionDiv.appendChild(input);
-                inputContainer.appendChild(questionDiv);
-            }
-        }
-
-
-    </script>
-}

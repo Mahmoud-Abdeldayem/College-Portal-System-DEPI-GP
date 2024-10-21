@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 
 namespace DataAccessLayer.Entities;
-[Index(nameof(Email), IsUnique = true)]
-[Index(nameof(UserName), IsUnique = true)]
-public class ApplicationUser : IdentityUser
+//[Index(nameof(Email), IsUnique = true)]
+//[Index(nameof(UserName), IsUnique = true)]
+public class ApplicationUser //: IdentityUser
 {
     public string NationalId { get; set; } = null!;
 

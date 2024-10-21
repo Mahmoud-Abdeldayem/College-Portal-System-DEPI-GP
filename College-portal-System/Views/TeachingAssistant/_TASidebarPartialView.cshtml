@@ -7,43 +7,33 @@
             </a>
         </li>
         <li class="nav-item">
+            <a class="nav-link collapsed" asp-controller="TeachingAssistant" asp-action="UpdateProfile">
+                <i class="bi bi-person"></i>
+                <span>My Profile</span>
+            </a>
+        </li> 
+        <li class="nav-item">
                 <a class="nav-link collapsed" asp-controller="TeachingAssistant" asp-action="MyCourses" asp-route-id="@ViewBag.ID">
-                    <i class="bi bi-bar-chart"></i><span>Courses</span>
+                <i class="bi bi-book">
+                    </i><span>My Courses</span>
                </a>
-            @* <ul id="charts-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-                <!-- Loop Here  -->
-                @foreach(var course in Model) {
-                    <li>
-                        <a asp-controller="Course" asp-action="Details" asp-route-id="@course.CourseID">
-
-                            <i class="bi bi-circle"></i><span>@course.CourseName</span>
-                        </a>
-                    </li>
-                }
-            </ul> *@
         </li>
         <li class="nav-item">
             <a class="nav-link collapsed" asp-controller="TeachingAssistant" asp-action="CreateQuiz">
-                <i class="bi bi-person"></i>
-                <span>Quiz</span>
+                <i class="bi bi-pencil"></i>
+                <span>Create Quiz</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link collapsed" asp-controller="TeachingAssistant" asp-action="Assignments">
-                <i class="bi bi-person"></i>
-                <span>Tasks</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link collapsed" asp-controller="TeachingAssistant" asp-action="Index">
-                <i class="bi bi-person"></i>
-                <span>Projects</span>
+            <a class="nav-link collapsed" asp-controller="TeachingAssistant" asp-action="CreateTask">
+                <i class="bi bi-check-square"></i>
+                <span>My Tasks</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link collapsed" asp-controller="TeachingAssistant" asp-action="Results">
-                <i class="bi bi-person"></i>
-                <span>Results</span>
+                <i class="bi bi-bar-chart"></i>
+                <span>Show Results</span>
             </a>
         </li>
         <li class="nav-item">

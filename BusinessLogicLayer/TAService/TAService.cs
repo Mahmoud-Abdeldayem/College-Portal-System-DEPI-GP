@@ -1,5 +1,6 @@
 ﻿using BusinessLogicLayer.DTOs.TADTOs;
 using DataAccessLayer.Entities;
+using DataAccessLayer.Interfaces;
 using DataAccessLayer.UnitOfWork;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using System;
@@ -48,14 +49,11 @@ namespace BusinessLogicLayer.TAService
 
         public void UpdateTAProfile(TADataDTO taData)
         {
-            var dataToUpdate = new ApplicationUser()
-            {
-                NationalId = taData.NationalID ,
-                Address = taData.Address ,
-                RecoveryEmail = taData.Email ,
-                Password = taData.Password ,
-                Picture = taData.Image ,
-            };
+            var dataToUpdate = _unitOfWork.TAs.GetTAGeneralData(taData.NationalID);
+            dataToUpdate.Address = taData.Address;
+            dataToUpdate.RecoveryEmail = taData.Email;
+            dataToUpdate.Password = taData.Password;
+            dataToUpdate.Picture = taData.Image;
             var ta = _unitOfWork.TAs.UpdateProfileInfo(dataToUpdate);
             _unitOfWork.Commit();
         }
@@ -81,7 +79,18 @@ namespace BusinessLogicLayer.TAService
 
         public void CreateTask(CreateTaskDTO task)
         {
-            //_unitOfWork.
+            var newTask = new DataAccessLayer.Entities.Task()
+            {
+                CourseId = task.CourseId,
+                Grade = task.Grade,
+                Deadline = task.Deadline,
+                Content = task.Content,
+                Type = task.Type,
+                AssignedByTaid = "30403468745632",
+                TaskLink = task.TaskLink
+            };
+            var insertedTask = _unitOfWork.Tasks.Insert(newTask);
+            _unitOfWork.Commit();
         }
     }
 }

@@ -10,7 +10,7 @@ namespace BusinessLogicLayer.DTOs.TADTOs
     {
         public int? CourseId { get; set; }
 
-        public string CourseName { get; set; }
+        public string? CourseName { get; set; }
         public decimal Grade { get; set; }
 
         public DateTime Deadline { get; set; }

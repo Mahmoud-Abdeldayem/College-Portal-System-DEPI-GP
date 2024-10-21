@@ -30,7 +30,7 @@ namespace College_portal_System.Models.TAViewModels
 
         
         [ImageValidation(ErrorMessage = "Only JPG , PNG and JPEG are the accepted file extentions")]
-        public IFormFile Image { get; set; }
+        public IFormFile? Image { get; set; }
 
         [Required]
         [MinLength(8)]

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+using System.Drawing;
 using System.Net;
 
 namespace College_portal_System.Controllers
@@ -60,54 +61,102 @@ namespace College_portal_System.Controllers
             };
         }
 
-        // GET: TeachingAssistantController
-        //[Authorize]
-        public ActionResult Index()
+        private CreateTaskViewModel GetCreateTaskViewModel(string taID)
         {
-            ViewBag.ID = "30403468745632";
-            var taCourses = GetTACourses(ViewBag.ID);
-            ViewData["TACourses"] = taCourses;
-            return View();
-        }
-        public IActionResult MyCourses()
-        {
-            ViewBag.ID = "30403468745632";
-            var taCourses = GetTACourses(ViewBag.ID);
-            ViewData["TACourses"] = taCourses;
-            return View("TACourses" , taCourses);
-        }
-        [HttpGet]
-        public ActionResult Assignments()
-        {
-            
-            return View();
-        }
-
-        public ActionResult EditAssignments()
-        {
-            return View();
-        }
-        public ActionResult CreateTask()
-        {
-            var TAId = "30403468745632";
             var viewModel = new CreateTaskViewModel()
             {
-                Courses = GetTACourses(TAId).Select(c => new SelectListItem()
+                Courses = GetTACourses(taID).Select(c => new SelectListItem()
                 {
                     // Because the course Id in task entity in nullable
                     Value = c.CourseID.HasValue ? c.CourseID.Value.ToString() : "0",
                     Text = c.CourseName
                 })
                 .ToList(),
-                Tasks = _taService.GetTATasks(TAId)
+                Tasks = _taService.GetTATasks(taID)
             };
+            return viewModel;
+        }
+        //-----------------------------------<End of private methods>-----------------------------------------------
+        // GET: TeachingAssistantController
+        //[Authorize]
+        public IActionResult Index()
+        {
+            ViewBag.ID = "30403468745632";
+            ViewBag.Name = "Mahmoud";
+            //var taCourses = GetTACourses(ViewBag.ID);
+            //ViewData["TACourses"] = taCourses;
+            return View();
+        }
+        public IActionResult MyCourses()
+        {
+            ViewBag.ID = "30403468745632";
+            ViewBag.Name = "Mahmoud";
+            var taCourses = GetTACourses(ViewBag.ID);
+            ViewData["TACourses"] = taCourses;
+            return View("TACourses" , taCourses);
+        }
+        [HttpGet]
+        public IActionResult Assignments()
+        {
+            ViewBag.Name = "Mahmoud";
+            return View();
+        }
+
+        public IActionResult EditAssignments()
+        {
+            ViewBag.Name = "Mahmoud";
+            return View();
+        }
+        //------------------------------<Create Task>-----------------------------------------
+        //TeachingAssistant/CreateTask : Get
+        [HttpGet]
+        public IActionResult CreateTask()
+        {
+            var TAId = "30403468745632";
+            ViewBag.Name = "Mahmoud";
+            var viewModel = GetCreateTaskViewModel(TAId);
             return View(viewModel);
         }
+
+        //TeachingAssistant/CreateTask : Post
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateTask(CreateTaskDTO task)
+        {
+            var taID = "30403468745632";
+            ViewBag.Name = "Mahmoud";
+            if (ModelState.IsValid)
+            {
+                var newTask = new CreateTaskDTO()
+                {
+                    CourseId = task.CourseId,
+                    Grade = task.Grade,
+                    Deadline = task.Deadline,
+                    Content = task.Content,
+                    Type = task.Type,
+                    AssignedByTaid = taID,
+                    TaskLink = task.TaskLink
+                };
+                _taService.CreateTask(newTask);
+                return RedirectToAction("Index");
+            }
+            var viewModel = GetCreateTaskViewModel(taID); 
+            return View(viewModel);
+        }
+        //------------------------------------<Create Quiz>-------------------------------------
+        public IActionResult CreateQuiz()
+        {
+            ViewBag.Name = "Mahmoud";
+            return View();
+        }
+
+        //------------------------------------<Update Profile>-------------------------------------
 
         [HttpGet]
         public IActionResult UpdateProfile()
         {
             ViewBag.ID = "30403468745632";
+            ViewBag.Name = "Mahmoud";
             var TA = GetAllTAData(ViewBag.ID);
             if(TA == null)
             {
@@ -120,25 +169,37 @@ namespace College_portal_System.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult UpdateProfile(UpdateProfileViewModel updatedData)
         {
+            ViewBag.Name = "Mahmoud";
             var formData = Request.Form;
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return View(updatedData);
+                var dataToUpdate = new TADataDTO()
+                {
+                    NationalID = updatedData.NationalID,
+                    Email = updatedData.Email,
+                    Address = updatedData.Address,
+                    FName = updatedData.FName,
+                    LName = updatedData.LName,
+                    Password = updatedData.Password,
+                    Image = ImageHandler.ChangeIFormImageToBinary(updatedData.Image)
+                };
+                _taService.UpdateTAProfile(dataToUpdate);
+                return RedirectToAction("index");
             }
-            var dataToUpdate = new TADataDTO()
-            {
-                NationalID = updatedData.NationalID,
-                Email = updatedData.Email,
-                Address = updatedData.Address,
-                FName = updatedData.FName,
-                LName = updatedData.LName,
-                Password = updatedData.Password,
-                Image = ImageHandler.ChangeIFormImageToBinary(updatedData.Image)
-            };
-            _taService.UpdateTAProfile(dataToUpdate);
-            return View("index");
+            return View(updatedData);
         }
-        public ActionResult Results()
+
+        //------------------------------------<Results>-------------------------------------
+
+        public IActionResult Results()
+        {
+            ViewBag.Name = "Mahmoud";
+            return View();
+        }
+        //------------------------------------<Edit Task>-------------------------------------
+
+        [HttpGet]
+        public IActionResult EditTask()
         {
             return View();
         }

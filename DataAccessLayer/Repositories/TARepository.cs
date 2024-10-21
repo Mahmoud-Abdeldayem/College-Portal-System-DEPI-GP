@@ -59,7 +59,7 @@ namespace DataAccessLayer.Repositories
 
         public ApplicationUser GetTAGeneralData(string id)
         {
-            var taGenData = _context.ApplicationUsers.FirstOrDefault(a => a.NationalId == id);
+            var taGenData = _context.ApplicationUsers.FirstOrDefault(u => u.NationalId == id);
             return taGenData;
         }
 
@@ -78,15 +78,8 @@ namespace DataAccessLayer.Repositories
 
         public ApplicationUser UpdateProfileInfo(ApplicationUser TA)
         {
-            // These Data musn't be updated from the BLL
-            var oldTAData = _context.ApplicationUsers.Find(TA.NationalId);
-            TA.FirstName = oldTAData.FirstName;
-            TA.LastName = oldTAData.LastName;
-            TA.Gender = oldTAData.Gender;
-            TA.Role = oldTAData.Role;
-            
-            _context.ApplicationUsers.Update(TA);
-            return oldTAData;
+            _context.Update(TA);
+            return TA;
         }
     }
 }

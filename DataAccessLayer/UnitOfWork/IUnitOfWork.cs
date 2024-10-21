@@ -1,11 +1,5 @@
-﻿using DataAccessLayer.Entities;
-using DataAccessLayer.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using DataAccessLayer.Interfaces;
+using DataAccessLayer.Entities;
 namespace DataAccessLayer.UnitOfWork
 {
     public interface IUnitOfWork : IDisposable
@@ -13,7 +7,11 @@ namespace DataAccessLayer.UnitOfWork
         //Add your Repo here
         //It will cause a compiler error because there is no entity calles (Student)
         IBaseRepository<Student>Students { get; }
+        IBaseRepository<DataAccessLayer.Entities.Task> Tasks { get;}
+        IBaseRepository<Course> Courses { get; }
+
         ITARepository TAs { get; }
+
         void Commit();
     }
 }
