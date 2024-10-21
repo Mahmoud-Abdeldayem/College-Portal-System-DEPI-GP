@@ -7,7 +7,7 @@ public partial class Student
 {
     public string NationalId { get; set; } = null!;
 
-    public string StudentId { get; set; } = null!;
+    public string StudentId { get; set; }
 
     public DateOnly EntryYear { get; set; }
 
