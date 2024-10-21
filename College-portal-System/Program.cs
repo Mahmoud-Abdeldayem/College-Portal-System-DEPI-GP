@@ -4,13 +4,12 @@ using DataAccessLayer.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using College_portal_System.Seeds;
-using DataAccessLayer.Repositories;
-using DataAccessLayer.Interfaces;
+
 namespace College_portal_System
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async System.Threading.Tasks.Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -21,15 +20,15 @@ namespace College_portal_System
                 option.UseSqlServer(builder.Configuration.GetConnectionString("default"))
             ); 
             builder.Services.AddScoped<IUnitOfWork , UnitOfWork>();
-            builder.Services.AddScoped<IBaseRepository<DataAccessLayer.Entities.Task> , BaseRepository<DataAccessLayer.Entities.Task>>();
-            builder.Services.AddScoped<TAService>();
-            
-            // Identity Configuration
-            //builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-            //.AddEntityFrameworkStores<AppDbContext>()
-            //.AddDefaultTokenProviders();
 
-            //builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<AppDbContext>();
+            builder.Services.AddScoped<TAService>();
+           
+
+            // Identity Configuration
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+            .AddEntityFrameworkStores<AppDbContext>()
+            .AddDefaultTokenProviders();            
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -45,14 +44,15 @@ namespace College_portal_System
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
-            //using var scope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope();
+            using var scope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope();
 
-            //var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            //var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
-            //await DefaultRoles.SeedRolesAsync(roleManager);
+            await DefaultRoles.SeedRolesAsync(roleManager);
             // await DefaultUsers.SeedAdminUser(userManager);
 
             app.MapControllerRoute(
