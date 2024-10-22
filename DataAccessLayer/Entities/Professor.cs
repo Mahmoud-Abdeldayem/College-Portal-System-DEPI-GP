@@ -28,4 +28,9 @@ public partial class Professor
     public virtual ApplicationUser ProfessorNavigation { get; set; } = null!;
 
     public virtual ICollection<Timetable> Timetables { get; set; } = new List<Timetable>();
+
+    #region Relations
+    public ApplicationUser? AppUser { get; set; }
+    public virtual string UserId { get; set; } = null!;
+    #endregion
 }

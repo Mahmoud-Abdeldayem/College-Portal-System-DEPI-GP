@@ -474,6 +474,12 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser>
                 .HasConstraintName("FK__Timetable__Profe__4E53A1AA");
         });
 
+
+        modelBuilder.Entity<ApplicationUser>()
+           .HasOne(u => u.Professor)
+           .WithOne(u => u.ApplicationUser)
+           .HasForeignKey<Professor>(u => u.AppUserId)
+           .OnDelete(DeleteBehavior.Cascade);
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

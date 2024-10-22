@@ -31,7 +31,7 @@ public partial class Student
 
     public virtual ICollection<FeedbackResponse> FeedbackResponses { get; set; } = new List<FeedbackResponse>();
 
-    public virtual ApplicationUser National { get; set; } = null!;
+    public virtual ApplicationUser? National { get; set; }
 
     public virtual ICollection<PasswordResetTicket> PasswordResetTickets { get; set; } = new List<PasswordResetTicket>();
 
