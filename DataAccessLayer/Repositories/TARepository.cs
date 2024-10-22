@@ -111,22 +111,22 @@ namespace DataAccessLayer.Repositories
             TA.FirstName = oldTAData.FirstName;
             TA.LastName = oldTAData.LastName;
             TA.Gender = oldTAData.Gender;
-            TA.Role = oldTAData.Role;
+            //TA.Role = oldTAData.Role;
             
             _context.ApplicationUsers.Update(TA);
             return oldTAData;
         }
 
         // Update Profile Info of ApplicationUser (for future implementation)
-        public ApplicationUser UpdateProfileInfo(ApplicationUser user)
-        {
-            var existingUser = _context.Users.FirstOrDefault(u => u.Id == user.Id);
-            if (existingUser != null)
-            {
-                _context.Entry(existingUser).CurrentValues.SetValues(user);
-                _context.SaveChanges();
-            }
-            return existingUser;
-        }
+        //public ApplicationUser UpdateProfileInfo(ApplicationUser user)
+        //{
+        //    var existingUser = _context.Users.FirstOrDefault(u => u.Id == user.Id);
+        //    if (existingUser != null)
+        //    {
+        //        _context.Entry(existingUser).CurrentValues.SetValues(user);
+        //        _context.SaveChanges();
+        //    }
+        //    return existingUser;
+        //}
     }
 }

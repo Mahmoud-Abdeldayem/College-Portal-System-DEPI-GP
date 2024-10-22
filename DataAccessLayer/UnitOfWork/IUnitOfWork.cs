@@ -9,6 +9,8 @@ namespace DataAccessLayer.UnitOfWork
         IBaseRepository<Student>Students { get; }
         IBaseRepository<DataAccessLayer.Entities.Task> Tasks { get;}
         IBaseRepository<Course> Courses { get; }
+        IBaseRepository<Department> Departments { get; }
+
 
         ITARepository TAs { get; }
 

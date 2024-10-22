@@ -8,14 +8,7 @@ public partial class AppDbContext : DbContext
 {
     public AppDbContext(){}
 
-<<<<<<< HEAD
-    public AppDbContext(DbContextOptions<AppDbContext> options)
-        : base(options)
-    {
-    }
-=======
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options){}
->>>>>>> 50ebf2eb0f111c01faba3d33647e8f8e758b7334
 
     public virtual DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
@@ -478,14 +471,6 @@ public partial class AppDbContext : DbContext
                 .HasForeignKey(d => d.ProfessorId)
                 .HasConstraintName("FK_TimetableProfe_4E53A1AA");
         });
-<<<<<<< HEAD
-
-        OnModelCreatingPartial(modelBuilder);
-    }
-
-    partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
-}
-=======
         
     }
 
@@ -494,4 +479,3 @@ public partial class AppDbContext : DbContext
         base.OnConfiguring(optionsBuilder);
     }
 }
->>>>>>> 50ebf2eb0f111c01faba3d33647e8f8e758b7334

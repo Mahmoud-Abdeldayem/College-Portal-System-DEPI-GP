@@ -17,6 +17,7 @@ namespace DataAccessLayer.UnitOfWork
         public IBaseRepository<Student> Students { get; private set; }
         public IBaseRepository<DataAccessLayer.Entities.Task> Tasks { get; private set; }
         public IBaseRepository<Course> Courses { get; private set; }
+        public IBaseRepository<Department> Departments { get; private set; }
 
         public ITARepository TAs { get; private set; }
         public UnitOfWork(AppDbContext context)
@@ -26,6 +27,7 @@ namespace DataAccessLayer.UnitOfWork
             Tasks = new BaseRepository<DataAccessLayer.Entities.Task>(_context);    
             TAs = new TARepository(_context);
             Courses = new BaseRepository<Course>(_context);
+            Departments = new BaseRepository<Department>(_context); 
         }
         public void Commit()
         {
