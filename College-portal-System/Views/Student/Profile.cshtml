@@ -1,7 +1,14 @@
-﻿
+﻿@using College_portal_System.Models.StudentViewModels
+@using BusinessLogicLayer.DTO
+@model ProfileViewModel
 @{
     ViewData["Title"] = "Profile";
     Layout = "~/Views/Shared/_LayoutStudent.cshtml";
+    ViewData["firstname"] = Model.FirstName;
+    ViewData["lastname"] = Model.LastName;
+    ViewData["image"] = Model.Picture;
+    ViewData["gender"] = Model.Gender;
+    ViewData["id"] = Model.NationalId;
 }
 <div class="pagetitle">
     <h1>Profile</h1>
@@ -12,5 +19,148 @@
         </ol>
     </nav>
 </div>
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-info">
+        @TempData["Message"]
+    </div>
+}
+<section class="section profile">
+    <div class="row">
+        <div class="col-xl-4">
+
+            <div class="card">
+                <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+
+                    @if (Model.Picture != null && Model.Picture.Length > 0)
+                    {
+                        var base64Image = ImageHelper.GetBase64Image(Model.Picture);
+                        <img src="data:image/jpeg;base64,@base64Image" alt="Profile" class="rounded-circle" style="max-width: 150px; max-height: 150px;">
+                    }
+                    else
+                    {
+                        if (Model.Gender == false)
+                        {
+                            <img src="~/StudentAssets/img/blank male profile pic.png" alt="Profile" class="rounded-circle" style="max-width: 150px; max-height: 150px;">
+                        }
+                        else
+                        {
+                            <img src="~/StudentAssets/img/female blank profile pic.png" alt="Profile" class="rounded-circle" style="max-width: 150px; max-height: 150px;">
+                        }
+                    }
+
+                    <h2>@Model.FirstName @Model.LastName</h2>
+
+                </div>
+              </div>
+        </div>
+
+        <div class="col-xl-8">
+
+            <div class="card">
+                <div class="card-body pt-3">
+                    <!-- Bordered Tabs -->
+                    <ul class="nav nav-tabs nav-tabs-bordered">
+
+                        <li class="nav-item">
+                            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content pt-2">
+
+                        <div class="tab-pane fade show active profile-overview" id="profile-overview">
+                            
+                            <h5 class="card-title">Profile Details</h5>
+
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label ">Full Name:</div>
+                                <div class="col-lg-9 col-md-8">@Model.FirstName @Model.LastName</div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">National Id:</div>
+                                <div class="col-lg-9 col-md-8">@Model.NationalId</div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">Student Id:</div>
+                                <div class="col-lg-9 col-md-8">@Model.StudentId</div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">Address:</div>
+                                <div class="col-lg-9 col-md-8">@Model.Address</div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">Recovery Email:</div>
+                                <div class="col-lg-9 col-md-8">@Model.RecoveryEmail</div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">College Year:</div>
+                                <div class="col-lg-9 col-md-8">@Model.CurrentYear</div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">Hours Taken:</div>
+                                <div class="col-lg-9 col-md-8">@Model.HoursTaken</div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">State:</div>
+                                <div class="col-lg-9 col-md-8">
+                                    @if (Model.CurrentState == false)
+                                    {
+                                        @:Pass
+                                    }
+                                    else
+                                    {
+                                        @:Continous
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">Entry Year:</div>
+                                <div class="col-lg-9 col-md-8">@Model.EntryYear.Year</div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">Department:</div>
+                                <div class="col-lg-9 col-md-8">
+                                    @if (Model.DepartmentName == null)
+                                    {
+                                        @:Not Registred Yet.
+                                    }
+                                    else
+                                    {
+                                        @Model.DepartmentName
+                                    }
+                                </div>
+                            </div>
+                            <form asp-controller="Student" asp-action="Update" asp-route-id="@Model.NationalId" method="get">
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary">Update Profile</button>
+                                </div>
+                            </form>
+                            <br />
+                            <form asp-controller="Student" asp-action="ChangePass" asp-route-id="@Model.NationalId" method="get">
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary">Change Password</button>
+                                </div>
+                            </form>
+
+                        </div>                     
+
+                    </div><!-- End Bordered Tabs -->
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
 
 

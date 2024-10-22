@@ -1,4 +1,4 @@
-﻿using College_portal_System.Consts;
+﻿using College_portal_System.Data.Consts;
 using Microsoft.AspNetCore.Identity;
 
 namespace College_portal_System.Seeds
