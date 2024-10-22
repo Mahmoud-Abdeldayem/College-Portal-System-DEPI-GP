@@ -22,5 +22,27 @@ namespace BusinessLogicLayer.AdminService.Services
         {
             return await _userManager.FindByIdAsync(userId);
         }
+
+        public async Task<(bool IsSucceded, string? ErrorMessage)> ResetPassword(string userId, string password)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user is null)
+                return (IsSucceded: false, ErrorMessage: "The user is not found");
+
+            //var changePassword = await _userManager.ChangePasswordAsync();
+
+            var removePassword = await _userManager.RemovePasswordAsync(user);
+
+            if (!removePassword.Succeeded)
+                return (IsSucceded: false, ErrorMessage: "There is something wrong, Please try again!!!");
+
+            var newPassword = await _userManager.AddPasswordAsync(user, password);
+
+            if (!removePassword.Succeeded)
+                return (IsSucceded: false, ErrorMessage: "There is something wrong, Please try again!!!");
+
+            return (IsSucceded: true, ErrorMessage: null);
+        }
     }
 }

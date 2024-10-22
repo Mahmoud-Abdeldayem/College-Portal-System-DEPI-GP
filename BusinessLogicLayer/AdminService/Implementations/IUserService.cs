@@ -13,5 +13,6 @@ namespace BusinessLogicLayer.AdminService.Implementations
 
         Task<IdentityResult> RegisterUserAsync(ApplicationUser user, string password);
         Task<ApplicationUser> GetUserByIdAsync(string userId);
+        Task<(bool IsSucceded, string? ErrorMessage)> ResetPassword(string userId, string password);
     }
 }
