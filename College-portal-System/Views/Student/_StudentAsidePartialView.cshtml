@@ -41,7 +41,7 @@
             </a>
             <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
-                    <a href="components-alerts.html">
+                    <a asp-controller="Student" asp-action="RegisterCourses" asp-route-id="@ViewData["id"]>
                         <i class="bi bi-circle"></i><span>View Courses</span>
                     </a>
                 </li>
@@ -55,12 +55,7 @@
 
 
 
-        <li class="nav-item">
-            <a class="nav-link " href="index.html">
-                <i class="bi bi-grid"></i>
-                <span>Dashboard</span>
-            </a>
-        </li><!-- End Dashboard Nav -->
+        
 
 
 
@@ -68,27 +63,27 @@
             <a class="nav-link " href="#">
                 <i class="bi bi-journal-text"></i><span>Grades</span>
             </a>
+        </li>
             <!-- End Forms Nav -->
 
         <li class="nav-item">
-            <a class="nav-link " href="#">
+            <a class="nav-link" asp-controller="Student" asp-action="GetTakenCourses" asp-route-id="@ViewData["id"]">
                 <i class="bi bi-journal-text"></i><span>Transcript</span>
             </a>
+        </li>
+
             <!-- End Tables Nav -->
 
 
 
         <li class="nav-item">
-            <a class="nav-link " href="#">
+            <a class="nav-link " asp-controller="Student" asp-action="RegisterDepartment" asp-route-id="@ViewData["id"]">
                 <i class="bi bi-journal-text"></i><span>Register Department</span>
             </a>
         </li><!-- End Icons Nav -->
-        <li class="nav-item">
-            <a class="nav-link" asp-controller="Student" asp-action="Profile" asp-route-id="@ViewData["id"]">
-                <i class="bi bi-journal-text"></i><span>Profile</span>
-            </a>
-        </li><!-- End Icons Nav -->
+        <!-- End Icons Nav -->
 
 
     </ul>
 </aside><!-- End Sidebar-->
+

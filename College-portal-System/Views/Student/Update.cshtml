@@ -1,0 +1,134 @@
+﻿@using College_portal_System.Models.StudentViewModels
+@using BusinessLogicLayer.DTO
+@model UserViewModel
+@{
+    ViewData["Title"] = "Update";
+    Layout = "~/Views/Shared/_LayoutStudent.cshtml";
+    ViewData["firstname"] = Model.FirstName;
+    ViewData["lastname"] = Model.LastName;
+    ViewData["image"] = Model.Picture;
+    ViewData["gender"] = Model.Gender;
+    ViewData["id"] = Model.NationalId;
+}
+
+<div class="pagetitle">
+    <h1>Profile</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">Home</li>
+            <li class="breadcrumb-item">Profile</li>
+            <li class="breadcrumb-item active">Update Profile</li>
+        </ol>
+    </nav>
+</div>
+<section class="section profile">
+    <div class="row">
+        <div class="col-xl-4">
+
+            <div class="card">
+                <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+
+                    @if (Model.Picture != null && Model.Picture.Length > 0)
+                    {
+                        var base64Image = ImageHelper.GetBase64Image(Model.Picture);
+                        <img src="data:image/jpeg;base64,@base64Image" alt="Profile" class="rounded-circle" style="max-width: 150px; max-height: 150px;">
+                    }
+                    else
+                    {
+                        if (Model.Gender == false)
+                        {
+                            <img src="~/StudentAssets/img/blank male profile pic.png" alt="Profile" class="rounded-circle" style="max-width: 150px; max-height: 150px;">
+                        }
+                        else
+                        {
+                            <img src="~/StudentAssets/img/female blank profile pic.png" alt="Profile" class="rounded-circle" style="max-width: 150px; max-height: 150px;">
+                        }
+                    }
+
+                    <h2>@Model.FirstName @Model.LastName</h2>
+
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="col-xl-8">
+
+            <div class="card">
+                <div class="card-body pt-3">
+                    <!-- Bordered Tabs -->
+                    <ul class="nav nav-tabs nav-tabs-bordered">
+
+                        
+                        <li class="nav-item">
+                            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit Profile</button>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content pt-2">
+
+                        
+
+                        <div class="tab-pane fade show active profile-edit pt-3" id="profile-edit">
+
+                            <!-- Profile Edit Form -->
+                            <form asp-controller="Student" asp-action="Update" asp-route-id="@Model.NationalId" method="post" enctype="multipart/form-data">
+                                
+                                <div class="row mb-3">
+                                    <label for="fullName" class="col-md-4 col-lg-3 col-form-label">First Name</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <input asp-for="FirstName" type="text" class="form-control" value="@Model.FirstName">
+                                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="about" class="col-md-4 col-lg-3 col-form-label">Last Name</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <input asp-for="LastName" type="text" class="form-control" value="@Model.LastName">
+                                        <span asp-validation-for="LastName" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="company" class="col-md-4 col-lg-3 col-form-label">Address</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <input asp-for="Address" type="text" class="form-control" value="@Model.Address">
+                                        <span asp-validation-for="Address" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="Job" class="col-md-4 col-lg-3 col-form-label">Recovery Mail</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <input asp-for="RecoveryEmail" type="text" class="form-control" value="@Model.RecoveryEmail">
+                                        <span asp-validation-for="RecoveryEmail" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="Country" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <input asp-for="Picture" type="file" class="form-control">
+                                        <span asp-validation-for="Picture" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                </div>
+                            </form><!-- End Profile Edit Form -->
+
+                        </div>
+
+                    </div><!-- End Bordered Tabs -->
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
