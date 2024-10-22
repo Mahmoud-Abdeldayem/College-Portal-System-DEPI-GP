@@ -1,11 +1,6 @@
 ﻿using DataAccessLayer.Entities;
 using DataAccessLayer.Interfaces;
 using DataAccessLayer.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccessLayer.UnitOfWork
 {
@@ -14,12 +9,14 @@ namespace DataAccessLayer.UnitOfWork
         //Create context reference here 
         private readonly AppDbContext _context;
         public IBaseRepository<Student> Students { get; private set; }
+        public IBaseRepository<Professor> Professors { get; private set; }
         public ITARepository TAs { get; private set; }
         public UnitOfWork(AppDbContext context)
         {
             _context = context;
             Students = new BaseRepository<Student>(_context);
             TAs = new TARepository(_context);
+            Professors = new BaseRepository<Professor>(_context);            
         }
         public void Commit()
         {
