@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace BusinessLogicLayer.AdminService.Services
 {
-    public class AdminService(/*ApplicationDbContext context*/,IUnitOfWork unitOfWork, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager) : IAdminService
+    public class AdminService(IUnitOfWork unitOfWork, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager) : IAdminService
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
         private readonly UserManager<ApplicationUser> _userManager = userManager;
@@ -42,33 +42,34 @@ namespace BusinessLogicLayer.AdminService.Services
 
             return (IsSuccess: true, AppUser: user, Error: null);
         }
-        //public async Task<Student> CreateStudentAsync(StudentFormViewModel model)
-        //{
-        //    int currentAcademicYear = GetAcademicYear();
-            
-        //    if (currentAcademicYear != lastUsedAcademicYear)
-        //    {                
-        //        sequence = 0;
-        //        lastUsedAcademicYear = currentAcademicYear;
-        //    }            
+        public async Task<Student> CreateStudentAsync(StudentFormViewModel model)
+        {
+            int currentAcademicYear = GetAcademicYear();
 
-        //    ++sequence;
-            
-        //    string GeneratedstudentId = $"{currentAcademicYear}{sequence.ToString("D4")}";
-            
-        //    var student = new Student
-        //    {
-        //        //Add Student Data to Student Table
-        //    };
+            if (currentAcademicYear != lastUsedAcademicYear)
+            {
+                sequence = 0;
+                lastUsedAcademicYear = currentAcademicYear;
+            }
 
-        //    student.StudentId = GeneratedstudentId;
-        //    await _context.Student.Update(student);
-        //    _context.SaveChanges();
+            ++sequence;
+
+            string GeneratedstudentId = $"{currentAcademicYear}{sequence.ToString("D4")}";
+
+            var student = new Student
+            {
+                //Add Student Data to Student Table
+            };
+
+            student.StudentId = GeneratedstudentId;
+
+            _unitOfWork.Students.Insert(student);
+            _unitOfWork.Commit();
 
 
-        //    return student;
+            return student;
 
-        //}
+        }
         private static int GetAcademicYear()
         {
             var currentDate = DateTime.Now;

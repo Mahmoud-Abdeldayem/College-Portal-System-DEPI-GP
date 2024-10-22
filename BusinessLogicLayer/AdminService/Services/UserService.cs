@@ -23,7 +23,7 @@ namespace BusinessLogicLayer.AdminService.Services
             return await _userManager.FindByIdAsync(userId);
         }
 
-        public async Task<(bool IsSucceded, string? ErrorMessage)> ResetPassword(string userId, string password)
+        public async Task<(bool IsSucceded, string? ErrorMessage)> AdminResetPassword(string userId, string password)
         {
             var user = await _userManager.FindByIdAsync(userId);
 
@@ -41,6 +41,22 @@ namespace BusinessLogicLayer.AdminService.Services
 
             if (!removePassword.Succeeded)
                 return (IsSucceded: false, ErrorMessage: "There is something wrong, Please try again!!!");
+
+            return (IsSucceded: true, ErrorMessage: null);
+        }
+
+        public async Task<(bool IsSucceded, string? ErrorMessage)> StudentResetPassword(string userId, string currentPassword, string newPassword)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user is null)
+                return (IsSucceded: false, ErrorMessage: "The user is not found");
+
+            var changePassword = await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
+
+            if (!changePassword.Succeeded)
+                return (IsSucceded: false, ErrorMessage: "The passwords do not match!!");
+                        
 
             return (IsSucceded: true, ErrorMessage: null);
         }
