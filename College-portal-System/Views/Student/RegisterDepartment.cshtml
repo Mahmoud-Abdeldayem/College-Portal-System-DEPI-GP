@@ -1,0 +1,41 @@
+﻿@using College_portal_System.Models.StudentViewModels
+@model RegisterDeptsViewModels
+@{
+    ViewData["Title"] = "RegisterDepartment";
+    Layout = "~/Views/Shared/_LayoutStudent.cshtml";
+    ViewData["firstname"] = "Yassin";
+    ViewData["lastname"] = "Ahmed";
+    ViewData["image"] = null;
+    ViewData["gender"] = false;
+    ViewData["id"] ="30308132100798";
+}
+
+<div class="pagetitle">
+    <h1>Profile</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">Home</li>
+            <li class="breadcrumb-item active">Register Department</li>
+        </ol>
+    </nav>
+</div>
+
+<form asp-controller="Student" asp-action="RegisterDepartment" asp-route-id="@ViewData["id"]" method="post">
+    <div class="row mb-3">
+        <label class="col-sm-2 col-form-label">Select Department:</label>
+        <div class="col-sm-10">
+            <select class="form-select" aria-label="Default select example" asp-for=StudentDepartment>
+                <option selected>Select Your Department</option>
+                @foreach(var item in Model.Depts)
+                {
+                    <option value="@item.DepartmentId">@item.Name (@item.Code)</option>
+                }
+                
+            </select>
+        </div>
+    </div>
+    <div class="text-center">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>
+

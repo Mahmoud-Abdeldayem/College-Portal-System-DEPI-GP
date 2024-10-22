@@ -10,7 +10,7 @@ namespace DataAccessLayer.Interfaces
     public interface IBaseRepository<T> where T : class
     {
         IEnumerable<T> GetAll();
-        T GetById(int id);
+        T GetById(string id);
         IEnumerable<T> Get(Expression<Func<T , bool>> criteria);
         T DeleteById(int id);
         T Delete(T Entity);
