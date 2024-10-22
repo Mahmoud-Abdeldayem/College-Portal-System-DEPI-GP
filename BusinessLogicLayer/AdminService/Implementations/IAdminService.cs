@@ -1,5 +1,5 @@
 ﻿using BusinessLogicLayer.DTOs.TADTOs;
-using College_portal_System.Models.AdminViewModels;
+using BusinessLogicLayer.DTOs.Users;
 using DataAccessLayer.Entities;
 using System;
 using System.Collections.Generic;
@@ -11,6 +11,6 @@ namespace BusinessLogicLayer.AdminService.Implementations
 {
     public interface IAdminService
     {
-        Task<(bool IsSuccess, ApplicationUser? AppUser, string? Error)> CreateUser(RegisterFormViewModel userForm);
+        Task<(bool IsSuccess, ApplicationUser? AppUser, string? Error)> CreateUser(ApplicationUserDto userForm);
     }
 }

@@ -1,5 +1,5 @@
 ﻿using BusinessLogicLayer.AdminService.Implementations;
-using College_portal_System.Models.AdminViewModels;
+using BusinessLogicLayer.DTOs.Users;
 using DataAccessLayer.Entities;
 using DataAccessLayer.UnitOfWork;
 using Microsoft.AspNetCore.Identity;
@@ -10,11 +10,9 @@ namespace BusinessLogicLayer.AdminService.Services
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
         private readonly UserManager<ApplicationUser> _userManager = userManager;
-        private readonly RoleManager<IdentityRole> _roleManager = roleManager;
-        private static int lastUsedAcademicYear = GetAcademicYear(); // Track the academic year in memory
-        private static int sequence = 0;
+        private readonly RoleManager<IdentityRole> _roleManager = roleManager;        
 
-        public async Task<(bool IsSuccess, ApplicationUser? AppUser, string? Error)> CreateUser(RegisterFormViewModel userForm)
+        public async Task<(bool IsSuccess, ApplicationUser? AppUser, string? Error)> CreateUser(ApplicationUserDto userForm)
         {
             var user = new ApplicationUser
             {
@@ -28,6 +26,7 @@ namespace BusinessLogicLayer.AdminService.Services
                 Address = userForm.Address,
                 Gender = userForm.Gender,
                 Picture = userForm?.Picture,
+                
             };
 
             var createUserResult = await _userManager.CreateAsync(user, userForm.Password);
@@ -42,43 +41,6 @@ namespace BusinessLogicLayer.AdminService.Services
 
             return (IsSuccess: true, AppUser: user, Error: null);
         }
-        //public async Task<Student> CreateStudentAsync(StudentFormViewModel model)
-        //{
-        //    int currentAcademicYear = GetAcademicYear();
-
-        //    if (currentAcademicYear != lastUsedAcademicYear)
-        //    {
-        //        sequence = 0;
-        //        lastUsedAcademicYear = currentAcademicYear;
-        //    }
-
-        //    ++sequence;
-
-        //    string GeneratedstudentId = $"{currentAcademicYear}{sequence.ToString("D4")}";
-
-        //    var student = new Student
-        //    {
-        //        //Add Student Data to Student Table
-        //    };
-
-        //    student.StudentId = GeneratedstudentId;
-
-        //    _unitOfWork.Students.Insert(student);
-        //    _unitOfWork.Commit();
-
-
-        //    return student;
-
-        //}
-        private static int GetAcademicYear()
-        {
-            var currentDate = DateTime.Now;
-
-            if (currentDate.Month >= 9)
-            {
-                return currentDate.Year;
-            }
-            else { return currentDate.Year - 1; }
-        }
+            
     }
 }
