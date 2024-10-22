@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace DataAccessLayer.Entities;
+﻿namespace DataAccessLayer.Entities;
 
 public partial class Professor
 {
@@ -17,20 +14,12 @@ public partial class Professor
 
     public string Title { get; set; } = null!;
 
-    public int? DepartmentId { get; set; }
-
-    public virtual ICollection<CourseTeaching> CourseTeachings { get; set; } = new List<CourseTeaching>();
-
+    #region Relations    
     public virtual Department? Department { get; set; }
-
-    public virtual ICollection<Department> Departments { get; set; } = new List<Department>();
-
+    public int? DepartmentId { get; set; }
+    public virtual ICollection<CourseTeaching> CourseTeachings { get; set; } = [];
+    public virtual ICollection<Department> Departments { get; set; } = [];
+    public virtual ICollection<Timetable> Timetables { get; set; } = [];
     public virtual ApplicationUser ProfessorNavigation { get; set; } = null!;
-
-    public virtual ICollection<Timetable> Timetables { get; set; } = new List<Timetable>();
-
-    #region Relations
-    public ApplicationUser? AppUser { get; set; }
-    public virtual string UserId { get; set; } = null!;
     #endregion
 }

@@ -15,15 +15,13 @@ public partial class TeachingAssistant
 
     public int? DepartmentId { get; set; }
 
-    public string? AssistingProfessorId { get; set; }
-
+    #region Relations
     public virtual ApplicationUser? AssistingProfessor { get; set; }
-
-    public virtual ICollection<CourseTeaching> CourseTeachings { get; set; } = new List<CourseTeaching>();
-
+    public string? AssistingProfessorId { get; set; }
+    public virtual ICollection<CourseTeaching> CourseTeachings { get; set; } = [];
     public virtual Department? Department { get; set; }
-
     public virtual ApplicationUser Ta { get; set; } = null!;
+    public virtual ICollection<Task> Tasks { get; set; } = [];
 
-    public virtual ICollection<Task> Tasks { get; set; } = new List<Task>();
+    #endregion
 }

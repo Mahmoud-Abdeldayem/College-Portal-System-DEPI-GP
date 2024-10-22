@@ -6,9 +6,7 @@ namespace DataAccessLayer.Entities;
 public partial class Student
 {
     public string NationalId { get; set; } = null!;
-
-    public string StudentId { get; set; }
-
+    public string StudentId { get; set; } = null!;
     public DateOnly EntryYear { get; set; }
 
     public DateOnly? GradYear { get; set; }
@@ -19,15 +17,14 @@ public partial class Student
 
     public short? CurrentYear { get; set; }
 
-    public decimal? TotalGpa { get; set; }
+    public decimal? TotalGpa { get; set; } = 0;
 
     public int HoursTaken { get; set; }
-
-    public int? DepartmentId { get; set; }
 
     public virtual ICollection<CourseEnrollment> CourseEnrollments { get; set; } = new List<CourseEnrollment>();
 
     public virtual Department? Department { get; set; }
+    public int? DepartmentId { get; set; }
 
     public virtual ICollection<FeedbackResponse> FeedbackResponses { get; set; } = new List<FeedbackResponse>();
 
