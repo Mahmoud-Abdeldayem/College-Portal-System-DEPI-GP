@@ -9,14 +9,9 @@ using System.Threading.Tasks;
 
 namespace BusinessLogicLayer.AdminService.Services
 {
-    public class UserService : IUserService
+    public class UserService(UserManager<ApplicationUser> userManager) : IUserService
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-
-        public UserService(UserManager<ApplicationUser> userManager)
-        {
-            _userManager = userManager;
-        }
+        private readonly UserManager<ApplicationUser> _userManager = userManager;
 
         public async Task<IdentityResult> RegisterUserAsync(ApplicationUser user, string password)
         {

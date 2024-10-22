@@ -1,4 +1,4 @@
-﻿using College_portal_System.Consts;
+﻿using College_portal_System.Data.Consts;
 using DataAccessLayer.Entities;
 using Microsoft.AspNetCore.Identity;
 
