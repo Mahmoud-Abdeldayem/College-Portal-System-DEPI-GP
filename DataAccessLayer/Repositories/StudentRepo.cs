@@ -53,12 +53,12 @@ namespace DataAccessLayer.Repositories
 
         public void Update(string id, ApplicationUser user, IFormFile? pictureFile)
         {
-            var existing = _context.ApplicationUsers.FirstOrDefault(x => x.NationalId == id);
+            var existing = _context.Users.FirstOrDefault(x => x.NationalId == id);
             if (existing != null)
             {
                 existing.FirstName = user.FirstName;
                 existing.LastName = user.LastName;
-                existing.RecoveryEmail = user.RecoveryEmail;
+                //existing.RecoveryEmail = user.RecoveryEmail;
                 existing.Address = user.Address;
             }
             if (pictureFile != null && pictureFile.Length > 0)
@@ -91,11 +91,8 @@ namespace DataAccessLayer.Repositories
 
         public void ChangePass(string id, string newPass)
         {
-            var existing = _context.ApplicationUsers.FirstOrDefault(x => x.NationalId == id);
-            existing.Password = newPass;
-
+            throw new NotImplementedException();
         }
-        
     }
 
 }

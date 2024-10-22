@@ -65,6 +65,11 @@ namespace DataAccessLayer.Repositories
                                               .FirstOrDefault(ta => ta.Taid == id.ToString());
         }
 
+        public TeachingAssistant GetById(string id)
+        {
+            throw new NotImplementedException();
+        }
+
         // Get all Course Teachings assigned to a specific Teaching Assistant
         public IEnumerable<CourseTeaching> GetCourseTeachings(string teachingAssistantId)
         {

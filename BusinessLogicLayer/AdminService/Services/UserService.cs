@@ -35,12 +35,12 @@ namespace BusinessLogicLayer.AdminService.Services
             var removePassword = await _userManager.RemovePasswordAsync(user);
 
             if (!removePassword.Succeeded)
-                return (IsSucceded: false, ErrorMessage: "There is something wrong, Please try again!!!");
+                return (IsSucceded: false, ErrorMessage: string.Join(',', removePassword.Errors.Select(e => e.Description)));
 
             var newPassword = await _userManager.AddPasswordAsync(user, password);
 
-            if (!removePassword.Succeeded)
-                return (IsSucceded: false, ErrorMessage: "There is something wrong, Please try again!!!");
+            if (!newPassword.Succeeded)
+                return (IsSucceded: false, ErrorMessage: string.Join(',', newPassword.Errors.Select(e => e.Description)));
 
             return (IsSucceded: true, ErrorMessage: null);
         }
@@ -55,8 +55,8 @@ namespace BusinessLogicLayer.AdminService.Services
             var changePassword = await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
 
             if (!changePassword.Succeeded)
-                return (IsSucceded: false, ErrorMessage: "The passwords do not match!!");
-                        
+                return (IsSucceded: false, ErrorMessage: string.Join(',', changePassword.Errors.Select(e => e.Description)));
+
 
             return (IsSucceded: true, ErrorMessage: null);
         }

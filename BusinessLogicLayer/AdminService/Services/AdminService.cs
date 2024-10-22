@@ -42,34 +42,34 @@ namespace BusinessLogicLayer.AdminService.Services
 
             return (IsSuccess: true, AppUser: user, Error: null);
         }
-        public async Task<Student> CreateStudentAsync(StudentFormViewModel model)
-        {
-            int currentAcademicYear = GetAcademicYear();
+        //public async Task<Student> CreateStudentAsync(StudentFormViewModel model)
+        //{
+        //    int currentAcademicYear = GetAcademicYear();
 
-            if (currentAcademicYear != lastUsedAcademicYear)
-            {
-                sequence = 0;
-                lastUsedAcademicYear = currentAcademicYear;
-            }
+        //    if (currentAcademicYear != lastUsedAcademicYear)
+        //    {
+        //        sequence = 0;
+        //        lastUsedAcademicYear = currentAcademicYear;
+        //    }
 
-            ++sequence;
+        //    ++sequence;
 
-            string GeneratedstudentId = $"{currentAcademicYear}{sequence.ToString("D4")}";
+        //    string GeneratedstudentId = $"{currentAcademicYear}{sequence.ToString("D4")}";
 
-            var student = new Student
-            {
-                //Add Student Data to Student Table
-            };
+        //    var student = new Student
+        //    {
+        //        //Add Student Data to Student Table
+        //    };
 
-            student.StudentId = GeneratedstudentId;
+        //    student.StudentId = GeneratedstudentId;
 
-            _unitOfWork.Students.Insert(student);
-            _unitOfWork.Commit();
+        //    _unitOfWork.Students.Insert(student);
+        //    _unitOfWork.Commit();
 
 
-            return student;
+        //    return student;
 
-        }
+        //}
         private static int GetAcademicYear()
         {
             var currentDate = DateTime.Now;
