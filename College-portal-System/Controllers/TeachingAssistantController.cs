@@ -1,7 +1,7 @@
 ﻿using BusinessLogicLayer.DTOs.TADTOs;
 using BusinessLogicLayer.TAService;
-using College_portal_System.Models.TAViewModels;
 using College_portal_System.Utilities;
+using College_portal_System.ViewModels.TAViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

@@ -472,7 +472,6 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser>
                 .HasForeignKey(d => d.ProfessorId)
                 .HasConstraintName("FK_TimetableProfe_4E53A1AA");
         });
-
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
