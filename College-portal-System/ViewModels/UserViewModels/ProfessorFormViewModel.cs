@@ -1,7 +1,7 @@
 ﻿using College_portal_System.Consts;
 using System.ComponentModel.DataAnnotations;
 
-namespace College_portal_System.Models.UserViewModels
+namespace College_portal_System.ViewModels.UserViewModels
 {
     public class ProfessorFormViewModel : ApplicationUserFormVM
     {

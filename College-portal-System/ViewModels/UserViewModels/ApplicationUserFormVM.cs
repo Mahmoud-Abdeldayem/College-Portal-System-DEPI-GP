@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace College_portal_System.Models.UserViewModels
+namespace College_portal_System.ViewModels.UserViewModels
 {
     public class ApplicationUserFormVM
     {
@@ -17,7 +17,7 @@ namespace College_portal_System.Models.UserViewModels
         public string Email { get; set; } = null!;
 
         [Required]
-        [StringLength(100,MinimumLength = 8)]
+        [StringLength(100, MinimumLength = 8)]
         [DataType(DataType.Password)]
         public string Password { get; set; } = null!;
         [Required, RegularExpression(RegexPatterns.NationalIdFormat)]
