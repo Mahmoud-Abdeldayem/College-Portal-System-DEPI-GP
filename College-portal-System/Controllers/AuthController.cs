@@ -1,16 +1,13 @@
-﻿using BusinessLogicLayer.AdminService.Implementations;
-using BusinessLogicLayer.AdminService.Services;
-using BusinessLogicLayer.DTOs.Users;
+﻿using BusinessLogicLayer.AuthenticationService.Implementations;
 using College_portal_System.Extensions;
 using College_portal_System.Models.UserViewModels;
 using DataAccessLayer.Entities;
 using DataAccessLayer.UnitOfWork;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace College_portal_System.Controllers
 {
-    public class AdminController(UnitOfWork unitOfWork, IAdminService adminService) : Controller
+    public class AuthController(UnitOfWork unitOfWork, IAdminService adminService) : Controller
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
         private readonly IAdminService _adminService = adminService;

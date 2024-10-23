@@ -1,16 +1,16 @@
-﻿using BusinessLogicLayer.AdminService.Implementations;
+﻿using BusinessLogicLayer.AuthenticationService.Implementations;
 using BusinessLogicLayer.DTOs.Users;
 using DataAccessLayer.Entities;
 using DataAccessLayer.UnitOfWork;
 using Microsoft.AspNetCore.Identity;
 
-namespace BusinessLogicLayer.AdminService.Services
+namespace BusinessLogicLayer.AuthenticationService.Services
 {
     public class AdminService(IUnitOfWork unitOfWork, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager) : IAdminService
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
         private readonly UserManager<ApplicationUser> _userManager = userManager;
-        private readonly RoleManager<IdentityRole> _roleManager = roleManager;        
+        private readonly RoleManager<IdentityRole> _roleManager = roleManager;
 
         public async Task<(bool IsSuccess, ApplicationUser? AppUser, string? Error)> CreateUser(ApplicationUserDto userForm)
         {
@@ -26,7 +26,7 @@ namespace BusinessLogicLayer.AdminService.Services
                 Address = userForm.Address,
                 Gender = userForm.Gender,
                 Picture = userForm?.Picture,
-                
+
             };
 
             var createUserResult = await _userManager.CreateAsync(user, userForm.Password);
@@ -41,6 +41,6 @@ namespace BusinessLogicLayer.AdminService.Services
 
             return (IsSuccess: true, AppUser: user, Error: null);
         }
-            
+
     }
 }
