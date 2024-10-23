@@ -1,4 +1,4 @@
-﻿namespace College_portal_System.Models.TAViewModels
+﻿namespace College_portal_System.ViewModels.TAViewModels
 {
     public class TADataViewModel
     {

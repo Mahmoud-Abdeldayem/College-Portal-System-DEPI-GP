@@ -1,4 +1,4 @@
-﻿using BusinessLogicLayer.AdminService.Implementations;
+﻿using BusinessLogicLayer.AuthenticationService.Implementations;
 using DataAccessLayer.Entities;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusinessLogicLayer.AdminService.Services
+namespace BusinessLogicLayer.AuthenticationService.Services
 {
     public class UserService(UserManager<ApplicationUser> userManager) : IUserService
     {

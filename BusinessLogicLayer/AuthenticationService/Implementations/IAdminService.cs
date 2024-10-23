@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusinessLogicLayer.AdminService.Implementations
+namespace BusinessLogicLayer.AuthenticationService.Implementations
 {
     public interface IAdminService
     {

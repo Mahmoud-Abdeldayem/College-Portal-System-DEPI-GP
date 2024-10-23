@@ -1,6 +1,4 @@
-﻿using BusinessLogicLayer.AdminService.Implementations;
-using BusinessLogicLayer.AdminService.Services;
-using BusinessLogicLayer.DTOs.Users;
+﻿using BusinessLogicLayer.AuthenticationService.Implementations;
 using College_portal_System.Extensions;
 using College_portal_System.Models.UserViewModels;
 using DataAccessLayer.Entities;
@@ -10,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace College_portal_System.Controllers
 {
-    public class AdminController(UnitOfWork unitOfWork, IAdminService adminService) : Controller
+    public class AuthController(UnitOfWork unitOfWork, IAdminService adminService) : Controller
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
         private readonly IAdminService _adminService = adminService;
@@ -69,7 +67,8 @@ namespace College_portal_System.Controllers
             var student = new Student
             {
                 NationalId = model.NationalId,
-                StudentId = GeneratedstudentId
+                StudentId = GeneratedstudentId,
+                National = newAppUser.AppUser,                                                
             };
 
             _unitOfWork.StudentRepo.Insert(student);
@@ -94,14 +93,18 @@ namespace College_portal_System.Controllers
                 return View();
             }
 
-            var student = new Professor
+            var prof = new Professor
             {
                 ProfessorId = model.NationalId,
-                ProfessorNavigation = newAppUser.AppUser,    
-                // The rest of attr depends on the front
+                ProfessorNavigation = newAppUser.AppUser!,    
+                DepartmentId = model.DepartmentId,
+                EnterYear = DateTime.Now.Year,
+                DocUni = model.DocUni,                
+                Title = model.Title,
+                PhDat = model.PHDField,                
             };
 
-            _unitOfWork.Professors.Insert(student);
+            _unitOfWork.Professors.Insert(prof);
             _unitOfWork.Commit();
 
             return View();
@@ -123,17 +126,18 @@ namespace College_portal_System.Controllers
                 return View();
             }
 
-            var student = new TeachingAssistant
+            var TA = new TeachingAssistant
             {
                 Taid = model.NationalId,
                 Ta = newAppUser.AppUser,
                 AssistingProfessorId  = model.AssistingProfessorId, // Depends on the front end
                 AcademicDegree = model.AcademicDegree,
                 DepartmentId = model.DepartmentId, // Depends on the front end
-                University = model.University
+                University = model.University,
+
             };
 
-            _unitOfWork.TAs.Insert(student);
+            _unitOfWork.TAs.Insert(TA);
             _unitOfWork.Commit();
 
             return View();
