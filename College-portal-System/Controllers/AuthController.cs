@@ -1,6 +1,6 @@
 ﻿using BusinessLogicLayer.AuthenticationService.Implementations;
 using College_portal_System.Extensions;
-using College_portal_System.Models.UserViewModels;
+using College_portal_System.ViewModels.UserViewModels;
 using DataAccessLayer.Entities;
 using DataAccessLayer.UnitOfWork;
 using Microsoft.AspNetCore.Mvc;
@@ -134,7 +134,7 @@ namespace College_portal_System.Controllers
                 AcademicDegree = model.AcademicDegree,
                 DepartmentId = model.DepartmentId, // Depends on the front end
                 University = model.University,
-
+                Faculty = model.Faculty,
             };
 
             _unitOfWork.TAs.Insert(TA);

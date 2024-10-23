@@ -23,6 +23,7 @@ namespace BusinessLogicLayer.StudentService
         {
             var student=_unitOfWork.StudentRepo.GetById(id);
             var user=_unitOfWork.ApplicationUserRepo.GetById(id);
+
             if (student.DepartmentId == null)
             {
                 return new ProfileDTO
