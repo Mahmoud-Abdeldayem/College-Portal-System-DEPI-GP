@@ -1,6 +1,6 @@
 ﻿using BusinessLogicLayer.DTOs.Users;
 using College_portal_System.Data.Consts;
-using College_portal_System.Models.UserViewModels;
+using College_portal_System.ViewModels.UserViewModels;
 
 namespace College_portal_System.Extensions
 {

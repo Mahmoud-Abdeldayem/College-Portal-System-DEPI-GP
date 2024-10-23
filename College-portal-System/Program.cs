@@ -1,45 +1,19 @@
-using BusinessLogicLayer.TAService;
-using BusinessLogicLayer.AdminService.Services;
-using DataAccessLayer.Entities;
-using DataAccessLayer.Interfaces;
-using DataAccessLayer.Repositories;
-using DataAccessLayer.UnitOfWork;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
+using College_portal_System.Extensions;
 using College_portal_System.Seeds;
-using BusinessLogicLayer.StudentService;
-using DataAccessLayer.Interfaces;
-using DataAccessLayer.Repositories;
+using DataAccessLayer.Entities;
+using Microsoft.AspNetCore.Identity;
 
-namespace College_portal_System  
+namespace College_portal_System
 {
     public class Program
     {
-        public static async System.Threading.Tasks.Task Main(string[] args)
+        public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-            builder.Services.AddControllersWithViews();
+            // Registeration of services from an extended class
+            builder.RegisterServices();
             
-            builder.Services.AddDbContext<AppDbContext>(option =>
-                option.UseSqlServer(builder.Configuration.GetConnectionString("default"))
-            ); 
-            builder.Services.AddScoped<IUnitOfWork , UnitOfWork>();
-            builder.Services.AddScoped<IBaseRepository<DataAccessLayer.Entities.Task> , BaseRepository<DataAccessLayer.Entities.Task>>();
-            builder.Services.AddScoped<IBaseRepository<Course> , BaseRepository<Course>>();
-            builder.Services.AddScoped<IBaseRepository<Department> , DepartmentRepository>();
-            builder.Services.AddScoped<TAService>();
-            builder.Services.AddScoped<AdminService>();
-            builder.Services.AddScoped<TAService>();
-            //);
-
-            // Identity Configuration
-            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-            .AddEntityFrameworkStores<AppDbContext>()
-            .AddDefaultTokenProviders();
-
-            //builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<AppDbContext>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -62,7 +36,7 @@ namespace College_portal_System
             var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
-            await DefaultRoles.SeedRolesAsync(roleManager);
+            DefaultRoles.SeedRolesAsync(roleManager);
             // await DefaultUsers.SeedAdminUser(userManager);
 
             app.MapControllerRoute(
