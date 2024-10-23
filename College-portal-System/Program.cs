@@ -4,6 +4,9 @@ using DataAccessLayer.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using College_portal_System.Seeds;
+using BusinessLogicLayer.StudentService;
+using DataAccessLayer.Interfaces;
+using DataAccessLayer.Repositories;
 
 namespace College_portal_System
 {
@@ -20,7 +23,8 @@ namespace College_portal_System
                 option.UseSqlServer(builder.Configuration.GetConnectionString("default"))
             ); 
             builder.Services.AddScoped<IUnitOfWork , UnitOfWork>();
-
+            builder.Services.AddScoped<IStudentService,StudentService>();
+            builder.Services.AddScoped<IStudentRepo,StudentRepo>();
             builder.Services.AddScoped<TAService>();
            
 

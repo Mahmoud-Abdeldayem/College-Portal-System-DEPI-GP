@@ -14,7 +14,7 @@ namespace College_portal_System.Models.StudentViewModels
         public bool? CurrentState { get; set; }
         public short? CurrentYear { get; set; }
         public string? DepartmentName { get; set; } = string.Empty;
-        public bool? Gender { get; set; }
+        public string? Gender { get; set; }
         public List<TranscriptDTO> Transcripts { get; set; } = new List<TranscriptDTO>();
     }
 }

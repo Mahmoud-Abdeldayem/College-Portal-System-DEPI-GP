@@ -29,7 +29,6 @@ namespace BusinessLogicLayer.StudentService
                 {
                     FirstName = user.FirstName,
                     LastName = user.LastName,
-                    RecoveryEmail = user.RecoveryEmail,
                     Address = user.Address,
                     Gender = user.Gender, 
                     Picture = user.Picture,
@@ -43,8 +42,9 @@ namespace BusinessLogicLayer.StudentService
                     HoursTaken = student.HoursTaken,
                     DepartmentId = student.DepartmentId,
                     DepartmentName = null, // Handle potential null
-                    NationalId = student.NationalId
-
+                    NationalId = student.NationalId,
+                    Phone=user.PhoneNumber,
+                    Email=user.Email
                 };
             }
             else
@@ -54,7 +54,6 @@ namespace BusinessLogicLayer.StudentService
                 {
                     FirstName = user.FirstName,
                     LastName = user.LastName,
-                    RecoveryEmail = user.RecoveryEmail,
                     Address = user.Address,
                     Gender = user.Gender, // Assuming false for null values
                     Picture = user.Picture,
@@ -68,7 +67,9 @@ namespace BusinessLogicLayer.StudentService
                     HoursTaken = student.HoursTaken,
                     DepartmentId = student.DepartmentId,
                     DepartmentName =department.Name, // Handle potential null
-                    NationalId = student.NationalId
+                    NationalId = student.NationalId,
+                    Phone = user.PhoneNumber,
+                    Email = user.Email
                 };
             }
 
@@ -137,12 +138,11 @@ namespace BusinessLogicLayer.StudentService
                 FirstName=user.FirstName,
                 LastName=user.LastName,
                 Address=user.Address,
-                RecoveryEmail=user.RecoveryEmail,
                 NationalId=user.NationalId,
                 Gender=user.Gender,
-                Password=user.Password,
                 Picture=user.Picture,
-                Role=user.Role,
+                Phone=user.PhoneNumber,
+                Email=user.Email
             };
         }
         public RegisterDeptDTO GetDepts(string id)
@@ -174,8 +174,9 @@ namespace BusinessLogicLayer.StudentService
                 FirstName = user.FirstName,
                 LastName =user.LastName,
                 Address = user.Address,
-                RecoveryEmail = user.RecoveryEmail,
                 Picture=user.Picture,
+                PhoneNumber=user.Phone,
+                Email=user.Email,
             };
             _unitOfWork.StudentRepo.Update(id,DataToUpdate,pictureFile);
             _unitOfWork.Commit();
@@ -205,11 +206,14 @@ namespace BusinessLogicLayer.StudentService
                 var AvailableCourses = (from course in courses
                                        where course.Semseter == false &&
                                        course.CourseLevel <=student.CurrentYear &&
-                                       !takenCourses.Contains(course.CourseId)
+                                       !takenCourses.Contains(course.CourseId)&&
+                                       (course.PrerequisiteCourseId == null ||
+                                       takenCourses.Contains(course.PrerequisiteCourseId.Value))
                                         select new AvailableCoursesDTO
                                        {
                                            Name = course.Name,
                                            Code = course.Code,
+                                           CourseID = course.CourseId,
                                        }).ToList();
                 return AvailableCourses;
             }else if (isFebruary)
@@ -217,11 +221,14 @@ namespace BusinessLogicLayer.StudentService
                 var AvailableCourses = (from course in courses
                                         where course.Semseter == true &&
                                         course.CourseLevel <= student.CurrentYear &&
-                                        !takenCourses.Contains(course.CourseId)
+                                        !takenCourses.Contains(course.CourseId) &&
+                                        (course.PrerequisiteCourseId == null ||
+                                        takenCourses.Contains(course.PrerequisiteCourseId.Value))
                                         select new AvailableCoursesDTO
                                         {
                                             Name = course.Name,
                                             Code = course.Code,
+                                            CourseID = course.CourseId,
                                         }).ToList();
                 return AvailableCourses;
             }
@@ -231,6 +238,12 @@ namespace BusinessLogicLayer.StudentService
             }
             
 
+        }
+
+        public void RegisterCourses(string StudentId, int CourseId)
+        {
+            _unitOfWork.StudentRepo.RegisterCourses(StudentId, CourseId);
+            _unitOfWork.Commit();
         }
     }
 }

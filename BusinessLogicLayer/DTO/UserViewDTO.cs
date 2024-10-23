@@ -9,7 +9,6 @@ namespace BusinessLogicLayer.DTO
 {
     public class UserViewDTO
     {
-        public string RecoveryEmail { get; set; } = null!;
         public string Address { get; set; }
         public byte[]? Picture { get; set; }
         public string FirstName { get; set; } = null!;
@@ -18,6 +17,8 @@ namespace BusinessLogicLayer.DTO
 
         public string? Role { get; set; } = null!;
         public string? NationalId { get; set; } = null!;
-        public bool? Gender { get; set; }
+        public string? Gender { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
     }
 }

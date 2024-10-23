@@ -10,10 +10,10 @@ namespace BusinessLogicLayer.DTO
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string RecoveryEmail { get; set; } = null!;
-
+        public string Email { get; set; }
+        public string Phone { get; set; }
         public string Address { get; set; }
-        public bool? Gender { get; set; }
+        public string? Gender { get; set; }
         public byte[]? Picture { get; set; }
         public string StudentId { get; set; } = null!;
 

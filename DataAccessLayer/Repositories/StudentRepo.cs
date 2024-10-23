@@ -58,7 +58,8 @@ namespace DataAccessLayer.Repositories
             {
                 existing.FirstName = user.FirstName;
                 existing.LastName = user.LastName;
-                //existing.RecoveryEmail = user.RecoveryEmail;
+                existing.Email = user.Email;
+                existing.PhoneNumber = user.PhoneNumber;
                 existing.Address = user.Address;
             }
             if (pictureFile != null && pictureFile.Length > 0)
@@ -92,6 +93,21 @@ namespace DataAccessLayer.Repositories
         public void ChangePass(string id, string newPass)
         {
             throw new NotImplementedException();
+        }
+
+        public void RegisterCourses(string StudentId, int CourseId)
+        {
+            var date = DateTime.Now;
+            var register = new CourseEnrollment
+            {
+                StudentId=StudentId,
+                CourseId=CourseId,
+                EnrollmentDate=date,
+                ClassWork=0,
+                FinalGrade=0,
+                State=null
+            };
+            _context.CourseEnrollments.Add(register);
         }
     }
 

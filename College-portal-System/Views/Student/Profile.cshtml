@@ -39,7 +39,7 @@
                     }
                     else
                     {
-                        if (Model.Gender == false)
+                        if (Model.Gender == "Male")
                         {
                             <img src="~/StudentAssets/img/blank male profile pic.png" alt="Profile" class="rounded-circle" style="max-width: 150px; max-height: 150px;">
                         }
@@ -94,8 +94,13 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-lg-3 col-md-4 label">Recovery Email:</div>
-                                <div class="col-lg-9 col-md-8">@Model.RecoveryEmail</div>
+                                <div class="col-lg-3 col-md-4 label">Email:</div>
+                                <div class="col-lg-9 col-md-8">@Model.Email</div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">Phone Number:</div>
+                                <div class="col-lg-9 col-md-8">@Model.Phone</div>
                             </div>
 
                             <div class="row">

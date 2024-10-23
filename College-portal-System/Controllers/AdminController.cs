@@ -72,7 +72,7 @@ namespace College_portal_System.Controllers
                 StudentId = GeneratedstudentId
             };
 
-            _unitOfWork.Students.Insert(student);
+            _unitOfWork.StudentRepo.Insert(student);
             _unitOfWork.Commit();
 
             return View();

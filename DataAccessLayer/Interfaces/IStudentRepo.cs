@@ -22,6 +22,7 @@ namespace DataAccessLayer.Interfaces
         List<Department> GetAllDepts();
         void UpdateDepartment(string id,int departmentId);
         void ChangePass(string id,string newPass);
+        void RegisterCourses(string StudentId, int CourseId);
         
         
     }

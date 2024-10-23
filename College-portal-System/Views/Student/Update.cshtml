@@ -35,7 +35,7 @@
                     }
                     else
                     {
-                        if (Model.Gender == false)
+                        if (Model.Gender == "Male")
                         {
                             <img src="~/StudentAssets/img/blank male profile pic.png" alt="Profile" class="rounded-circle" style="max-width: 150px; max-height: 150px;">
                         }
@@ -100,10 +100,18 @@
                                 </div>
 
                                 <div class="row mb-3">
-                                    <label for="Job" class="col-md-4 col-lg-3 col-form-label">Recovery Mail</label>
+                                    <label for="Job" class="col-md-4 col-lg-3 col-form-label">Email</label>
                                     <div class="col-md-8 col-lg-9">
-                                        <input asp-for="RecoveryEmail" type="text" class="form-control" value="@Model.RecoveryEmail">
-                                        <span asp-validation-for="RecoveryEmail" class="text-danger"></span>
+                                        <input asp-for="Email" type="text" class="form-control" value="@Model.Email">
+                                        <span asp-validation-for="Email" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="Job" class="col-md-4 col-lg-3 col-form-label">Phone Number</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <input asp-for="Phone" type="text" class="form-control" value="@Model.Phone">
+                                        <span asp-validation-for="Phone" class="text-danger"></span>
                                     </div>
                                 </div>
 

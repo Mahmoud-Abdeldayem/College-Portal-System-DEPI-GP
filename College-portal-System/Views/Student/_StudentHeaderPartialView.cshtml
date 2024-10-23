@@ -127,7 +127,7 @@
                     }
                     else
                     {
-                        if (ViewData["gender"] != null && (bool)ViewData["gender"] == false) // Check gender instead of image
+                        if ((string)ViewData["gender"] == "Male") // Check gender instead of image
                         {
                             <img src="~/StudentAssets/img/blank male profile pic.png" alt="Profile" class="rounded-circle">
                         }

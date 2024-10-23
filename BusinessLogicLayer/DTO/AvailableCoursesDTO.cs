@@ -8,6 +8,7 @@ namespace BusinessLogicLayer.DTO
 {
     public class AvailableCoursesDTO
     {
+        public int CourseID { get; set; }
         public string Name { get; set; }
         public string Code { get; set; }
 

@@ -2,6 +2,7 @@
 {
     public class AvailableCoursesViewModel
     {
+        public int CourseID { get; set; }
         public string Name { get; set; }
         public string Code { get; set; }
     }

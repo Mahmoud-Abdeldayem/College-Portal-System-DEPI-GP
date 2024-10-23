@@ -41,12 +41,12 @@
             </a>
             <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
-                    <a asp-controller="Student" asp-action="RegisterCourses" asp-route-id="@ViewData["id"]>
+                    <a asp-controller="Student" asp-action="RegisterCourses" asp-route-id="@ViewData["id"]">
                         <i class="bi bi-circle"></i><span>View Courses</span>
                     </a>
                 </li>
                 <li>
-                    <a href="components-accordion.html">
+                    <a asp-controller="Student" asp-action="ViewRegisteredCourses" asp-route-id="@ViewData["id"]">
                         <i class="bi bi-circle"></i><span>Register Courses</span>
                     </a>
                 </li>
