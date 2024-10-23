@@ -71,7 +71,7 @@ namespace College_portal_System.Controllers
                 National = newAppUser.AppUser,                                                
             };
 
-            _unitOfWork.StudentRepo.Insert(student);
+            _unitOfWork.Students.Insert(student);
             _unitOfWork.Commit();
 
             return View();
