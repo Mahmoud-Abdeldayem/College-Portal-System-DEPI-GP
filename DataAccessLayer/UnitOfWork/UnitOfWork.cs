@@ -9,7 +9,7 @@ namespace DataAccessLayer.UnitOfWork
     {
         //Create context reference here 
         private readonly AppDbContext _context;
-        public IBaseRepository<Professor> Professors { get; private set; }
+
         public IBaseRepository<Student> Students { get; private set; }
         public IBaseRepository<DataAccessLayer.Entities.Task> Tasks { get; private set; }
         public IBaseRepository<Course> Courses { get; private set; }
@@ -26,7 +26,16 @@ namespace DataAccessLayer.UnitOfWork
         {
             _context = context;
             Students = new BaseRepository<Student>(_context);
+            Tasks = new BaseRepository<DataAccessLayer.Entities.Task>(_context); 
+            Courses = new BaseRepository<Course>(_context);
             TAs = new TARepository(_context);
+            Departments = new BaseRepository<Department>(_context);
+            Professors = new ProfessorsRepoitory(_context);
+            ApplicationUserRepo = new BaseRepository<ApplicationUser>(_context);    
+            CourseEnrollmentRepo = new BaseRepository<CourseEnrollment>(_context);
+            StudentRepo = new StudentRepo(_context);
+            DepartmentRepo = new BaseRepository<Department>(_context);  
+            CourseRepo = new BaseRepository<Course>(_context);  
         }
         public void Commit()
         {

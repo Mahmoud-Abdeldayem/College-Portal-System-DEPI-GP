@@ -7,7 +7,6 @@ namespace DataAccessLayer.UnitOfWork
     {
         //Add your Repo here
         //It will cause a compiler error because there is no entity calles (Student)
-        IBaseRepository<Professor> Professors { get; }
         IBaseRepository<Student>Students { get; }
         IBaseRepository<DataAccessLayer.Entities.Task> Tasks { get;}
         IBaseRepository<Course> Courses { get; }
