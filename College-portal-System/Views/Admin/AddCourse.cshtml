@@ -1,6 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Add Course";
-    Layout = "~/Views/Shared/_Admin.cshtml";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 @model AddCourseViewModel;
 
@@ -21,7 +21,7 @@
 
             <!-- Course Department (Select) -->
             <div class="mb-3">
-                <label asp-for="Departments" class="form-label">Select course dapertment</label>
+                <label asp-for="Departments" class="form-label">Select course department</label>
                 <select asp-for="DepartmentId" class="form-select" asp-items="Model.Departments" required>
                     
                 </select>
@@ -30,7 +30,7 @@
             <!-- Prerequisite Course (Select) -->
             <div class="mb-3">
                 <label asp-for="PrerequisiteCourses" class="form-label">Select course Prerequistie (If exist)</label>
-                <select asp-for="PrerequisiteCourseId" class="form-select" asp-items="Model.PrerequisiteCourses" required>
+                <select asp-for="PrerequisiteCourseId" class="form-select" asp-items="Model.PrerequisiteCourses">
                 </select>
             </div>
 
@@ -70,14 +70,14 @@
             <div class="mb-3">
                 <label id="Semester" class="form-label">Select course Semester</label>
                 <select name="Semester" required>
-                    <option value="0">First Semester</option>
-                    <option value="1">Second Semester</option>
+                    <option value="false">First Semester</option>
+                    <option value="true">Second Semester</option>
                 </select>
                 <span asp-validation-for="Semester" class="text-danger"></span>
             </div>
-
-            <button type="button" class="btn btn-primary" onclick="generateInputs()">Generate Question Inputs</button>
-
+            <div class="mb-3">
+               <button class="btn btn-primary" type="submit">Add the course</button>
+            </div>
         </form>
 
     </div>

@@ -1,7 +1,9 @@
 ﻿using BusinessLogicLayer.AdminService.Services;
+using BusinessLogicLayer.DTOs.AdminDTOs;
 using College_portal_System.Models.AdminViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace College_portal_System.Controllers
 {
@@ -9,10 +11,40 @@ namespace College_portal_System.Controllers
     {
 
         private readonly AdminService _adminService;
+
         public AdminController(AdminService adminService) 
         { 
             _adminService = adminService;
         }
+
+        private List<SelectListItem> GetAllCoursesSelectList()
+        {
+            return _adminService.GetCourses().Select(c => new SelectListItem()
+            {
+                Value = c.CourseId.ToString(),
+                Text = c.Name
+            }).ToList();
+        } 
+
+        private List<SelectListItem> GetAllDepartmentsSelectList()
+        {
+            return _adminService.GetDepartments().Select(d => new SelectListItem()
+            {
+                Value = d.DepartmentId.ToString(),
+                Text = d.Name
+            }).ToList();
+        }
+
+        private List<SelectListItem> GetAllProfessorsSelectList()
+        {
+            return _adminService.GetAllProfessors().Select(p => new SelectListItem()
+            {
+                Value = p.ProfessorId,
+                Text =  $"{p.ProfessorNavigation.FirstName} {p.ProfessorNavigation.LastName}",
+            }).ToList();    
+        }
+        
+        //------------------------------<End of private fields>-----------------------------------
         public IActionResult Index()
         {
             ViewBag.Name = "Mahmoud Abdeldayem";
@@ -24,6 +56,10 @@ namespace College_portal_System.Controllers
             return View();
         }
 
+        public IActionResult Students()
+        {
+            return View();
+        }
 
         //----------------------------------------<Courses>---------------------------------------
 
@@ -37,27 +73,113 @@ namespace College_portal_System.Controllers
         {
             var viewModel = new AddCourseViewModel()
             {
-                Departments = _adminService.GetDepartments().Select(d => new SelectListItem()
-                {
-                    Value = d.DepartmentId.ToString(),
-                    Text = d.Name 
-                }).ToList(),
-                PrerequisiteCourses = _adminService.GetCourses().Select(c => new SelectListItem()
-                {
-                    Value = c.CourseId.ToString(),
-                    Text = c.Name
-                }).ToList(),
+                Departments = GetAllDepartmentsSelectList(),
+                PrerequisiteCourses = GetAllCoursesSelectList(),
             };
-            viewModel.Departments.Add(new SelectListItem() { Value = null, Text = "No Prerequisite" });
+            viewModel.PrerequisiteCourses.Insert(0 , new SelectListItem() { Value = "" , Text = "No Prerequisite" });
             return View(viewModel);
         }
 
         [HttpPost]
-        public IActionResult AddCourse(int id)
+        public IActionResult AddCourse(AddCourseViewModel newCourse)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                _adminService.AddCourse(new AddCourseDTO()
+                {
+                    Name = newCourse.CourseName,
+                    Code = newCourse.CourseCode,
+                    Semseter = newCourse.Semester,
+                    Hours = newCourse.Hours,
+                    DepartmentId = newCourse.DepartmentId,
+                    PrerequisiteCourseId = newCourse.PrerequisiteCourseId,
+                    CourseLevel = newCourse.Level
+                });
+                return RedirectToAction("Courses");
+            }
+            else 
+            { 
+                newCourse.Departments = GetAllDepartmentsSelectList();
+                newCourse.PrerequisiteCourses = GetAllCoursesSelectList();
+                newCourse.PrerequisiteCourses.Insert(0 , new SelectListItem() { Value = "" , Text = "No Prerequisite" });
+
+                return View(newCourse);
+            }
         }
-        //----------------------------------------<Courses>---------------------------------------
+
+        [HttpGet]
+        public IActionResult ShowAllCourses()
+        {
+            var viewModel = new DepartmentCoursesViewModel()
+            {
+                Departments = GetAllDepartmentsSelectList() // All Existed Departments in Database
+            };
+            viewModel.Departments.Add(new SelectListItem() { Value = "0" , Text = "All Departments"}); // For selecting all courses without specific dapartment
+            return View(viewModel);
+        }
+
+        [HttpGet]
+        public IActionResult GetDepartmentCourses(int departmentId)
+        {
+            if (departmentId == 0) // Get all courses without specific department
+            {
+                var courses = _adminService.GetAllCourses();
+                return Json(courses);    
+            }
+            else // Get all department related courses
+            {
+                var courses = _adminService.GetCoursesByDepartment(departmentId);
+                return Json(courses);   
+            }
+        }
+        //----------------------------------------<Departments>---------------------------------------
+
+        [HttpGet]
+        public IActionResult Departments()
+        {
+            var viewModel = new DepartmentsManagementViewModel()
+            {
+                Departments = _adminService.GetDepartments() ,
+                Heads = GetAllProfessorsSelectList()
+            };
+            viewModel.Heads.Insert(0, new SelectListItem()
+            {
+                Value = "" , 
+                Text = "Without Head"
+            });
+            return View(viewModel); 
+        }
+
+        [HttpPost("/Departments/AddDepartment")]
+        public IActionResult AddDepartment(DepartmentsManagementViewModel newDepartmentViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                _adminService.AddDepartment(new DepartmentDTO
+                {
+                    Name = newDepartmentViewModel.Name,
+                    Code = newDepartmentViewModel.Code,
+                    HeadId = newDepartmentViewModel.HeadId
+                });
+                return RedirectToAction("Departments");
+            }
+            return View("Departments" , newDepartmentViewModel);
+        }
+
+        public IActionResult DeleteDepartment(int id)
+        {
+            try
+            {
+                _adminService.DeleteDepartment(id);
+                return RedirectToAction("Departments");
+            }
+            catch (InvalidOperationException ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+
+        //----------------------------------------<Students>------------------------------------------
         public IActionResult EditStudent()
         {
             return View();

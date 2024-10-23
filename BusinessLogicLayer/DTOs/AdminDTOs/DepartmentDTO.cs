@@ -10,11 +10,12 @@ namespace BusinessLogicLayer.DTOs.AdminDTOs
     {
         public int DepartmentId { get; set; }
 
-        public string Name { get; set; } = null!;
+        public string Name { get; set; }
 
-        public string Code { get; set; } = null!;
+        public string Code { get; set; }
 
         public string? HeadId { get; set; }
+        public string? HeadName { get; set; }
 
     }
 }

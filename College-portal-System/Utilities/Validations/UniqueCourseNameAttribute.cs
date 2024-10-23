@@ -26,7 +26,7 @@ namespace College_portal_System.Utilities.Validations
                 var course = adminService.GetCourseByName(currentCourse);
                 if (course != null)
                 {
-                    return new ValidationResult("This course already exist");
+                    return new ValidationResult("This course name already exist");
                 }
                 // course is null => no course with 
                 return ValidationResult.Success;

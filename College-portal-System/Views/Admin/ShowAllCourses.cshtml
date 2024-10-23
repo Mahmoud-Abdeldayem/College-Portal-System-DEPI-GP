@@ -1,0 +1,109 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Show Courses";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@model DepartmentCoursesViewModel
+
+<div class="pagetitle">
+    <h1>Show All Courses</h1>
+</div><!-- End Page Title -->
+
+<section class="section">
+    <div class="row">
+        <div class="col-lg-12">
+            <form id="departmentForm">
+                <label asp-for="Departments">Select a Department</label>
+                <select asp-for="DepartmentId" asp-items="@Model.Departments" id="departmentSelect"></select>
+
+                <button type="submit" class="btn-primary" id="getCoursesBtn">Get Courses</button>
+            </form>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Students</h5>
+                    <!-- Table with stripped rows -->
+                    <table class="table datatable" id="coursesTable">
+                        <thead>
+                            <tr>
+                                <th>Course Id</th>
+                                <th>Course Name</th>
+                                <th>Code</th>
+                                <th>Department</th>
+                                <th>Prerequisite</th>
+                                <th>Hours</th>
+                                <th>Semester</th>
+                                <th>Level</th>
+                                <!-- New columns for actions -->
+                                @* <th>Edit</th>
+                                <th>Delete</th> *@
+                            </tr>
+                        </thead>
+                        <tbody id="coursesTableBody">
+
+                            
+                                <!-- Icons for edit and delete -->
+                                @* <td>
+                                    <a asp-action="EditCourse" class="btn btn-warning btn-sm">
+                                        <i class="bi bi-pencil-fill"></i> <!-- Bootstrap Icons edit icon -->
+                                    </a>
+                                </td>
+                                <td>
+                                    <a asp-action ="DeletCourse" asp-route="" class="btn btn-danger btn-sm">
+                                        <i class="bi bi-trash-fill"></i> <!-- Bootstrap Icons delete icon -->
+                                    </a>
+                                </td> *@
+                        </tbody>
+                    </table>
+
+                    <!-- End Table with stripped rows -->
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#getCoursesBtn").click(function () {
+                var departmentId = $("#departmentSelect").val();
+
+                $.ajax({
+                    url: '@Url.Action("GetDepartmentCourses", "Admin")', // Change YourController
+                    type: "GET",
+                    data: { id: departmentId },
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $("#coursesTable").show();
+                            $("#coursesTableBody").empty();
+
+                            $.each(data, function (index, course) {
+                                var row = "<tr>" +
+                                    "<td>" + course.CourseId + "</td>" +
+                                    "<td>" + course.CourseName + "</td>" +
+                                    "<td>" + course.Code + "</td>" +
+                                    "<td>" + course.DepartmentId + "</td>" +
+                                    "<td>" + course.PrerequisiteCourseId + "</td>" +
+                                    "<td>" + course.Hours + "</td>" +
+                                    "<td>" + course.Semester + "</td>" +
+                                    "<td>" + course.CourseLevel + "</td>" +
+                                    "</tr>";
+                                $("#coursesBody").append(row);
+                            });
+                        } else {
+                            alert("No courses found for the selected department.");
+                            $("#coursesTable").hide();
+                        }
+                    },
+                    error: function () {
+                        alert("An error occurred while retrieving courses.");
+                    }
+                });
+            });
+        });
+    </script>
+}

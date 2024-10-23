@@ -24,13 +24,13 @@ namespace College_portal_System.Models.AdminViewModel
         public int? PrerequisiteCourseId {  get; set; }
         public List<SelectListItem>? PrerequisiteCourses { get; set; }
 
-        public List<SelectListItem> Departments { get; set; }
+        public List<SelectListItem>? Departments { get; set; }
 
 
         [Range(1, 4 , ErrorMessage = "Course level must be between level : 1 to 4")]
         public int Level  { get; set; }
 
-        [Range(1, 2, ErrorMessage = "There is only 2 semesters : 1 & 2")]
-        public int Semester { get; set; }
+        //[Range(0 , 1, ErrorMessage = "There is only 2 semesters : 1 & 2")]
+        public bool Semester { get; set; }
     }
 }

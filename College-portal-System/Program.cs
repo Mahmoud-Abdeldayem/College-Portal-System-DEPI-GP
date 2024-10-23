@@ -25,7 +25,7 @@ namespace College_portal_System
             builder.Services.AddScoped<IUnitOfWork , UnitOfWork>();
             builder.Services.AddScoped<IBaseRepository<DataAccessLayer.Entities.Task> , BaseRepository<DataAccessLayer.Entities.Task>>();
             builder.Services.AddScoped<IBaseRepository<Course> , BaseRepository<Course>>();
-            builder.Services.AddScoped<IBaseRepository<Department> , BaseRepository<Department>>();
+            builder.Services.AddScoped<IBaseRepository<Department> , DepartmentRepository>();
             builder.Services.AddScoped<TAService>();
             builder.Services.AddScoped<AdminService>();
             builder.Services.AddScoped<TAService>();
@@ -36,7 +36,7 @@ namespace College_portal_System
             .AddEntityFrameworkStores<AppDbContext>()
             .AddDefaultTokenProviders();
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<AppDbContext>();
+            //builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<AppDbContext>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -51,7 +51,7 @@ namespace College_portal_System
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             using var scope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope();

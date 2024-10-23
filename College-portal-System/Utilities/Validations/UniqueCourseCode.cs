@@ -23,7 +23,7 @@ namespace College_portal_System.Utilities.Validations
                 var course = adminService.GetCourseByCode(currentCourse);
                 if (course != null)
                 {
-                    return new ValidationResult("This course already exist");
+                    return new ValidationResult("This course code already exist");
                 }
                 // course is null => no course with 
                 return ValidationResult.Success;

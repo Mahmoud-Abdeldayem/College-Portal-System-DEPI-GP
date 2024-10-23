@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace DataAccessLayer.Entities;
-//[Index(nameof(Email), IsUnique = true)]
-//[Index(nameof(UserName), IsUnique = true)]
+[Index(nameof(Email), IsUnique = true)]
+[Index(nameof(UserName), IsUnique = true)]
 public class ApplicationUser : IdentityUser
 {
     public string NationalId { get; set; } = null!;    
