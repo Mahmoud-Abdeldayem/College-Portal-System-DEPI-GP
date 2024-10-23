@@ -58,6 +58,11 @@ namespace DataAccessLayer.Repositories
             throw new Exception("There is no department with this ID !");
         }
 
+        public Department GetById(string id)
+        {
+            throw new NotImplementedException();
+        }
+
         public Department Insert(Department entity)
         {
             if (entity != null)

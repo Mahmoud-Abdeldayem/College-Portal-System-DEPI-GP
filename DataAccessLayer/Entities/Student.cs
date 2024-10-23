@@ -7,9 +7,9 @@ public partial class Student
 {
     public string NationalId { get; set; } = null!;
     public string StudentId { get; set; } = null!;
-    public DateTime EntryYear { get; set; } = new DateTime(DateTime.Now.Year, 1, 1);
+    public DateOnly EntryYear { get; set; } = new DateOnly(DateTime.Now.Year, 1, 1);
 
-    public DateTime? GradYear { get; set; }
+    public DateOnly? GradYear { get; set; }
 
     public bool? CurrentState { get; set; }
 
