@@ -7,19 +7,19 @@ public partial class Student
 {
     public string NationalId { get; set; } = null!;
     public string StudentId { get; set; } = null!;
-    public DateOnly EntryYear { get; set; }
+    public DateTime EntryYear { get; set; } = new DateTime(DateTime.Now.Year, 1, 1);
 
-    public DateOnly? GradYear { get; set; }
+    public DateTime? GradYear { get; set; }
 
     public bool? CurrentState { get; set; }
 
     public bool? CollegeState { get; set; }
 
-    public short? CurrentYear { get; set; }
+    public short? CurrentYear { get; set; } = 1;
 
     public decimal? TotalGpa { get; set; } = 0;
 
-    public int HoursTaken { get; set; }
+    public int HoursTaken { get; set; } = 0;
 
     public virtual ICollection<CourseEnrollment> CourseEnrollments { get; set; } = new List<CourseEnrollment>();
 

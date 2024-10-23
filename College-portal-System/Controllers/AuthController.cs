@@ -4,6 +4,7 @@ using College_portal_System.Models.UserViewModels;
 using DataAccessLayer.Entities;
 using DataAccessLayer.UnitOfWork;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace College_portal_System.Controllers
 {
@@ -66,7 +67,8 @@ namespace College_portal_System.Controllers
             var student = new Student
             {
                 NationalId = model.NationalId,
-                StudentId = GeneratedstudentId
+                StudentId = GeneratedstudentId,
+                National = newAppUser.AppUser,                                                
             };
 
             _unitOfWork.Students.Insert(student);
@@ -91,14 +93,18 @@ namespace College_portal_System.Controllers
                 return View();
             }
 
-            var student = new Professor
+            var prof = new Professor
             {
                 ProfessorId = model.NationalId,
-                ProfessorNavigation = newAppUser.AppUser,    
-                // The rest of attr depends on the front
+                ProfessorNavigation = newAppUser.AppUser!,    
+                DepartmentId = model.DepartmentId,
+                EnterYear = DateTime.Now.Year,
+                DocUni = model.DocUni,                
+                Title = model.Title,
+                PhDat = model.PHDField,                
             };
 
-            _unitOfWork.Professors.Insert(student);
+            _unitOfWork.Professors.Insert(prof);
             _unitOfWork.Commit();
 
             return View();
@@ -120,17 +126,18 @@ namespace College_portal_System.Controllers
                 return View();
             }
 
-            var student = new TeachingAssistant
+            var TA = new TeachingAssistant
             {
                 Taid = model.NationalId,
                 Ta = newAppUser.AppUser,
                 AssistingProfessorId  = model.AssistingProfessorId, // Depends on the front end
                 AcademicDegree = model.AcademicDegree,
                 DepartmentId = model.DepartmentId, // Depends on the front end
-                University = model.University
+                University = model.University,
+
             };
 
-            _unitOfWork.TAs.Insert(student);
+            _unitOfWork.TAs.Insert(TA);
             _unitOfWork.Commit();
 
             return View();
