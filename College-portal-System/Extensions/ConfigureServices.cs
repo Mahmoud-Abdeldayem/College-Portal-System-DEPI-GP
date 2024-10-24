@@ -9,6 +9,7 @@ using DataAccessLayer.Entities;
 using Microsoft.AspNetCore.Identity;
 using College_portal_System.Seeds;
 using BusinessLogicLayer.AdminService.Services;
+using BusinessLogicLayer.StudentService;
 
 namespace College_portal_System.Extensions
 {
@@ -30,6 +31,9 @@ namespace College_portal_System.Extensions
             builder.Services.AddScoped<TAService>();
             builder.Services.AddScoped<AdminService>();
             builder.Services.AddScoped<TAService>();
+            builder.Services.AddScoped<IStudentService, StudentService>();
+            builder.Services.AddScoped<IStudentRepo, StudentRepo>();
+
             //);
 
             // Identity Configuration

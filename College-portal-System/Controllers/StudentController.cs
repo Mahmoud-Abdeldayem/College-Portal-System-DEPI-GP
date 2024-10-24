@@ -104,10 +104,21 @@ namespace College_portal_System.Controllers
             {
                 Name = course.Name,
                 Code = course.Code,
-                CourseID = course.CourseID,
+                CourseID = (int)course.CourseID,
             }).ToList();
 
             return availableCoursesViewModelList;
+        }
+        private List<AvailableCoursesViewModel> GetRegisteredCourses(string id)
+        {
+            var enrollment = _service.ViewRegisteredCourses(id);
+            var enrollmentList=enrollment.Select(x=>new AvailableCoursesViewModel
+            {
+                Name = x.Name,
+                Code = x.Code,
+                CourseID = (int)x.CourseID,
+            }).ToList();
+            return enrollmentList;
         }
 
         public IActionResult Index()
@@ -203,6 +214,10 @@ namespace College_portal_System.Controllers
             _service.RegisterCourses(StudentiD, CourseId);
             TempData["success"] = "Registered Successfully";
             return RedirectToAction("RegisterCourses", new {id=StudentiD});
+        }
+        public IActionResult ViewRegisteredCourses(string id)
+        {
+            return View(GetRegisteredCourses(id));
         }
 
     }

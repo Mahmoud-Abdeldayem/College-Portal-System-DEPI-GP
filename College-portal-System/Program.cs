@@ -10,10 +10,8 @@ namespace College_portal_System
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
             // Registeration of services from an extended class
             builder.RegisterServices();
-            
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
