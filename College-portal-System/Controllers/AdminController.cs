@@ -1,49 +1,19 @@
-﻿using BusinessLogicLayer.AdminService.Services;
-using BusinessLogicLayer.DTOs.AdminDTOs;
-using College_portal_System.Models.AdminViewModel;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿
+
+using BusinessLogicLayer.AuthenticationService.Implementations;
+using College_portal_System.Extensions;
+using College_portal_System.ViewModels.UserViewModels;
+using DataAccessLayer.Entities;
+using DataAccessLayer.UnitOfWork;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace College_portal_System.Controllers
 {
-    public class AdminController : Controller
+    public class AdminController(AdminService adminService, IUnitOfWork unitOfWork) : Controller
     {
+        private readonly AdminService _adminService = adminService;
+        private readonly IUnitOfWork _unitOfWork = unitOfWork;        
 
-        private readonly AdminService _adminService;
-
-        public AdminController(AdminService adminService) 
-        { 
-            _adminService = adminService;
-        }
-
-        private List<SelectListItem> GetAllCoursesSelectList()
-        {
-            return _adminService.GetCourses().Select(c => new SelectListItem()
-            {
-                Value = c.CourseId.ToString(),
-                Text = c.Name
-            }).ToList();
-        } 
-
-        private List<SelectListItem> GetAllDepartmentsSelectList()
-        {
-            return _adminService.GetDepartments().Select(d => new SelectListItem()
-            {
-                Value = d.DepartmentId.ToString(),
-                Text = d.Name
-            }).ToList();
-        }
-
-        private List<SelectListItem> GetAllProfessorsSelectList()
-        {
-            return _adminService.GetAllProfessors().Select(p => new SelectListItem()
-            {
-                Value = p.ProfessorId,
-                Text =  $"{p.ProfessorNavigation.FirstName} {p.ProfessorNavigation.LastName}",
-            }).ToList();    
-        }
-        
         //------------------------------<End of private fields>-----------------------------------
         public IActionResult Index()
         {
@@ -51,10 +21,27 @@ namespace College_portal_System.Controllers
             return View();
         }
 
-        public IActionResult AddStudent()
+        #region Students Views
+        public IActionResult StudentIndex()
         {
-            return View();
+            var students = _unitOfWork.StudentRepo.GetAll();
+
+            if (students is null)
+                return NotFound();
+
+            var studentViews =  students.MapToViewModel();
+
+            return View(studentViews);
         }
+        
+        public IActionResult CreateStudent()
+        {
+            var studentViewModel = new ApplicationUserFormVM();
+
+            return View(studentViewModel);
+        }        
+
+        #endregion
 
         public IActionResult Students()
         {
@@ -183,6 +170,35 @@ namespace College_portal_System.Controllers
         public IActionResult EditStudent()
         {
             return View();
-        } 
+        }       
+
+        #region Overloads
+        private List<SelectListItem> GetAllCoursesSelectList()
+        {
+            return _adminService.GetCourses().Select(c => new SelectListItem()
+            {
+                Value = c.CourseId.ToString(),
+                Text = c.Name
+            }).ToList();
+        }
+
+        private List<SelectListItem> GetAllDepartmentsSelectList()
+        {
+            return _adminService.GetDepartments().Select(d => new SelectListItem()
+            {
+                Value = d.DepartmentId.ToString(),
+                Text = d.Name
+            }).ToList();
+        }
+
+        private List<SelectListItem> GetAllProfessorsSelectList()
+        {
+            return _adminService.GetAllProfessors().Select(p => new SelectListItem()
+            {
+                Value = p.ProfessorId,
+                Text = $"{p.ProfessorNavigation.FirstName} {p.ProfessorNavigation.LastName}",
+            }).ToList();
+        }
+        #endregion
     }
 }

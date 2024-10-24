@@ -36,7 +36,7 @@ namespace DataAccessLayer.Repositories
 
         public List<Student> GetAll()
         {
-            var students=_context.Students.ToList();
+            var students=_context.Students.Include(ap => ap.National).ToList();
             return students;
         }
 
