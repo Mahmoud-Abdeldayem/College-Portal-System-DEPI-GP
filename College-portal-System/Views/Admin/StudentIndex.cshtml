@@ -1,0 +1,57 @@
+﻿@{
+    ViewData["Title"] = "Students";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@model IEnumerable<StudentOverviewModel>
+
+
+@section Styles {
+    <link href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" rel="stylesheet" type="text/css" crossorigin="anonymous" />
+}
+
+<div class="card shadow-sm mb-5">
+    <div class="card-header">
+        <div class="d-flex">
+            <div class="p-2 col-10">
+                <h2 style="color: #000; font-weight:bold">Students</h2>
+            </div>
+            <div class="p-2 col-2 text-center">
+                <a class="btn btn-primary" asp-controller="Admin" asp-action="CreateStudent">
+                    <i class="bi bi-plus-circle"></i>
+                    Add Student
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow-sm mb-4">
+    <div class="card-body py-5 pt-2 overflow-auto">
+        <div class="table-responsive" style="min-height: 270px">
+            <table class="js-datatable" class="row-border" style="width:100%">
+                <thead>
+                    <tr>
+                        <th class="text-center">Name</th>
+                        <th class="text-center">Email</th>
+                        <th class="text-center">Student Id</th>
+                        <th class="text-center">Phone Number</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var student in Model)
+                    {
+                        <partial name="_StudentRowData" model="student" />
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js" asp-append-version="true"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+}

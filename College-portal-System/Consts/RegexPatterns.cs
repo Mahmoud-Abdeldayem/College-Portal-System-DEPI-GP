@@ -11,6 +11,6 @@
         public const string DenySpecialCharacters = "^[^<>!#%$]*$";
         public const string ValidNumber_Eg = "^01[0,1,2,5]{1}[0-9]{8}$";
         public const string NumbersOnly = "^[0-9\\.]+$";
-        public const string NationalIdFormat = "^(2|3)\\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\\d|3[01])\\d{2}\\d{5}$\r\n";
+        public const string NationalIdFormat = "^(2|3)\\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\\d|3[01])\\d{2}\\d{5}$";
     }
 }

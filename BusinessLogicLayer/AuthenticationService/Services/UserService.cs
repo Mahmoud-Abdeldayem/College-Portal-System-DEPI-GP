@@ -1,5 +1,7 @@
 ﻿using BusinessLogicLayer.AuthenticationService.Implementations;
+using BusinessLogicLayer.DTOs.Users;
 using DataAccessLayer.Entities;
+using DataAccessLayer.UnitOfWork;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -9,10 +11,12 @@ using System.Threading.Tasks;
 
 namespace BusinessLogicLayer.AuthenticationService.Services
 {
-    public class UserService(UserManager<ApplicationUser> userManager) : IUserService
+    public class UserService(UserManager<ApplicationUser> userManager, IUnitOfWork unitOfWork) : IUserService
     {
         private readonly UserManager<ApplicationUser> _userManager = userManager;
-
+        private readonly IUnitOfWork _unitOfWork = unitOfWork;
+        private static int lastUsedAcademicYear = GetAcademicYear(); // Track the academic year in memory
+        private static int sequence = 0;
         public async Task<IdentityResult> RegisterUserAsync(ApplicationUser user, string password)
         {
             return await _userManager.CreateAsync(user, password);
@@ -59,6 +63,44 @@ namespace BusinessLogicLayer.AuthenticationService.Services
 
 
             return (IsSucceded: true, ErrorMessage: null);
+        }
+
+        public async Task<(bool IsSucceded, string? ErrorMessage)> CreateStudentAsync(ApplicationUserDto model, ApplicationUser userModel)
+        {
+
+            int currentAcademicYear = GetAcademicYear();
+
+            if (currentAcademicYear != lastUsedAcademicYear)
+            {
+                sequence = 0;
+                lastUsedAcademicYear = currentAcademicYear;
+            }
+            ++sequence;
+
+            string GeneratedstudentId = $"{currentAcademicYear}{sequence.ToString("D4")}";
+
+            var student = new Student
+            {
+                NationalId = model.NationalId,
+                StudentId = GeneratedstudentId,
+                National = userModel,
+            };
+
+            _unitOfWork.Students.Insert(student);
+            _unitOfWork.Commit();
+
+            return (IsSucceded: true, ErrorMessage: null);
+        }
+
+        private static int GetAcademicYear()
+        {
+            var currentDate = DateTime.Now;
+
+            if (currentDate.Month >= 9)
+            {
+                return currentDate.Year;
+            }
+            else { return currentDate.Year - 1; }
         }
     }
 }

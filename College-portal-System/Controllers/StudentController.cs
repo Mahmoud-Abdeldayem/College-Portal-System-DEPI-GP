@@ -112,7 +112,7 @@ namespace College_portal_System.Controllers
 
         public IActionResult Index()
         {
-            return View(GetUser("30308132100798"));
+            return View();
             
         }
         public IActionResult Profile(string id) 

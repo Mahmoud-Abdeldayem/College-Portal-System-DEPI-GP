@@ -1,4 +1,17 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿var table;
+var UpdatedRow;
+var rowUpdated;
+var datatable;
+var exportedCols = [];
+var table;
+var UpdatedRow;
+var rowUpdated;
+var datatable;
+var exportedCols = [];
+var model;
 
-// Write your JavaScript code.
+
+$(document).ready(function () {
+
+    new DataTable('.js-datatable');
+});

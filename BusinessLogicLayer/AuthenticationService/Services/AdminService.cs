@@ -26,10 +26,9 @@ namespace BusinessLogicLayer.AuthenticationService.Services
                 Address = userForm.Address,
                 Gender = userForm.Gender,
                 Picture = userForm?.Picture,
-
             };
 
-            var createUserResult = await _userManager.CreateAsync(user, userForm.Password);
+            var createUserResult = await _userManager.CreateAsync(user, userForm.NationalId);
 
             if (!createUserResult.Succeeded)
                 return (IsSuccess: false, AppUser: null, Error: string.Join(',', createUserResult.Errors.Select(e => e.Description)));
@@ -40,7 +39,6 @@ namespace BusinessLogicLayer.AuthenticationService.Services
                 return (IsSuccess: false, AppUser: null, Error: string.Join(',', addToRoleResult.Errors.Select(e => e.Description)));
 
             return (IsSuccess: true, AppUser: user, Error: null);
-        }
-
+        }        
     }
 }

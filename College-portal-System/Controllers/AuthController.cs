@@ -8,12 +8,13 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace College_portal_System.Controllers
 {
-    public class AuthController(UnitOfWork unitOfWork, IAdminService adminService) : Controller
-    {
+    public class AuthController(UnitOfWork unitOfWork, IAdminService adminService, IUserService userService) : Controller
+    {        
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
         private readonly IAdminService _adminService = adminService;
-        private static int lastUsedAcademicYear = GetAcademicYear(); // Track the academic year in memory
-        private static int sequence = 0;
+        private readonly IUserService _userService = userService;
+ 
+
         public IActionResult Index()
         {
             return View("AddStudent");
@@ -38,21 +39,10 @@ namespace College_portal_System.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateStudentAsync(StudentFormViewModel model)
+        public async Task<IActionResult> AddStudentAsync(ApplicationUserFormVM model)
         {
             if (!ModelState.IsValid)
-                return View();
-
-            int currentAcademicYear = GetAcademicYear();
-
-            if (currentAcademicYear != lastUsedAcademicYear)
-            {
-                sequence = 0;
-                lastUsedAcademicYear = currentAcademicYear;
-            }
-            ++sequence;
-
-            string GeneratedstudentId = $"{currentAcademicYear}{sequence.ToString("D4")}";
+                return View(model);            
 
             var user = model.MapToModel();
 
@@ -61,20 +51,18 @@ namespace College_portal_System.Controllers
             if (!newAppUser.IsSuccess)
             {
                 ModelState.AddModelError(string.Empty, newAppUser.Error!);
-                return View();
+                return View(ModelState);
             }
 
-            var student = new Student
+            var student = await _userService.CreateStudentAsync(model: user, userModel: newAppUser.AppUser);
+
+            if (!student.IsSucceded)
             {
-                NationalId = model.NationalId,
-                StudentId = GeneratedstudentId,
-                National = newAppUser.AppUser,                                                
-            };
+                ModelState.AddModelError(string.Empty, student.ErrorMessage!);
+                return View(ModelState);
+            }
 
-            _unitOfWork.Students.Insert(student);
-            _unitOfWork.Commit();
-
-            return View();
+            return RedirectToAction("StudentIndex", "Admin");
         }
 
         [HttpPost]
@@ -141,17 +129,6 @@ namespace College_portal_System.Controllers
             _unitOfWork.Commit();
 
             return View();
-        }
-
-        private static int GetAcademicYear()
-        {
-            var currentDate = DateTime.Now;
-
-            if (currentDate.Month >= 9)
-            {
-                return currentDate.Year;
-            }
-            else { return currentDate.Year - 1; }
-        }
+        }        
     }
 }
