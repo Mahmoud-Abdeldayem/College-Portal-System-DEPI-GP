@@ -84,7 +84,7 @@ namespace BusinessLogicLayer.StudentService
             var course=_unitOfWork.CourseRepo.GetAll();
             var transcripts= from enrollment in courseEnrollment
                              join courses in course on enrollment.CourseId equals courses.CourseId
-                             where enrollment.StudentId==id
+                             where enrollment.StudentId==id && enrollment.State!=null
                              select new TranscriptDTO
                              {
                                  CourseName = courses.Name,
@@ -92,7 +92,7 @@ namespace BusinessLogicLayer.StudentService
                                  Hours = courses.Hours,
                                  FinalGrade = enrollment.FinalGrade
                              };
-            if(student.DepartmentId == 0)
+            if (student.DepartmentId == 0)
             {
                 return new StudentTranscriptDTO
                 {
@@ -112,21 +112,21 @@ namespace BusinessLogicLayer.StudentService
             }
             else
             {
-            return new StudentTranscriptDTO
-            {
-                FirstName = student.FirstName,
-                LastName = student.LastName,
-                Picture = student.Picture,
-                TotalGpa = student.TotalGpa,
-                HoursTaken = student.HoursTaken,
-                CurrentState = student.CurrentState,
-                CurrentYear = student.CurrentYear,
-                DepartmentName = student.DepartmentName, 
-                NationalId = student.NationalId,
-                StudentId = student.StudentId,
-                Gender = student.Gender,
-                Transcripts = transcripts.ToList()
-            };
+                return new StudentTranscriptDTO
+                {
+                    FirstName = student.FirstName,
+                    LastName = student.LastName,
+                    Picture = student.Picture,
+                    TotalGpa = student.TotalGpa,
+                    HoursTaken = student.HoursTaken,
+                    CurrentState = student.CurrentState,
+                    CurrentYear = student.CurrentYear,
+                    DepartmentName = student.DepartmentName,
+                    NationalId = student.NationalId,
+                    StudentId = student.StudentId,
+                    Gender = student.Gender,
+                    Transcripts = transcripts.ToList()
+                };
             }
             
         }
@@ -159,6 +159,7 @@ namespace BusinessLogicLayer.StudentService
                         };
             return new RegisterDeptDTO
             {
+                CurrentYear = student.CurrentYear,
                 StudentDepartment=student.DepartmentId,
                 Depts=depts.ToList()
             };
@@ -170,12 +171,21 @@ namespace BusinessLogicLayer.StudentService
         }
         public void UpdateUser(string id,UserViewDTO user, IFormFile? pictureFile)
         {
+            byte[]? pictureData = null;
+            if (pictureFile != null && pictureFile.Length > 0)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    pictureFile.CopyTo(memoryStream);
+                    pictureData = memoryStream.ToArray();
+                }
+            }
             var DataToUpdate = new ApplicationUser
             {
                 FirstName = user.FirstName,
                 LastName =user.LastName,
                 Address = user.Address,
-                Picture=user.Picture,
+                Picture=pictureData,
                 PhoneNumber=user.Phone,
                 Email=user.Email,
             };
@@ -249,17 +259,46 @@ namespace BusinessLogicLayer.StudentService
 
         public List<AvailableCoursesDTO> ViewRegisteredCourses(string id)
         {
-            var enrollments=_unitOfWork.CourseEnrollmentRepo.GetAll()
-                            .Where(x=>x.EnrollmentDate.Month==10 && x.StudentId==id)
-                            .ToList();
-            var availableCourses = enrollments.Select(e => new AvailableCoursesDTO
-            {
-                CourseID = (int)e.CourseId,
-                Name = e.Course.Name,
-                Code = e.Course.Code
-            }).ToList();
+            var date = DateTime.Now;
+            var month = date.Month;
+            var year = date.Year;
+
+            // Determine the target month based on the current month
+            var targetMonth = (month >= 10 || month <= 1) ? 10 : 2;
+
+            // Fetch enrollments for the target month, student ID, and year
+            var enrollments = _unitOfWork.CourseEnrollmentRepo.GetAll()
+                .Where(x => x.EnrollmentDate.Month == targetMonth
+                             && x.StudentId == id
+                             && x.EnrollmentDate.Year == year
+                             && x.State==null)
+                .ToList();
+
+            // Fetch all courses to avoid using Include
+            var allCourses = _unitOfWork.Courses.GetAll().ToList();
+
+            // Create a list of available courses based on the enrollments
+            var availableCourses = enrollments
+                .Select(e =>
+                {
+                    var course = allCourses.FirstOrDefault(c => c.CourseId == e.CourseId);
+                    return new AvailableCoursesDTO
+                    {
+                        CourseID = e.CourseId ?? 0,  // Ensure CourseId is safely accessed
+                        Name = course?.Name ?? "Unknown Course",  // Safe navigation
+                        Code = course?.Code ?? "N/A",               // Safe navigation
+                        EnrollmentId=e.EnrollmentId
+                    };
+                })
+                .ToList();
 
             return availableCourses;
+        }
+        
+        public void DeleteRegister(int id)
+        {
+            _unitOfWork.CourseEnrollmentRepo.DeleteById(id);
+            _unitOfWork.Commit();
         }
     }
 }

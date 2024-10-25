@@ -11,7 +11,7 @@
 }
 
 <div class="pagetitle">
-    <h1>Profile</h1>
+    <h1>Courses</h1>
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item">Home</li>
@@ -20,7 +20,12 @@
         </ol>
     </nav>
 </div>
-
+@if (TempData["success"] != null)
+{
+    <div class="alert alert-info">
+        @TempData["success"]
+    </div>
+}
 <div class="card">
     <div class="card-body">
         <!-- Bordered Table -->
@@ -37,6 +42,13 @@
                     <tr>
                         <th scope="row">@item.Name</th>
                         <td>@item.Code</td>
+                        <td>
+                            <form asp-controller="Student" asp-action="DeleteRegister" asp-route-Id="@item.EnrollmentId" method="post">
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary">Delete</button>
+                                </div>
+                            </form>
+                        </td>
                     </tr>
                 }
 

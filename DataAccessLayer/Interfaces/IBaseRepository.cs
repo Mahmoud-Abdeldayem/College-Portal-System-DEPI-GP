@@ -16,5 +16,6 @@ namespace DataAccessLayer.Interfaces
         T Delete(T Entity);
         T Update(T entity);
         T Insert(T entity);
+        
     }
 }

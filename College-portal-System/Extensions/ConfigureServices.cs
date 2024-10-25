@@ -11,6 +11,7 @@ using College_portal_System.Seeds;
 using BusinessLogicLayer.AdminService.Services;
 using BusinessLogicLayer.ProfService;
 using BusinessLogicLayer.StudentService;
+using BusinessLogicLayer.ProfService.BusinessLogicLayer.MaterialService;
 
 
 namespace College_portal_System.Extensions
