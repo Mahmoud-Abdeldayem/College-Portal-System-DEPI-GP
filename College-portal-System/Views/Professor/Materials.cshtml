@@ -1,0 +1,93 @@
+﻿@{
+    ViewData["Title"] = "Materials";
+    Layout = "~/Views/Shared/_LayoutProfessor.cshtml";
+}
+<div class="pagetitle">
+    <h1>Dashboard / Add Materials</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">Home</li>
+            <li class="breadcrumb-item active">Your Materials</li>
+        </ol>
+    </nav>
+</div><!-- End Page Title -->
+
+<section class="section">
+    <div class="row">
+        <div class="col-lg-12">
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Materials</h5>
+                    <!-- Table with stripped rows -->
+                    <table class="table datatable">
+                        <thead>
+                            <tr>
+                                <th>Material Name</th>
+                                <th>Course</th>
+                                <th>Link</th>
+                                <th>Start Date</th>
+                                <!-- New columns for actions -->
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Introduction to C#</td>
+                                <td>Course 1</td>
+                                <td><a href="https://example.com/material1" target="_blank">View Material</a></td>
+                                <td>2023/01/15</td>
+                                <td>
+                                    <a href="#" class="btn btn-warning btn-sm">
+                                        <i class="bi bi-pencil-fill"></i> <!-- Bootstrap Icons edit icon -->
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="#" class="btn btn-danger btn-sm">
+                                        <i class="bi bi-trash-fill"></i> <!-- Bootstrap Icons delete icon -->
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Advanced Java Programming</td>
+                                <td>Course 2</td>
+                                <td><a href="https://example.com/material2" target="_blank">View Material</a></td>
+                                <td>2023/02/20</td>
+                                <td>
+                                    <a href="#" class="btn btn-warning btn-sm">
+                                        <i class="bi bi-pencil-fill"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="#" class="btn btn-danger btn-sm">
+                                        <i class="bi bi-trash-fill"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Web Development Basics</td>
+                                <td>Course 3</td>
+                                <td><a href="https://example.com/material3" target="_blank">View Material</a></td>
+                                <td>2023/03/10</td>
+                                <td>
+                                    <a href="#" class="btn btn-warning btn-sm">
+                                        <i class="bi bi-pencil-fill"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="#" class="btn btn-danger btn-sm">
+                                        <i class="bi bi-trash-fill"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- End Table with stripped rows -->
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+

@@ -246,5 +246,20 @@ namespace BusinessLogicLayer.StudentService
             _unitOfWork.StudentRepo.RegisterCourses(StudentId, CourseId);
             _unitOfWork.Commit();
         }
+
+        public List<AvailableCoursesDTO> ViewRegisteredCourses(string id)
+        {
+            var enrollments=_unitOfWork.CourseEnrollmentRepo.GetAll()
+                            .Where(x=>x.EnrollmentDate.Month==10 && x.StudentId==id)
+                            .ToList();
+            var availableCourses = enrollments.Select(e => new AvailableCoursesDTO
+            {
+                CourseID = (int)e.CourseId,
+                Name = e.Course.Name,
+                Code = e.Course.Code
+            }).ToList();
+
+            return availableCourses;
+        }
     }
 }
