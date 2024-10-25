@@ -19,7 +19,8 @@ namespace BusinessLogicLayer.StudentService
         public void UpdateUser(string id, UserViewDTO user, IFormFile? pictureFile);
         public void ChangePass(string id, ChangePassDTO pass);
         public List<AvailableCoursesDTO> GetAvailableCourses(string id);
-        public void RegisterCourses(string StudentId,int CourseId); 
+        public void RegisterCourses(string StudentId,int CourseId);
+        public List<AvailableCoursesDTO> ViewRegisteredCourses(string id);
         
     }
 }
