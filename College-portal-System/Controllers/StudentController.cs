@@ -122,6 +122,22 @@ namespace College_portal_System.Controllers
             }).ToList();
             return enrollmentList;
         }
+        private List<TaskViewModel> GetAllTasks(string id)
+        {
+            var tasks=_service.GetAllTasks(id);
+            var taskslist = tasks.Select(t => new TaskViewModel
+            {
+                CourseId = t.CourseId,
+                CourseName = t.CourseName,
+                DeadLine = t.DeadLine,
+                Content = t.Content,
+                Type = t.Type,
+                PublishedBy = t.PublishedBy,
+                TaskDetailsLink = t.TaskDetailsLink,
+                Grade = t.Grade,
+            }).ToList();
+            return taskslist;
+        }
 
         public IActionResult Index()
         {
@@ -242,6 +258,10 @@ namespace College_portal_System.Controllers
             _service.DeleteRegister(id);
             TempData["success"] = "Deleted Successfully";
             return RedirectToAction("ViewRegisteredCourses", new { id = "30308132100798" });
+        }
+        public IActionResult GetMyTasks(string id)
+        {
+            return View(GetAllTasks(id));
         }
     }
 }

@@ -22,6 +22,6 @@ namespace BusinessLogicLayer.StudentService
         public void RegisterCourses(string StudentId,int CourseId);
         public List<AvailableCoursesDTO> ViewRegisteredCourses(string id);
         public void DeleteRegister(int id);
-        
+        public List<TaskDTO> GetAllTasks(string id);
     }
 }

@@ -42,7 +42,7 @@ namespace BusinessLogicLayer.StudentService
                     TotalGpa = student.TotalGpa,
                     HoursTaken = student.HoursTaken,
                     DepartmentId = student.DepartmentId,
-                    DepartmentName = null, // Handle potential null
+                    DepartmentName = null,
                     NationalId = student.NationalId,
                     Phone=user.PhoneNumber,
                     Email=user.Email
@@ -56,7 +56,7 @@ namespace BusinessLogicLayer.StudentService
                     FirstName = user.FirstName,
                     LastName = user.LastName,
                     Address = user.Address,
-                    Gender = user.Gender, // Assuming false for null values
+                    Gender = user.Gender,
                     Picture = user.Picture,
                     StudentId = student.StudentId,
                     EntryYear = student.EntryYear,
@@ -67,7 +67,7 @@ namespace BusinessLogicLayer.StudentService
                     TotalGpa = student.TotalGpa,
                     HoursTaken = student.HoursTaken,
                     DepartmentId = student.DepartmentId,
-                    DepartmentName =department.Name, // Handle potential null
+                    DepartmentName =department.Name,
                     NationalId = student.NationalId,
                     Phone = user.PhoneNumber,
                     Email = user.Email
@@ -263,10 +263,8 @@ namespace BusinessLogicLayer.StudentService
             var month = date.Month;
             var year = date.Year;
 
-            // Determine the target month based on the current month
             var targetMonth = (month >= 10 || month <= 1) ? 10 : 2;
 
-            // Fetch enrollments for the target month, student ID, and year
             var enrollments = _unitOfWork.CourseEnrollmentRepo.GetAll()
                 .Where(x => x.EnrollmentDate.Month == targetMonth
                              && x.StudentId == id
@@ -274,19 +272,17 @@ namespace BusinessLogicLayer.StudentService
                              && x.State==null)
                 .ToList();
 
-            // Fetch all courses to avoid using Include
             var allCourses = _unitOfWork.Courses.GetAll().ToList();
 
-            // Create a list of available courses based on the enrollments
             var availableCourses = enrollments
                 .Select(e =>
                 {
                     var course = allCourses.FirstOrDefault(c => c.CourseId == e.CourseId);
                     return new AvailableCoursesDTO
                     {
-                        CourseID = e.CourseId ?? 0,  // Ensure CourseId is safely accessed
-                        Name = course?.Name ?? "Unknown Course",  // Safe navigation
-                        Code = course?.Code ?? "N/A",               // Safe navigation
+                        CourseID = e.CourseId,
+                        Name = course?.Name, 
+                        Code = course?.Code,
                         EnrollmentId=e.EnrollmentId
                     };
                 })
@@ -300,5 +296,29 @@ namespace BusinessLogicLayer.StudentService
             _unitOfWork.CourseEnrollmentRepo.DeleteById(id);
             _unitOfWork.Commit();
         }
+
+        public List<TaskDTO> GetAllTasks(string id)
+        {
+            var availableCourses = ViewRegisteredCourses(id);
+            var courseIds = availableCourses.Select(c => c.CourseID).ToList();
+            var tasks = _unitOfWork.Tasks.GetAll()
+                .Where(t => courseIds.Contains(t.CourseId))
+                .Select(t => new TaskDTO
+                {
+                    CourseId = t.CourseId,
+                    CourseName = t.Course?.Name, 
+                    DeadLine = t.Deadline, 
+                    Content = t.Content,
+                    Type = t.Type,
+                    PublishedBy = t.AssignedByTaid,
+                    TaskDetailsLink = t.TaskLink,
+                    Grade=t.Grade,
+
+                })
+                .ToList();
+
+            return tasks;
+        }
+
     }
 }
