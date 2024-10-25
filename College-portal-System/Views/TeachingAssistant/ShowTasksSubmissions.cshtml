@@ -1,0 +1,101 @@
+﻿@{
+    ViewData["Title"] = "Results";
+    Layout = "~/Views/Shared/_LayoutTeachingAssistant.cshtml";
+}
+
+@model ShowStudentsSubmissionsViewModel
+
+<form>
+    <div>
+        <label for="course">Select Course:</label>
+        <select id="course" name="SelectedCourseId" class="form-control">
+            <option value="">-- Select Course --</option>
+            @foreach (var course in Model.Courses)
+            {
+                <option value="@course.Value">@course.Text</option>
+            }
+        </select>
+    </div>
+
+    <div>
+        <label for="task">Select Task:</label>
+        <select id="task" name="SelectedTaskId" class="form-control">
+            <option value="">-- Select Task --</option>
+            @foreach (var task in Model.Tasks)
+            {
+                <option value="@task.Value">@task.Text</option>
+            }
+        </select>
+    </div>
+
+    <div>
+        <button type="button" id="btnGetSubmissions" class="btn btn-primary ml-3">Get Submissions</button>
+    </div> 
+
+</form>
+
+<div id="submissionsList" class="mt-4">
+    <h4>Task Submissions</h4>
+    <div id="submissions" class="list-group">
+        <!-- Submissions will be dynamically inserted here -->
+    </div>
+</div>
+
+@section Scripts{
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // When course changes, update the tasks dropdown
+            $('#course').change(function() {
+                var courseId = $(this).val();
+            
+                 $.ajax({
+                    url: '@Url.Action("GetTasksByCourse")',
+                    type: 'POST',
+                    data: { courseId: courseId },
+                    success: function(tasks) {
+                        var taskDropdown = $('#task');
+                        taskDropdown.empty();
+                    
+                         $.each(tasks, function(i, task) {
+                            taskDropdown.append($('<option></option>').val(task.value).text(task.text));
+                        });
+                    }
+                });
+            });
+
+            // Fetch submissions when the "Get Submissions" button is clicked
+            $('#btnGetSubmissions').click(function () {
+                var taskId = $('#task').val();
+                if (!taskId) {
+                    alert("Please select a task first.");
+                    return;
+                }
+
+                $.ajax({
+                    url: '@Url.Action("GetAllTasksSubmissions")',
+                    type: 'POST',
+                    data: { taskId: taskId },
+                    success: function (submissions) {
+                        var submissionList = $('#submissions');
+                        submissionList.empty();
+
+                        // Populate the submissions list with styled items for StudentId and SubmissionLink
+                        if (submissions.length > 0) {
+                            $.each(submissions, function (i, submission) {
+                                submissionList.append(
+                                    '<div class="list-group-item d-flex justify-content-between align-items-center">' +
+                                    '<span>Student ID: <strong>' + submission.studentId + '</strong></span>' +
+                                    '<a href="' + submission.submissionLink + '" class="btn btn-outline-primary btn-sm" target="_blank">View Submission</a>' +
+                                    '</div>'
+                                );
+                            });
+                        } else {
+                            submissionList.append('<p class="text-muted">No submissions found for the selected task.</p>');
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}

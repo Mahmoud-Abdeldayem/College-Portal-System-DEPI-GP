@@ -42,9 +42,17 @@
                             <p>
                                 @task.Content
                             </p>
-
-                            <button class="assignment-btn btn" style="width: 100%;margin: 0px 4px; background-color: #f1b341;">Edit</button>
-                            <button class="assignment-btn btn btn-success" style="width: 100%;margin: 5px 4px;">Show Results</button>
+                                    <a asp-action="EditTask"
+                                    asp-route-id="@task.TaskId"
+                                       class="assignment-btn btn btn-success"
+                                       style="width: 100%; margin: 5px 4px; background-color: #FFFFE0; color: black; text-align: center; display: inline-block; text-decoration: none; padding: 10px;">
+                                        Edit
+                                    </a>
+                                    <a asp-action="ShowTasksSubmissions"
+                                           class="assignment-btn btn btn-success"
+                                           style="width: 100%; margin: 5px 4px; background-color: #28a745; color: white; text-align: center; display: inline-block; text-decoration: none; padding: 10px;">
+                                        Show Submissions
+                                    </a>
                         </div>
                      </div>
                     }

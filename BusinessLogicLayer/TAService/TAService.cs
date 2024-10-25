@@ -89,11 +89,58 @@ namespace BusinessLogicLayer.TAService
                 Deadline = task.Deadline,
                 Content = task.Content,
                 Type = task.Type,
-                AssignedByTaid = "30403468745632",
+                AssignedByTaid = task.AssignedByTaid,
                 TaskLink = task.TaskLink
             };
             var insertedTask = _unitOfWork.Tasks.Insert(newTask);
             _unitOfWork.Commit();
+        }
+
+        public void EditTask(EditTaskDTO task)
+        {
+            var editedTask = _unitOfWork.Tasks.Get(t => t.TaskId == task.TaskId).FirstOrDefault();
+            if (editedTask != null)
+            {
+                editedTask.Content = task.Content;
+                editedTask.TaskLink = task.TaskLink;
+                editedTask.Deadline = task.Deadline;
+                editedTask.Grade = task.Grade;
+                _unitOfWork.Tasks.Update(editedTask);
+                _unitOfWork.Commit();
+                return;
+            }
+            else
+            {
+                throw new Exception("There is no task with this ID !");
+            }
+        }
+
+        public void DeleteTaskById(int taskId)
+        {
+            _unitOfWork.Tasks.DeleteById(taskId);
+            _unitOfWork.Commit();
+        }
+        public List<TaskSelectionDTO> GetTasksSelectionByCourse(int courseId)
+        {
+            var tasks = _unitOfWork.Tasks.Get(t => t.CourseId == courseId).Select(
+                    t => new TaskSelectionDTO()
+                    {
+                        Id = t.TaskId,
+                        Name = t.Content
+                    }).ToList();
+            return tasks;
+        }
+
+        public List<SubmittedTaskDTO> GetTaskSubmissions(int taskId)
+        {
+            var taskSubmissions = _unitOfWork.TaskSubmissions.Get(s => s.TaskId == taskId).Select(
+                t => new SubmittedTaskDTO()
+                {
+                    StudentId = t.StudentId,
+                    SubmissionDate = t.SubmissionDate,
+                    SubmissionLink = t.SubmissionLink
+                }).ToList();
+            return taskSubmissions;  
         }
     }
 }
