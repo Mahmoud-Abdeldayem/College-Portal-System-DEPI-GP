@@ -5,15 +5,14 @@ using DataAccessLayer.Entities;
 using DataAccessLayer.UnitOfWork;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Build.Framework;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace College_portal_System.Controllers
 {
-    public class AuthController(IUserService userService, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager) : Controller
+    public class AuthController(IUserService userService) : Controller
     {        
-        private readonly IUserService _userService = userService;
-       
-
+        private readonly IUserService _userService = userService;        
         public IActionResult Index()
         {
             return View("AddStudent");

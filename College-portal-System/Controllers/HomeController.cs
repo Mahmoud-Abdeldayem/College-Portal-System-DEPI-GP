@@ -2,6 +2,7 @@ using College_portal_System.Data.Consts;
 using College_portal_System.Models;
 using College_portal_System.ViewModels;
 using College_portal_System.ViewModels.UserViewModels;
+using DataAccessLayer.Entities;
 using DataAccessLayer.UnitOfWork;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -13,10 +14,10 @@ namespace College_portal_System.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IUnitOfWork _unitOfWork;
-        public HomeController(IUnitOfWork unitOfWork, ILogger<HomeController> logger, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
+        public HomeController(IUnitOfWork unitOfWork, ILogger<HomeController> logger, SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
         {
             _logger = logger;
             _signInManager = signInManager;
@@ -31,55 +32,47 @@ namespace College_portal_System.Controllers
         }
       
         [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+        [AllowAnonymous]        
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                return View();
+                return View(model);
             }
 
-            var user = await _userManager.FindByEmailAsync(model.Email);
-
-            var role = _unitOfWork.ApplicationUserRepo.GetRole(user.Id);
+            var user =  _unitOfWork.ApplicationUserRepo.GetByEmail(model.Email);
 
             var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, lockoutOnFailure: false);
 
             if (result.Succeeded)
             {
-                if (role == "Student")
+                if (user.Role == "Student")
                 {
                     _logger.LogInformation("Admin logged in.");
-                    return RedirectToAction("Index", "Dashboard");
+                    return RedirectToAction("Index", "Student");
                 }
 
-                if (role == "Teaching Assisstant    ")
+                if (user.Role == "Teaching Assisstant")
                 {
                     _logger.LogInformation("Admin logged in.");
-                    return RedirectToAction("Index", "Dashboard");
+                    return RedirectToAction("Index", "TeachingAssistant");
                 }
 
-                if (role == "Admin")
+                if (user.Role == "Admin")
                 {
                     _logger.LogInformation("Admin logged in.");
-                    return RedirectToAction("Index", "Dashboard");
+                    return RedirectToAction("Index", "Admin");
                 }
 
-                if (role == "Professor")
+                if (user.Role == "Professor")
                 {
                     _logger.LogInformation("Admin logged in.");
-                    return RedirectToAction("Index", "Dashboard");
-                }
-
-                return View();
+                    return RedirectToAction("Index", "Professor");
+                }                
             }
 
-            else
-            {
-                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                return View("Index");
-            }
+            ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+            return View("Index");
         }
 
         [HttpPost]

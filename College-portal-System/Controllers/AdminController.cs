@@ -17,7 +17,7 @@ namespace College_portal_System.Controllers
         //------------------------------<End of private fields>-----------------------------------
         public IActionResult Index()
         {
-            ViewBag.Name = "Mahmoud Abdeldayem";
+            ViewBag.Name = "Admin!!";
             return View();
         }
 

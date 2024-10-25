@@ -36,10 +36,7 @@ namespace College_portal_System
 
             DefaultRoles.SeedRolesAsync(roleManager);
             // await DefaultUsers.SeedAdminUser(userManager);
-
-            app.MapRazorPages();
-
-
+           
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");

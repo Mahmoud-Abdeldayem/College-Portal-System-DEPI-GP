@@ -52,8 +52,7 @@
     <partial name="_AdminFooterPartialView"></partial>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    @await RenderSectionAsync("Scripts", required: false)
-
+   
     <script src="/AdminAssets/vendor/apexcharts/apexcharts.min.js"></script>
     <script src="/AdminAssets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="/AdminAssets/vendor/chart.js/chart.umd.js"></script>
@@ -62,6 +61,8 @@
     <script src="/AdminAssets/vendor/simple-datatables/simple-datatables.js"></script>
     <script src="/AdminAssets/vendor/tinymce/tinymce.min.js"></script>
     <script src="/AdminAssets/vendor/php-email-form/validate.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
 
     <!-- Template Main JS File -->
     <script src="/AdminAssets/js/main.js"></script>

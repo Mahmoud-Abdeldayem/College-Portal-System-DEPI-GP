@@ -64,6 +64,11 @@ namespace DataAccessLayer.Repositories
             return tasks;
         }
 
+        public TeachingAssistant GetByEmail(string email)
+        {
+            throw new NotImplementedException();
+        }
+
         // Get Teaching Assistant by Id
         public TeachingAssistant GetById(int id)
         {

@@ -3,7 +3,7 @@
 @foreach (var record in Model.Students)
 {
     <tr>
-        <td class="text-center">@($"{@record.National.FirstName} {@record.National.FirstName}")</td>
+        <td class="text-center">@($"{@record.National.FirstName} {@record.National.LastName}")</td>
         <td class="text-center">@record.National.Email</td>
         <td class="text-center">@record.StudentId</td>
         <td class="text-center">@record.National.PhoneNumber</td>

@@ -122,44 +122,34 @@ namespace BusinessLogicLayer.AuthenticationService.Services
 
             return (IsSucceded: true, ErrorMessage: null);
         }
-        
-        //public async Task<(bool IsSucceded, string? ErrorMessage)> CreateProfessorAsync(ApplicationUserDto model, ApplicationUser userModel)
-        //{
-        //    var prof = new Professor
-        //    {
-        //        ProfessorId = model.NationalId,
-        //        ProfessorNavigation = newAppUser.AppUser!,
-        //        DepartmentId = model.DepartmentId,
-        //        EnterYear = DateTime.Now.Year,
-        //        DocUni = model.DocUni,
-        //        Title = model.Title,
-        //        PhDat = model.PHDField,
-        //    };
 
-        //    _unitOfWork.Professors.Insert(prof);
-        //    _unitOfWork.Commit();
+        public (bool IsSucceded, string? ErrorMessage) CreateProfessor(ApplicationUserDto model, ApplicationUser userModel)
+        {
 
-        //    return (IsSucceded: true, ErrorMessage: null);
-        //}
+            int currentAcademicYear = GetAcademicYear();
 
-        //public async Task<(bool IsSucceded, string? ErrorMessage)> CreateProfessorAsync(ApplicationUserDto model, ApplicationUser userModel)
-        //{
-        //    var TA = new TeachingAssistant
-        //    {
-        //        Taid = model.NationalId,
-        //        Ta = newAppUser.AppUser,
-        //        AssistingProfessorId = model.AssistingProfessorId, // Depends on the front end
-        //        AcademicDegree = model.AcademicDegree,
-        //        DepartmentId = model.DepartmentId, // Depends on the front end
-        //        University = model.University,
-        //        Faculty = model.Faculty,
-        //    };
+            if (currentAcademicYear != lastUsedAcademicYear)
+            {
+                sequence = 0;
+                lastUsedAcademicYear = currentAcademicYear;
+            }
+            ++sequence;
 
-        //    _unitOfWork.TAs.Insert(TA);
-        //    _unitOfWork.Commit();
+            string GeneratedstudentId = $"{currentAcademicYear}{sequence.ToString("D4")}";
 
-        //    return (IsSucceded: true, ErrorMessage: null);
-        //}
+            var student = new Student
+            {
+                NationalId = model.NationalId,
+                StudentId = GeneratedstudentId,
+                National = userModel,
+            };
+
+            _unitOfWork.Students.Insert(student);
+            _unitOfWork.Commit();
+
+            return (IsSucceded: true, ErrorMessage: null);
+        }
+
         private static int GetAcademicYear()
         {
             var currentDate = DateTime.Now;

@@ -71,6 +71,12 @@ namespace DataAccessLayer.Repositories
             return _context.Set<T>().Find(id);
         }
 
+        public T GetByEmail(string email)
+        {
+            return _context.Set<T>().Find(email);
+        }
+
+
         public T Insert(T entity)
         {
             _context.Add(entity);

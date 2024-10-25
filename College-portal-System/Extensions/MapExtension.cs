@@ -1,4 +1,5 @@
-﻿using BusinessLogicLayer.DTOs.Users;
+﻿using BusinessLogicLayer.DTOs.ProfessorDTOs;
+using BusinessLogicLayer.DTOs.Users;
 using College_portal_System.Data.Consts;
 using College_portal_System.ViewModels.UserViewModels;
 using DataAccessLayer.Entities;
@@ -30,7 +31,7 @@ namespace College_portal_System.Extensions
 
         public static ApplicationUserDto MapToModel(this ProfessorFormViewModel model)
         {
-            var user = new ApplicationUserDto
+            var user = new ProfessorDto
             {
                 Address = model.Address,
                 Email = model.Email,
@@ -42,6 +43,10 @@ namespace College_portal_System.Extensions
                 SelectedRole = AppRoles.Professor,
                 PhoneNumber = model.PhoneNumber,
                 Picture = model.Picture,
+                DepartmentId = model.DepartmentId,
+                DocUni = model.DocUni,
+                PHDField = model.PHDField,
+                Title = model.Title
             };
 
             return user;
@@ -49,7 +54,7 @@ namespace College_portal_System.Extensions
 
         public static ApplicationUserDto MapToModel(this TAFormViewModel model)
         {
-            var user = new ApplicationUserDto
+            var user = new TADto
             {
                 Address = model.Address,
                 Email = model.Email,
@@ -61,6 +66,11 @@ namespace College_portal_System.Extensions
                 SelectedRole = AppRoles.TA,
                 PhoneNumber = model.PhoneNumber,
                 Picture = model.Picture,
+                AcademicDegree = model.AcademicDegree,
+                AssistingProfessorId = model.AssistingProfessorId,
+                DepartmentId = model.DepartmentId,
+                Faculty = model.Faculty,
+                University = model.University
             };
 
             return user;

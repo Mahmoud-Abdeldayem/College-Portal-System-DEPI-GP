@@ -60,6 +60,11 @@ namespace DataAccessLayer.Repositories
             return departments;
         }
 
+        public Department GetByEmail(string email)
+        {
+            throw new NotImplementedException();
+        }
+
         public Department GetById(int id)
         {
             var department = _context.Departments.Where(d => d.DepartmentId == id).FirstOrDefault();
