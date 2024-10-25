@@ -18,6 +18,7 @@ namespace DataAccessLayer.UnitOfWork
         public IBaseRepository<CourseEnrollment> CourseEnrollmentRepo { get; }
         public IBaseRepository<Department> DepartmentRepo { get; }
         public IBaseRepository<Course> CourseRepo { get; }
+        public MaterialRepository MaterialRepo { get; }
 
         ITARepository TAs { get; }
         void Commit();

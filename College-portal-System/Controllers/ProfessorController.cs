@@ -8,5 +8,12 @@ namespace College_portal_System.Controllers
         {
             return View();
         }
+        public IActionResult MaterialDetails() {
+            return View();
+        }
+        public IActionResult Materials()
+        {
+            return View();
+        }
     }
 }
