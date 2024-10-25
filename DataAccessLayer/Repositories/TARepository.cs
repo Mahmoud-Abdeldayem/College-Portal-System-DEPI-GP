@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer.Entities;
 using DataAccessLayer.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,11 @@ namespace DataAccessLayer.Repositories
         public TARepository(AppDbContext context)
         {
             _context = context;
+        }
+
+        public IdentityUserRole<string> AddRole(ApplicationUser user, string roleId)
+        {
+            throw new NotImplementedException();
         }
 
         public TeachingAssistant Delete(TeachingAssistant entity)
@@ -47,7 +53,7 @@ namespace DataAccessLayer.Repositories
 
         public IEnumerable<TeachingAssistant> GetAll()
         {
-            return _context.TeachingAssistants.Include(ta => ta.AssistingProfessor).ToList();
+            return _context.TeachingAssistants.Include(ta => ta.AssistingProfessor);
         }
 
         public List<Entities.Task> GetAllTATasks(string taId)
@@ -78,6 +84,11 @@ namespace DataAccessLayer.Repositories
                                            .ThenInclude(p => p.ProfessorNavigation)
                                            .Where(ct => ct.Taid == teachingAssistantId)
                                            .ToList();
+        }
+
+        public string GetRole(string Id)
+        {
+            throw new NotImplementedException();
         }
 
         // Get general data of a Teaching Assistant
@@ -112,13 +123,13 @@ namespace DataAccessLayer.Repositories
         public ApplicationUser UpdateProfileInfo(ApplicationUser TA)
         {
             // These Data musn't be updated from the BLL
-            var oldTAData = _context.ApplicationUsers.Find(TA.NationalId);
+            var oldTAData = _context.Users.Find(TA.NationalId);
             TA.FirstName = oldTAData.FirstName;
             TA.LastName = oldTAData.LastName;
             TA.Gender = oldTAData.Gender;
             //TA.Role = oldTAData.Role;
             
-            _context.ApplicationUsers.Update(TA);
+            _context.Users.Update(TA);
             return oldTAData;
         }
 

@@ -65,15 +65,34 @@ namespace College_portal_System.Extensions
 
             return user;
         }
-        public static IEnumerable<StudentOverviewModel> MapToViewModel(this List<Student> modelList)
-        {
-            var viewModelList = modelList.Select(m => new StudentOverviewModel
-            {
-                Students = modelList
-            });
 
-            return viewModelList;
+        public static StudentOverviewModel MapToViewModel(this List<Student> modelList)
+        {
+            var viewModel = new StudentOverviewModel();
+
+            viewModel.Students = modelList;
+
+            return viewModel;
         }
+
+        public static StudentOverviewModel MapToViewModel(this List<Professor> modelList)
+        {
+            var viewModel = new StudentOverviewModel();
+
+            viewModel.Professors = modelList;
+
+            return viewModel;
+        }
+
+        public static StudentOverviewModel MapToViewModel(this List<TeachingAssistant> modelList)
+        {
+            var viewModel = new StudentOverviewModel();
+
+            viewModel.TeachingAssistants = modelList;
+
+            return viewModel;
+        }
+
         //public static CityFormViewModel? InitialCityForm(CityFormViewModel? model = null)
         //{
         //    CityFormViewModel cityFormView = model is null ? new CityFormViewModel() : model;

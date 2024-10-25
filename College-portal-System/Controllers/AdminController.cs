@@ -1,6 +1,6 @@
-﻿
-
-using BusinessLogicLayer.AuthenticationService.Implementations;
+﻿using BusinessLogicLayer.AuthenticationService.Implementations;
+using BusinessLogicLayer.AuthenticationService.Services;
+using College_portal_System.Data.Consts;
 using College_portal_System.Extensions;
 using College_portal_System.ViewModels.UserViewModels;
 using DataAccessLayer.Entities;
@@ -9,9 +9,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace College_portal_System.Controllers
 {
-    public class AdminController(AdminService adminService, IUnitOfWork unitOfWork) : Controller
+    public class AdminController(BusinessLogicLayer.AdminService.Services.AdminService adminService, IUnitOfWork unitOfWork) : Controller
     {
-        private readonly AdminService _adminService = adminService;
+        private readonly BusinessLogicLayer.AdminService.Services.AdminService _adminService = adminService;
         private readonly IUnitOfWork _unitOfWork = unitOfWork;        
 
         //------------------------------<End of private fields>-----------------------------------
@@ -22,6 +22,11 @@ namespace College_portal_System.Controllers
         }
 
         #region Students Views
+        public IActionResult Students()
+        {
+            return View();
+        }
+
         public IActionResult StudentIndex()
         {
             var students = _unitOfWork.StudentRepo.GetAll();
@@ -33,20 +38,60 @@ namespace College_portal_System.Controllers
 
             return View(studentViews);
         }
-        
+
+        [HttpGet]
         public IActionResult CreateStudent()
         {
             var studentViewModel = new ApplicationUserFormVM();
 
             return View(studentViewModel);
-        }        
+        }
+        #endregion
+
+        #region TeachingAssisstants Views
+        public IActionResult TeachingAssisstantIndex()
+        {
+            var teachingAssisstants = _unitOfWork.TAs.GetAll().ToList();
+
+            if (teachingAssisstants is null)
+                return NotFound();
+
+            var teachingAssisstantstViews = teachingAssisstants.MapToViewModel();
+
+            return View(teachingAssisstantstViews);
+        }
+
+        [HttpGet]
+        public IActionResult CreateTeachingAssisstant()
+        {
+            var ViewModel = new TAFormViewModel();
+
+            return View(ViewModel);
+        }
 
         #endregion
 
-        public IActionResult Students()
+        #region Professor Views
+        public IActionResult ProfessorIndex()
         {
-            return View();
+            var profs = _unitOfWork.Professors.GetAll().ToList();
+
+            if (profs is null)
+                return NotFound();
+
+            var profsViews = profs.MapToViewModel();
+
+            return View(profsViews);
         }
+
+        [HttpGet]
+        public IActionResult CreateProfessor()
+        {
+            var ViewModel = new ProfessorFormViewModel();
+
+            return View(ViewModel);
+        }
+        #endregion
 
         //----------------------------------------<Courses>---------------------------------------
 

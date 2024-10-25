@@ -3,17 +3,16 @@ using College_portal_System.Extensions;
 using College_portal_System.ViewModels.UserViewModels;
 using DataAccessLayer.Entities;
 using DataAccessLayer.UnitOfWork;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace College_portal_System.Controllers
 {
-    public class AuthController(UnitOfWork unitOfWork, IAdminService adminService, IUserService userService) : Controller
+    public class AuthController(IUserService userService, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager) : Controller
     {        
-        private readonly IUnitOfWork _unitOfWork = unitOfWork;
-        private readonly IAdminService _adminService = adminService;
         private readonly IUserService _userService = userService;
- 
+       
 
         public IActionResult Index()
         {
@@ -42,24 +41,24 @@ namespace College_portal_System.Controllers
         public async Task<IActionResult> AddStudentAsync(ApplicationUserFormVM model)
         {
             if (!ModelState.IsValid)
-                return View(model);            
+                return View("~/Views/Admin/CreateStudent.cshtml", model);
 
             var user = model.MapToModel();
 
-            var newAppUser = await _adminService.CreateUser(user);
+            var newAppUser = await _userService.CreateUser(user);
 
             if (!newAppUser.IsSuccess)
             {
                 ModelState.AddModelError(string.Empty, newAppUser.Error!);
-                return View(ModelState);
+                return View("~/Views/Admin/CreateStudent.cshtml", model);
             }
 
-            var student = await _userService.CreateStudentAsync(model: user, userModel: newAppUser.AppUser);
+            var student = _userService.CreateStudent(model: user, userModel: newAppUser.AppUser);
 
             if (!student.IsSucceded)
             {
                 ModelState.AddModelError(string.Empty, student.ErrorMessage!);
-                return View(ModelState);
+                return View("~/Views/Admin/CreateStudent.cshtml", model);
             }
 
             return RedirectToAction("StudentIndex", "Admin");
@@ -73,7 +72,7 @@ namespace College_portal_System.Controllers
 
             var user = model.MapToModel();
 
-            var newAppUser = await _adminService.CreateUser(user);
+            var newAppUser = await _userService.CreateUser(user);
 
             if (!newAppUser.IsSuccess)
             {
@@ -81,52 +80,24 @@ namespace College_portal_System.Controllers
                 return View();
             }
 
-            var prof = new Professor
-            {
-                ProfessorId = model.NationalId,
-                ProfessorNavigation = newAppUser.AppUser!,    
-                DepartmentId = model.DepartmentId,
-                EnterYear = DateTime.Now.Year,
-                DocUni = model.DocUni,                
-                Title = model.Title,
-                PhDat = model.PHDField,                
-            };
-
-            _unitOfWork.Professors.Insert(prof);
-            _unitOfWork.Commit();
-
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateProfessorAsync(TAFormViewModel model)
+        public async Task<IActionResult> CreateTeachingAssistantAsync(TAFormViewModel model)
         {
             if (!ModelState.IsValid)
                 return View();
 
             var user = model.MapToModel();
 
-            var newAppUser = await _adminService.CreateUser(user);
+            var newAppUser = await _userService.CreateUser(user);
 
             if (!newAppUser.IsSuccess)
             {
                 ModelState.AddModelError(string.Empty, newAppUser.Error!);
                 return View();
-            }
-
-            var TA = new TeachingAssistant
-            {
-                Taid = model.NationalId,
-                Ta = newAppUser.AppUser,
-                AssistingProfessorId  = model.AssistingProfessorId, // Depends on the front end
-                AcademicDegree = model.AcademicDegree,
-                DepartmentId = model.DepartmentId, // Depends on the front end
-                University = model.University,
-                Faculty = model.Faculty,
-            };
-
-            _unitOfWork.TAs.Insert(TA);
-            _unitOfWork.Commit();
+            }            
 
             return View();
         }        

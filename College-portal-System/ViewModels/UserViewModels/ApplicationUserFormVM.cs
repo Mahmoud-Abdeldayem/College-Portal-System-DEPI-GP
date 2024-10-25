@@ -27,8 +27,5 @@ namespace College_portal_System.ViewModels.UserViewModels
         public string Gender { get; set; } = null!;
         [Required]
         public string PhoneNumber { get; set; } = null!;
-
-        [Required(ErrorMessage = "Please Enter The Role!")]
-        public string SelectedRole { get; set; } = null!;
     }
 }

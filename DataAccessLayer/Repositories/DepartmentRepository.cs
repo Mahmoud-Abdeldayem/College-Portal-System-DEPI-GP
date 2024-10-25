@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer.Entities;
 using DataAccessLayer.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,17 @@ namespace DataAccessLayer.Repositories
         { 
             _context = appDbContext;    
         }
+
+        public IdentityUserRole<string> AddRole(ApplicationUser user, int roleId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IdentityUserRole<string> AddRole(ApplicationUser user, string roleId)
+        {
+            throw new NotImplementedException();
+        }
+
         public Department Delete(Department Entity)
         {
             _context.Remove(Entity);
@@ -59,6 +71,11 @@ namespace DataAccessLayer.Repositories
         }
 
         public Department GetById(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetRole(string Id)
         {
             throw new NotImplementedException();
         }

@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Students";
+    ViewData["Title"] = "Professors";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
@@ -14,12 +14,12 @@
     <div class="card-header">
         <div class="d-flex">
             <div class="p-2 col-10">
-                <h2 style="color: #000; font-weight:bold">Students</h2>
+                <h2 style="color: #000; font-weight:bold">Professors</h2>
             </div>
             <div class="p-2 col-2 text-center">
-                <a class="btn btn-primary" asp-controller="Admin" asp-action="CreateStudent">
+                <a class="btn btn-primary" asp-controller="Admin" asp-action="CreateProfessor">
                     <i class="bi bi-plus-circle"></i>
-                    Add Student
+                    Add
                 </a>
             </div>
         </div>
@@ -34,12 +34,12 @@
                     <tr>
                         <th class="text-center">Name</th>
                         <th class="text-center">Email</th>
-                        <th class="text-center">Student Id</th>
+                        <th class="text-center">Professor Address</th>
                         <th class="text-center">Phone Number</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <partial name="_StudentRowData" model="Model" />
+                    <partial name="_ProfessorRowData" model="Model" />
                 </tbody>
             </table>
         </div>

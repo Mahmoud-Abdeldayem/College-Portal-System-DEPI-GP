@@ -9,6 +9,8 @@ using DataAccessLayer.Entities;
 using Microsoft.AspNetCore.Identity;
 using College_portal_System.Seeds;
 using BusinessLogicLayer.AdminService.Services;
+using BusinessLogicLayer.AuthenticationService.Implementations;
+using BusinessLogicLayer.AuthenticationService.Services;
 
 namespace College_portal_System.Extensions
 {
@@ -24,16 +26,24 @@ namespace College_portal_System.Extensions
                 option.UseSqlServer(builder.Configuration.GetConnectionString("default"))
             );
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddScoped<IUserService, UserService>();            
             builder.Services.AddScoped<IBaseRepository<DataAccessLayer.Entities.Task>, BaseRepository<DataAccessLayer.Entities.Task>>();
             builder.Services.AddScoped<IBaseRepository<Course>, BaseRepository<Course>>();
             builder.Services.AddScoped<IBaseRepository<Department>, DepartmentRepository>();
             builder.Services.AddScoped<TAService>();
-            builder.Services.AddScoped<AdminService>();
+            builder.Services.AddScoped<BusinessLogicLayer.AdminService.Services.AdminService>();
             builder.Services.AddScoped<TAService>();
             //);
 
             // Identity Configuration
-            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 6;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;                
+            })
             .AddEntityFrameworkStores<AppDbContext>()
             .AddDefaultTokenProviders();
 

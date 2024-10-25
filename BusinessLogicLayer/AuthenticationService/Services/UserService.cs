@@ -3,28 +3,59 @@ using BusinessLogicLayer.DTOs.Users;
 using DataAccessLayer.Entities;
 using DataAccessLayer.UnitOfWork;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace BusinessLogicLayer.AuthenticationService.Services
 {
-    public class UserService(UserManager<ApplicationUser> userManager, IUnitOfWork unitOfWork) : IUserService
+    public class UserService(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager, IUnitOfWork unitOfWork) : IUserService
     {
-        private readonly UserManager<ApplicationUser> _userManager = userManager;
+        private readonly UserManager<ApplicationUser> _userManager = userManager;        
+        private readonly RoleManager<IdentityRole> _roleManager = roleManager;
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
         private static int lastUsedAcademicYear = GetAcademicYear(); // Track the academic year in memory
         private static int sequence = 0;
-        public async Task<IdentityResult> RegisterUserAsync(ApplicationUser user, string password)
-        {
-            return await _userManager.CreateAsync(user, password);
-        }
 
-        public async Task<ApplicationUser> GetUserByIdAsync(string userId)
-        {
-            return await _userManager.FindByIdAsync(userId);
+        public async Task<(bool IsSuccess, ApplicationUser? AppUser, string? Error)> CreateUser(ApplicationUserDto userForm)
+        {            
+            string password = userForm.Password;
+
+            var user = new ApplicationUser
+            {
+                Email = userForm.Email,
+                UserName = userForm.Email,
+                EmailConfirmed = true,
+                NationalId = userForm.NationalId,
+                FirstName = userForm.FirstName,
+                LastName = userForm.LastName,
+                PhoneNumber = userForm.PhoneNumber,
+                Address = userForm.Address,
+                Gender = userForm.Gender,
+                Picture = userForm?.Picture,      
+                Role = userForm!.SelectedRole
+            };
+
+            var createUserResult = await _userManager.CreateAsync(user, password);
+
+            if (!createUserResult.Succeeded)
+                return (IsSuccess: false, AppUser: null, Error: string.Join(',', createUserResult.Errors.Select(e => e.Description)));
+
+            //var role = _roleManager.FindByNameAsync(userForm!.SelectedRole);            
+
+            //if (role is null)
+            //    return (IsSuccess: false, AppUser: null, Error: string.Join(',', createUserResult.Errors.Select(e => e.Description)));
+
+            //var roleId = role.Result.Id;
+
+            //_unitOfWork.ApplicationUserRepo.AddRole(user, roleId);
+
+            return (IsSuccess: true, AppUser: user, Error: null);
         }
 
         public async Task<(bool IsSucceded, string? ErrorMessage)> AdminResetPassword(string userId, string password)
@@ -65,7 +96,7 @@ namespace BusinessLogicLayer.AuthenticationService.Services
             return (IsSucceded: true, ErrorMessage: null);
         }
 
-        public async Task<(bool IsSucceded, string? ErrorMessage)> CreateStudentAsync(ApplicationUserDto model, ApplicationUser userModel)
+        public (bool IsSucceded, string? ErrorMessage) CreateStudent(ApplicationUserDto model, ApplicationUser userModel)
         {
 
             int currentAcademicYear = GetAcademicYear();
@@ -91,7 +122,44 @@ namespace BusinessLogicLayer.AuthenticationService.Services
 
             return (IsSucceded: true, ErrorMessage: null);
         }
+        
+        //public async Task<(bool IsSucceded, string? ErrorMessage)> CreateProfessorAsync(ApplicationUserDto model, ApplicationUser userModel)
+        //{
+        //    var prof = new Professor
+        //    {
+        //        ProfessorId = model.NationalId,
+        //        ProfessorNavigation = newAppUser.AppUser!,
+        //        DepartmentId = model.DepartmentId,
+        //        EnterYear = DateTime.Now.Year,
+        //        DocUni = model.DocUni,
+        //        Title = model.Title,
+        //        PhDat = model.PHDField,
+        //    };
 
+        //    _unitOfWork.Professors.Insert(prof);
+        //    _unitOfWork.Commit();
+
+        //    return (IsSucceded: true, ErrorMessage: null);
+        //}
+
+        //public async Task<(bool IsSucceded, string? ErrorMessage)> CreateProfessorAsync(ApplicationUserDto model, ApplicationUser userModel)
+        //{
+        //    var TA = new TeachingAssistant
+        //    {
+        //        Taid = model.NationalId,
+        //        Ta = newAppUser.AppUser,
+        //        AssistingProfessorId = model.AssistingProfessorId, // Depends on the front end
+        //        AcademicDegree = model.AcademicDegree,
+        //        DepartmentId = model.DepartmentId, // Depends on the front end
+        //        University = model.University,
+        //        Faculty = model.Faculty,
+        //    };
+
+        //    _unitOfWork.TAs.Insert(TA);
+        //    _unitOfWork.Commit();
+
+        //    return (IsSucceded: true, ErrorMessage: null);
+        //}
         private static int GetAcademicYear()
         {
             var currentDate = DateTime.Now;
@@ -101,6 +169,16 @@ namespace BusinessLogicLayer.AuthenticationService.Services
                 return currentDate.Year;
             }
             else { return currentDate.Year - 1; }
+        }
+
+        public Task<IdentityResult> RegisterUserAsync(ApplicationUser user, string password)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ApplicationUser> GetUserByIdAsync(string userId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

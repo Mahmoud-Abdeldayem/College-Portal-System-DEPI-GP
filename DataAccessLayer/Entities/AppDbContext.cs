@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,8 +11,6 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser>
     public AppDbContext(){}
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options){}
-
-    public virtual DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
     #region Tables Set
     public virtual DbSet<Course> Courses { get; set; }
@@ -46,7 +45,7 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser>
 
     public virtual DbSet<TestSubmission> TestSubmissions { get; set; }
 
-    public virtual DbSet<Timetable> Timetables { get; set; }
+    public virtual DbSet<Timetable> Timetables { get; set; }    
     #endregion
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -471,7 +470,7 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser>
             entity.HasOne(d => d.Professor).WithMany(p => p.Timetables)
                 .HasForeignKey(d => d.ProfessorId)
                 .HasConstraintName("FK_TimetableProfe_4E53A1AA");
-        });
+        });     
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

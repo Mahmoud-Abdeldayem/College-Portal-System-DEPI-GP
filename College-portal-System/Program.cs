@@ -29,7 +29,7 @@ namespace College_portal_System
 
             app.UseRouting();
             app.UseAuthentication();
-            app.UseAuthorization();
+            app.UseAuthorization();                        
 
             using var scope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope();
 
@@ -38,6 +38,9 @@ namespace College_portal_System
 
             DefaultRoles.SeedRolesAsync(roleManager);
             // await DefaultUsers.SeedAdminUser(userManager);
+
+            app.MapRazorPages();
+
 
             app.MapControllerRoute(
                 name: "default",

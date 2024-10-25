@@ -10,11 +10,10 @@ using System.Threading.Tasks;
 namespace BusinessLogicLayer.AuthenticationService.Implementations
 {
     public interface IUserService
-    {
-        Task<IdentityResult> RegisterUserAsync(ApplicationUser user, string password);
-        Task<ApplicationUser> GetUserByIdAsync(string userId);
+    {        
+        Task<(bool IsSuccess, ApplicationUser? AppUser, string? Error)> CreateUser(ApplicationUserDto userForm);
         Task<(bool IsSucceded, string? ErrorMessage)> AdminResetPassword(string userId, string password);
         Task<(bool IsSucceded, string? ErrorMessage)> StudentResetPassword(string userId, string currentPassword, string newPassword);
-        Task<(bool IsSucceded, string? ErrorMessage)> CreateStudentAsync(ApplicationUserDto model, ApplicationUser userModel);
+        (bool IsSucceded, string? ErrorMessage) CreateStudent(ApplicationUserDto model, ApplicationUser userModel);
     }
 }

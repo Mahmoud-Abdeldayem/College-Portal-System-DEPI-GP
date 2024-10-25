@@ -11,15 +11,15 @@ public class ApplicationUser : IdentityUser
 {
     public string NationalId { get; set; } = null!;    
 
-    public string? Address { get; set; }
-
-    [Required,MaxLength(20)]
+    public string? Address { get; set; }    
     public string Gender { get; set; } = null!;          
 
     public string FirstName { get; set; } = null!;
 
     public string LastName { get; set; } = null!;
-    public byte[]? Picture { get; set; }    
+    public byte[]? Picture { get; set; }
+
+    public string Role { get; set; }
 
     public virtual ICollection<Test> Tests { get; set; } = [];
 

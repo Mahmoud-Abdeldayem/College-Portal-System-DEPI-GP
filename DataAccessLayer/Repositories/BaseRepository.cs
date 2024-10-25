@@ -1,10 +1,13 @@
 ﻿using DataAccessLayer.Entities;
 using DataAccessLayer.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -30,6 +33,26 @@ namespace DataAccessLayer.Repositories
             var entitiy = _context.Set<T>().Find(id);
             _context.Remove(entitiy);
             return entitiy;
+        }
+
+        public IdentityUserRole<string> AddRole(ApplicationUser user, int roleId)
+        {
+            var userRole = new IdentityUserRole<string>
+            {
+                UserId = user.NationalId, // Use the user's primary key (NationalId)
+                RoleId = roleId.ToString() // Assuming role.Id is already a string
+            };
+
+            _context.UserRoles.Add(userRole);
+            _context.SaveChangesAsync();
+            return userRole;
+        }        
+
+        public string GetRole(string Id)
+        {
+            var role = _context.Users.FirstOrDefault(x => x.Id == Id);
+
+            return role.Role;
         }
 
         public IEnumerable<T> Get(Expression<Func<T, bool>> criteria)
@@ -60,5 +83,14 @@ namespace DataAccessLayer.Repositories
             return entity;
         }
 
+        public IdentityUserRole<string> AddRole(ApplicationUser user, IdentityRole role)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IdentityUserRole<string> AddRole(ApplicationUser user, string roleId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
