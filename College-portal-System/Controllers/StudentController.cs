@@ -66,6 +66,7 @@ namespace College_portal_System.Controllers
             var depts=_service.GetDepts(id);
             return new RegisterDeptsViewModels
             {
+                CurrentYear = depts.CurrentYear,
                 StudentDepartment = depts.StudentDepartment,
                 Depts = depts.Depts
             };
@@ -104,15 +105,44 @@ namespace College_portal_System.Controllers
             {
                 Name = course.Name,
                 Code = course.Code,
-                CourseID = course.CourseID,
+                CourseID = (int)course.CourseID,
             }).ToList();
 
             return availableCoursesViewModelList;
         }
+        private List<AvailableCoursesViewModel> GetRegisteredCourses(string id)
+        {
+            var enrollment = _service.ViewRegisteredCourses(id);
+            var enrollmentList=enrollment.Select(x=>new AvailableCoursesViewModel
+            {
+                Name = x.Name,
+                Code = x.Code,
+                CourseID = (int)x.CourseID,
+                EnrollmentId=x.EnrollmentId
+            }).ToList();
+            return enrollmentList;
+        }
+        private List<TaskViewModel> GetAllTasks(string id)
+        {
+            var tasks=_service.GetAllTasks(id);
+            var taskslist = tasks.Select(t => new TaskViewModel
+            {
+                CourseId = t.CourseId,
+                CourseName = t.CourseName,
+                DeadLine = t.DeadLine,
+                Content = t.Content,
+                Type = t.Type,
+                PublishedBy = t.PublishedBy,
+                TaskDetailsLink = t.TaskDetailsLink,
+                Grade = t.Grade,
+            }).ToList();
+            return taskslist;
+        }
 
         public IActionResult Index()
         {
-            return View();
+            //var id= Guid.NewGuid();
+            return View(GetUser("30308132100798"));
             
         }
         public IActionResult Profile(string id) 
@@ -127,17 +157,24 @@ namespace College_portal_System.Controllers
         [HttpPost]
         public IActionResult Update(string id, UserViewModel user, IFormFile? Picture)
         {
-            var DataToUpdate = new UserViewDTO
+            if (!ModelState.IsValid)
             {
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Address = user.Address,
-                Picture=user.Picture,
-                Phone=user.Phone,
-                Email=user.Email,
-            };
-            _service.UpdateUser(id, DataToUpdate,Picture);
-            return RedirectToAction("Profile", new {id="30308132100798"});
+                return View(GetUser(id));
+            }
+            else
+            {
+                var DataToUpdate = new UserViewDTO
+                {
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Address = user.Address,
+                    Picture = user.Picture,
+                    Phone = user.Phone,
+                    Email = user.Email,
+                };
+                _service.UpdateUser(id, DataToUpdate, Picture);
+                return RedirectToAction("Profile", new { id = "30308132100798" });
+            }
         }
         public IActionResult RegisterDepartment(string id)
         {
@@ -146,12 +183,19 @@ namespace College_portal_System.Controllers
         [HttpPost]
         public IActionResult RegisterDepartment(string id,RegisterDeptsViewModels depts)
         {
-            var DataToUpdate = new RegisterDeptDTO
+            if (ModelState.IsValid)
             {
-                StudentDepartment=depts.StudentDepartment,
-            };
-            _service.RegisterDepartment(id, DataToUpdate);
-            return RedirectToAction("Index");
+                var DataToUpdate = new RegisterDeptDTO
+                {
+                    StudentDepartment = depts.StudentDepartment,
+                };
+                _service.RegisterDepartment(id, DataToUpdate);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return RedirectToAction("RegisterDepartment", new {id=id});
+            }
         }
         [HttpGet]
         public IActionResult ChangePass()
@@ -204,6 +248,20 @@ namespace College_portal_System.Controllers
             TempData["success"] = "Registered Successfully";
             return RedirectToAction("RegisterCourses", new {id=StudentiD});
         }
-
+        public IActionResult ViewRegisteredCourses(string id)
+        {
+            return View(GetRegisteredCourses(id));
+        }
+        [HttpPost]
+        public IActionResult DeleteRegister(int id)
+        {
+            _service.DeleteRegister(id);
+            TempData["success"] = "Deleted Successfully";
+            return RedirectToAction("ViewRegisteredCourses", new { id = "30308132100798" });
+        }
+        public IActionResult GetMyTasks(string id)
+        {
+            return View(GetAllTasks(id));
+        }
     }
 }

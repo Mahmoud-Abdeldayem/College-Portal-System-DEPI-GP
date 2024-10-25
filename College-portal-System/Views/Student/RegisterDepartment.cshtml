@@ -19,7 +19,16 @@
         </ol>
     </nav>
 </div>
-
+@if(Model.CurrentYear==1 || Model.CurrentYear == 2)
+{
+    @:You Can only Register Department If You Are In Your Third Year In College
+}
+@if (Model.CurrentYear == 4)
+{
+    @:You Cant Change Your Department
+}
+@if (Model.CurrentYear == 3)
+{
 <form asp-controller="Student" asp-action="RegisterDepartment" asp-route-id="@ViewData["id"]" method="post">
     <div class="row mb-3">
         <label class="col-sm-2 col-form-label">Select Department:</label>
@@ -32,10 +41,12 @@
                 }
                 
             </select>
+                <span asp-validation-for="StudentDepartment" class="text-danger"></span>
         </div>
     </div>
     <div class="text-center">
         <button type="submit" class="btn btn-primary">Submit</button>
     </div>
 </form>
+}
 

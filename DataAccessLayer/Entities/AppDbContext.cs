@@ -45,7 +45,8 @@ public partial class AppDbContext : IdentityDbContext<ApplicationUser>
 
     public virtual DbSet<TestSubmission> TestSubmissions { get; set; }
 
-    public virtual DbSet<Timetable> Timetables { get; set; }    
+    public virtual DbSet<Timetable> Timetables { get; set; }
+    public virtual DbSet<Material> Materials { get; set; }
     #endregion
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

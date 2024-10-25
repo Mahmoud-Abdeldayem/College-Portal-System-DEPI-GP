@@ -11,6 +11,7 @@ namespace DataAccessLayer.UnitOfWork
         IBaseRepository<DataAccessLayer.Entities.Task> Tasks { get; }
         IBaseRepository<Course> Courses { get; }
         IBaseRepository<Department> Departments { get; }
+        IBaseRepository<Submission> TaskSubmissions { get; }
         ProfessorsRepoitory Professors { get; }
 
         public IStudentRepo StudentRepo { get; }
@@ -18,6 +19,7 @@ namespace DataAccessLayer.UnitOfWork
         public IBaseRepository<CourseEnrollment> CourseEnrollmentRepo { get; }
         public IBaseRepository<Department> DepartmentRepo { get; }
         public IBaseRepository<Course> CourseRepo { get; }
+        public MaterialRepository MaterialRepo { get; }
 
         ITARepository TAs { get; }
         void Commit();

@@ -9,6 +9,7 @@ namespace BusinessLogicLayer.DTO
     public class RegisterDeptDTO
     { 
         public int? StudentDepartment {  get; set; }
+        public int? CurrentYear { get; set; }
         public List<DeptsDTO> Depts { get; set; }=new List<DeptsDTO>();
     }
 }

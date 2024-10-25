@@ -1,7 +1,7 @@
 ﻿@using College_portal_System.Models.StudentViewModels
 @model List<AvailableCoursesViewModel>
 @{
-    ViewData["Title"] = "RegisterCourses";
+    ViewData["Title"] = "ViewRegisteredCourses";
     Layout = "~/Views/Shared/_LayoutStudent.cshtml";
     ViewData["firstname"] = "Yassin";
     ViewData["lastname"] = "Ahmed";
@@ -16,7 +16,7 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item">Home</li>
             <li class="breadcrumb-item">Courses</li>
-            <li class="breadcrumb-item active">Register Courses</li>
+            <li class="breadcrumb-item active">View Courses</li>
         </ol>
     </nav>
 </div>
@@ -43,9 +43,9 @@
                         <th scope="row">@item.Name</th>
                         <td>@item.Code</td>
                         <td>
-                            <form asp-controller="Student" asp-action="RegisterCourses" asp-route-StudentiD="@ViewData["id"]" asp-route-CourseId="@item.CourseID" method="post">
+                            <form asp-controller="Student" asp-action="DeleteRegister" asp-route-Id="@item.EnrollmentId" method="post">
                                 <div class="text-center">
-                                    <button type="submit" class="btn btn-primary">Register</button>
+                                    <button type="submit" class="btn btn-primary">Delete</button>
                                 </div>
                             </form>
                         </td>
