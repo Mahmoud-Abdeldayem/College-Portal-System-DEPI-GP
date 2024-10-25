@@ -39,6 +39,8 @@ namespace DataAccessLayer.UnitOfWork
             StudentRepo = new StudentRepo(_context);
             DepartmentRepo = new BaseRepository<Department>(_context);  
             CourseRepo = new BaseRepository<Course>(_context);  
+            TaskSubmissions = new BaseRepository<Submission>(_context);
+            MaterialRepo = new MaterialRepository(_context);
         }
         public void Commit()
         {
