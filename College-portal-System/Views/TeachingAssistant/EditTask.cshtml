@@ -1,7 +1,11 @@
-﻿@{
+﻿@using College_portal_System.ViewModels.TAViewModels
+
+@{
     ViewData["Title"] = "Edit Task";
     Layout = "~/Views/Shared/_LayoutTeachingAssistant.cshtml";
 }
+@model EditTaskViewModel;
+
 <div class="pagetitle">
     <h1>Edit Task</h1>
     <nav>
@@ -11,53 +15,55 @@
         </ol>
     </nav>
 </div>
-
 <section class="section">
     <div class="row">
-        <div class="col-12">
-            <h4 class="text-left">Edit Task Details</h4>
-            <br>
-            <br>
-        </div>
-        <div class="assignments">
-            <div class="row">
-                <div class="col-12">
-                    <form>
-                        <div class="form-group">
-                            <label for="course">Course:</label>
-                            <select id="course" class="input-field" required>
-                                <option value="" disabled>Select a course</option>
-                                <option value="course1" selected>Course 1</option>
-                                <option value="course2">Course 2</option>
-                                <option value="course3">Course 3</option>
-                                <option value="course4">Course 4</option>
-                            </select>
-                        </div>
+                <div class="">
+                    <br>
+                    <h1>Edit Task</h1>
+                    <br>
+                    <form method="post" asp-action="EditTask">
+                <input type="hidden" asp-for="TaskId" />
                         <div class="input-container">
-                            <input placeholder="Grade" class="input-field" type="text" id="grade" value="85" required>
-                            <label for="grade" class="input-label">Grade</label>
+                        <input placeholder="Content" asp-for="TaskContent" value="@Model.TaskContent" class="input-field" cols="1" rows="1" required></input>
+                            <label asp-for="TaskContent" class="input-label">Content</label>
                             <span class="input-highlight"></span>
+                            <span asp-validation-for="TaskContent" class="text-danger"></span>
                         </div>
 
                         <div class="input-container">
-                            <input placeholder=" " class="input-field" type="date" id="deadline" value="2024-10-20" required>
-                            <label for="deadline" class="input-label">Deadline</label>
+                        <input placeholder="Task Link" asp-for="TaskLink" value="@Model.TaskLink" class="input-field" cols="1" rows="1" required></input>
+                            <label asp-for="TaskLink" class="input-label">Task Link</label>
                             <span class="input-highlight"></span>
+                            <span asp-validation-for="TaskLink" class="text-danger"></span>
+                        </div>
+                        <div class="input-container col-12">
+                            <input placeholder="Grade" asp-for="Grade" value="@Model.Grade" class="input-field" type="text" required>
+                            <label asp-for="Grade" class="input-label">Grade</label>
+                            <span class="input-highlight"></span>
+                            <span asp-validation-for="Grade" class="text-danger"></span>
                         </div>
 
                         <div class="input-container">
-                            <textarea placeholder="Content" class="input-field" id="content" cols="1" rows="1" required></textarea>
-                            <label for="content" class="input-label">Content</label>
+                            <label asp-for="Deadline" class="input-label">Deadline</label>
+                            <input placeholder="Deadline" value="@Model.Deadline" class="input-field" asp-for="Deadline" required>
                             <span class="input-highlight"></span>
+                            <span asp-validation-for="Deadline" class="text-danger"></span>
                         </div>
+
                         <br>
                         <br>
-                        <button type="submit" class="submit-btn btn btn-success">Update Task</button>
-                        <button type="submit" class="submit-btn btn btn-danger">Delete</button>
+                        <!--Save Edit Changes-->
+                        <button type="submit" class="submit-btn btn btn-success">Edit Task</button>
 
+                        <!--Delete Task-->
+                        <a asp-action="DeleteTask"
+                            asp-route-id="@Model.TaskId"
+                            class="submit-btn btn btn-success"
+                            style="background-color:orangered"
+                            onclick="return confirm('Are you sure you want to delete this task?');">
+                            Delete Task
+                        </a>
                     </form>
                 </div>
             </div>
-        </div>
-    </div>
 </section>

@@ -34,10 +34,30 @@ namespace College_portal_System.Controllers
             };
         }
 
+        private List<SelectListItem> GetTACoursesSelectList(string taId)
+        {
+            var courses = _taService.GetTACourses(taId).Select(c => new SelectListItem()
+            {
+                Value = c.CourseID.ToString(),
+                Text = c.CourseName,
+            }).ToList();
+            return courses;
+        }
+
+        private List<SelectListItem> GetTaskByCourseSelectList(int courseId)
+        {
+            var tasks = _taService.GetTasksSelectionByCourse(courseId).Select(t => new SelectListItem()
+            {
+                Value = t.Id.ToString(),
+                Text = t.Name
+            }).ToList();
+            return tasks;
+        }
+
         private List<TACoursesViewModel> GetTACourses(string id)
         {
             var taCourses = _taService.GetTACourses(id).Select(dto =>
-            new TACoursesViewModel
+            new TACoursesViewModel 
             {
                 CourseID = dto.CourseID,
                 CourseName = dto.CourseName,
@@ -81,7 +101,7 @@ namespace College_portal_System.Controllers
         //[Authorize]
         public IActionResult Index()
         {
-            ViewBag.ID = "30403468745632";
+            ViewBag.ID = "30307110207011";
             ViewBag.Name = "Mahmoud";
             //var taCourses = GetTACourses(ViewBag.ID);
             //ViewData["TACourses"] = taCourses;
@@ -89,7 +109,7 @@ namespace College_portal_System.Controllers
         }
         public IActionResult MyCourses()
         {
-            ViewBag.ID = "30403468745632";
+            ViewBag.ID = "30307110207011";
             ViewBag.Name = "Mahmoud";
             var taCourses = GetTACourses(ViewBag.ID);
             ViewData["TACourses"] = taCourses;
@@ -107,12 +127,12 @@ namespace College_portal_System.Controllers
             ViewBag.Name = "Mahmoud";
             return View();
         }
-        //------------------------------<Create Task>-----------------------------------------
+        //------------------------------<Tasks>--------------------------------------------
         //TeachingAssistant/CreateTask : Get
         [HttpGet]
         public IActionResult CreateTask()
         {
-            var TAId = "30403468745632";
+            var TAId = "30307110207011";
             ViewBag.Name = "Mahmoud";
             var viewModel = GetCreateTaskViewModel(TAId);
             return View(viewModel);
@@ -123,7 +143,7 @@ namespace College_portal_System.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CreateTask(CreateTaskDTO task)
         {
-            var taID = "30403468745632";
+            var taID = "30307110207011";
             ViewBag.Name = "Mahmoud";
             if (ModelState.IsValid)
             {
@@ -143,6 +163,46 @@ namespace College_portal_System.Controllers
             var viewModel = GetCreateTaskViewModel(taID); 
             return View(viewModel);
         }
+
+        [HttpGet]
+        public IActionResult EditTask(int id)
+        {
+            var taID = "30307110207011";
+            var selectedTask = _taService.GetTATasks(taID).Where(t => t.TaskId == id).FirstOrDefault();
+            var ViewModel = new EditTaskViewModel()
+            {
+                TaskId = selectedTask.TaskId,
+                TaskContent = selectedTask.Content,
+                TaskLink = selectedTask.TaskLink,
+                Deadline = selectedTask.Deadline,
+                Grade = selectedTask.Grade
+            };
+            return View(ViewModel);
+        }
+
+        [HttpPost]
+        public IActionResult EditTask(EditTaskViewModel task)
+        {
+            if (ModelState.IsValid)
+            {
+                _taService.EditTask(new EditTaskDTO()
+                {
+                    TaskId = task.TaskId,
+                    Content = task.TaskContent,
+                    TaskLink = task.TaskLink,
+                    Grade = task.Grade,
+                    Deadline = task.Deadline,
+                });
+                return RedirectToAction("CreateTask");
+            }
+            return View(task);
+        }
+
+        public IActionResult DeleteTask(int id)
+        {
+            _taService.DeleteTaskById(id);
+            return RedirectToAction("CreateTask");
+        }
         //------------------------------------<Create Quiz>-------------------------------------
         public IActionResult CreateQuiz()
         {
@@ -155,7 +215,7 @@ namespace College_portal_System.Controllers
         [HttpGet]
         public IActionResult UpdateProfile()
         {
-            ViewBag.ID = "30403468745632";
+            ViewBag.ID = "30307110207011";
             ViewBag.Name = "Mahmoud";
             var TA = GetAllTAData(ViewBag.ID);
             if(TA == null)
@@ -189,19 +249,33 @@ namespace College_portal_System.Controllers
             return View(updatedData);
         }
 
-        //------------------------------------<Results>-------------------------------------
+        //------------------------------------<Task Submissions>-------------------------------------
 
-        public IActionResult Results()
+        public IActionResult ShowTasksSubmissions()
         {
-            ViewBag.Name = "Mahmoud";
-            return View();
+            ViewBag.Id = "30307110207011";
+            var viewModel = new ShowStudentsSubmissionsViewModel()
+            {
+                Courses = GetTACoursesSelectList(ViewBag.Id),
+                Tasks = new()
+            };
+            return View(viewModel);
         }
-        //------------------------------------<Edit Task>-------------------------------------
+        [HttpPost]
+        public IActionResult GetTasksByCourse(int courseId)
+        {
+            var tasks = GetTaskByCourseSelectList(courseId);
 
-        [HttpGet]
-        public IActionResult EditTask()
-        {
-            return View();
+            return Json(tasks); // Return as JSON
         }
+
+        [HttpPost]
+        public IActionResult GetAllTasksSubmissions(int taskId)
+        {
+            var submissions = _taService.GetTaskSubmissions(taskId);
+            return Json(submissions);
+        }
+
+
     }
 }
