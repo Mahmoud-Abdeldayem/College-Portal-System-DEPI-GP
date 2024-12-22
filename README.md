@@ -1,6 +1,6 @@
 # College Portal System
 
-![TA Home Page](path-to-your-image/ta-home-page.png)
+![TA Home Page](TA_Dashboard.png.png)
 
 ## Overview
 
@@ -63,10 +63,10 @@ The application is built using a 3-tier architecture:
    dotnet build
    dotnet run
    ```
-5. Access the application at `http://localhost:5000`.
+5. Access the application at ex : `http://localhost:5157/TeachingAssistant`.
 
 ## Screenshots
 ### TA Home Page
-![TA Home Page](path-to-your-image/ta-home-page.png)
+![TA Home Page](TA_Dashboard.png)
 
 
