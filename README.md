@@ -1,6 +1,6 @@
 # College Portal System
 
-![TA Home Page](TA_Dashboard.png.png)
+![TA Home Page](TA_Dashboard.jpg)
 
 ## Overview
 
@@ -67,6 +67,6 @@ The application is built using a 3-tier architecture:
 
 ## Screenshots
 ### TA Home Page
-![TA Home Page](TA_Dashboard.png)
+![TA Home Page](TA_Dashboard.jpg)
 
 
